@@ -1,23 +1,36 @@
+import { combineReducers } from 'redux';
+
 import {
   ADD_POST,
-  REMOVE_POST,
-  SHOW_CATEGORIES,
+  REQUEST_CATEGORIES,
+  RECEIVE_CATEGORIES,
 } from '../actions';
-import * as API from '../utils/api';
-
 
 function categories(state = { }, action) {
   switch (action.type) {
-    case SHOW_CATEGORIES :
-      console.log(action)
-      const { categories } = action;
-      return {
-        ...state,
-        [categories]: categories,
-      };
+    case RECEIVE_CATEGORIES :
+      return Object.assign({}, state, {
+        categories: action.categories,
+        lastUpdated: action.receivedAt,
+      });
     default :
       return state;
   }
 }
 
-export default categories;
+function posts(state = { }, action) {
+  switch (action.type) {
+    case ADD_POST :
+      console.log(action);
+      return state;
+    default :
+      return state;
+  }
+}
+
+const rootReducer = combineReducers({
+  categories,
+  posts,
+});
+
+export default rootReducer;

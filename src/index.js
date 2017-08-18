@@ -1,18 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './components/App';
-import { createStore } from 'redux';
-import reducer from './reducers';
-import './index.css';
+import React from 'react'
+import { render } from 'react-dom'
+import Root from './components/Root'
 
-
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-
-ReactDOM.render(
-  <App store={store} />,
+render(
+  <Root />,
   document.getElementById('root')
-);
+)
