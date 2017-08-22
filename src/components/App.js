@@ -18,17 +18,6 @@ class App extends Component {
     //dispatch(fetchCommentsIfNeeded("8xf0y6ziyjabvozdd253nd"));
   }
 
-  addNewPost() {
-    const { dispatch, posts } = this.props
-    const id = Math.random().toString(36).substr(-8);
-    const timestamp = Date.now();
-    const title = posts.wip_title;
-    const body = posts.wip_body;
-    const owner = posts.wip_owner;
-    const category = posts.wip_category;
-    dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
-  }
-
   handleInputChange(event) {
     if(event) {
       const { dispatch, posts } = this.props
