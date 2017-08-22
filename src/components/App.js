@@ -7,7 +7,7 @@ import '../App.css';
 class App extends Component {
   constructor(props) {
     super(props);
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -72,9 +72,17 @@ class App extends Component {
     }
   }
 
-  //handleSubmit(event) {
-  //  event.preventDefault();
-  //}
+  handleSubmit(event) {
+    const { dispatch, posts } = this.props
+    const id = Math.random().toString(36).substr(-8);
+    const timestamp = Date.now();
+    const title = posts.wip_title;
+    const body = posts.wip_body;
+    const owner = posts.wip_owner;
+    const category = posts.wip_category;
+    dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
+    event.preventDefault();
+  }
 
   render() {
     const { categories, posts } = this.props
@@ -95,8 +103,8 @@ class App extends Component {
           handleInputChange={(event) => {
             this.handleInputChange(event);
           }}
-          addNewPost={() => {
-            this.addNewPost();
+          handleSubmit={(event) => {
+            this.handleSubmit(event);
           }}
         />
       </div>

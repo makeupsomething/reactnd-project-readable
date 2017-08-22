@@ -3,7 +3,7 @@ import React from 'react';
 /**
 * @description Component for listing the shelves
 */
-export default function Posts({ categories, posts, handleInputChange, addNewPost }) {
+export default function Posts({ categories, posts, handleInputChange, handleSubmit }) {
 
   let allCats = categories.categories;
   let postList = posts.posts;
@@ -14,6 +14,7 @@ export default function Posts({ categories, posts, handleInputChange, addNewPost
   if(!postList) {
     postList = [];
   }
+
   return (
     <div className="list-books-content">
       <div>
@@ -41,7 +42,7 @@ export default function Posts({ categories, posts, handleInputChange, addNewPost
         Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
           </label>
-          <input type="submit" value="Submit" onClick={addNewPost} className="icon-btn" />
+          <input type="submit" value="Submit" onClick={handleSubmit} className="icon-btn" />
         </form>
       </div>
     </div>

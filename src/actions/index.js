@@ -46,7 +46,7 @@ function addPost(id, timestamp, title, body, owner, category) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ id, timestamp, title, body, owner, category }),
-    }).then(res => res.json()).then(json => dispatch(fetchPostsIfNeeded()));
+    }).then(res => res.json()).then(dispatch(fetchPostsIfNeeded()));
   };
 }
 
