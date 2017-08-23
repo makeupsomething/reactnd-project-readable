@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import Categories from './Categories';
-import ListPosts from './ListPosts';
 import Post from './Post';
+import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
 import '../App.css';
 
@@ -27,7 +27,7 @@ class App extends Component {
     const { dispatch } = this.props;
     dispatch(fetchCategoriesIfNeeded());
     dispatch(fetchPostsIfNeeded());
-    dispatch(updateCurrentPage("home"));
+    dispatch(updateCurrentPage('home'));
   }
 
   handleInputChange(event) {
@@ -90,7 +90,7 @@ class App extends Component {
   }
 
   render() {
-    const { categories, posts, pages } = this.props;
+    const { categories, posts, pages, comments } = this.props;
     let allCats = categories.categories;
     let postList = posts.posts;
     console.log("props")
@@ -117,6 +117,10 @@ class App extends Component {
               <ListPosts
                 posts={posts}
                 pages={pages}
+                getComments={(id) => {
+                  this.getComments(id);
+                }}
+                comments={comments}
               />
             </div>
           )}
@@ -134,6 +138,10 @@ class App extends Component {
               <ListPosts
                 posts={posts}
                 pages={pages}
+                getComments={(id) => {
+                  this.getComments(id);
+                }}
+                comments={comments}
               />
             </div>
           )}
@@ -144,9 +152,6 @@ class App extends Component {
             <div>
               <Post
                 posts={posts}
-                getComments={(id) => {
-                  this.getComments(id);
-                }}
               />
               <CreatePost
                 categories={categories}

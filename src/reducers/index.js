@@ -8,6 +8,7 @@ import {
   REQUEST_CATEGORIES,
   RECEIVE_CATEGORIES,
   CHANGE_PAGE,
+  RECEIVE_COMMENTS,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -39,7 +40,6 @@ function posts(state = { }, action) {
         wip_category: action.category,
         wip_owner: action.owner,
       });
-      return state;
     default :
       return state;
   }
@@ -51,7 +51,17 @@ function pages(state = { }, action) {
       return Object.assign({}, state, {
         current_page: action.current_page,
       });
+    default :
       return state;
+  }
+}
+
+function comments(state = {comments:[] }, action) {
+  switch (action.type) {
+    case RECEIVE_COMMENTS :
+      return Object.assign({}, state, {
+        comments: state.comments.concat(action.comments),
+      });
     default :
       return state;
   }
@@ -61,6 +71,7 @@ const rootReducer = combineReducers({
   categories,
   posts,
   pages,
+  comments,
 });
 
 export default rootReducer;
