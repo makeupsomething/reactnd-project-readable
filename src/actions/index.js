@@ -9,6 +9,7 @@ export const REQUEST_COMMENTS = 'REQUEST_COMMENTS';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const CHANGE_PAGE = 'CHANGE_PAGE'
 
 const api = 'http://localhost:5001';
 
@@ -57,6 +58,13 @@ export function updateWipPost(title, body, category, owner) {
     body: body,
     category: category,
     owner: owner,
+  };
+}
+
+export function updateCurrentPage(page) {
+  return {
+    type: CHANGE_PAGE,
+    current_page: page,
   };
 }
 
@@ -124,11 +132,12 @@ function requestComments() {
   };
 }
 
-function receiveComments(json) {
+function receiveComments(json, id) {
   console.log('recieve comments')
   console.log(json)
   return {
     type: RECEIVE_COMMENTS,
+    id: id,
     comments: json.map(child => child),
     receivedAt: Date.now(),
   };
@@ -139,7 +148,7 @@ function fetchComments(id) {
     dispatch(requestComments());
     return fetch(`${api}/posts/${id}/comments`, { headers })
       .then(response => response.json())
-      .then(json => dispatch(receiveComments(json)));
+      .then(json => dispatch(receiveComments(json, id)));
   };
 }
 

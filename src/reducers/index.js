@@ -7,6 +7,7 @@ import {
   UPDATE_WIP_POST,
   REQUEST_CATEGORIES,
   RECEIVE_CATEGORIES,
+  CHANGE_PAGE,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -44,9 +45,22 @@ function posts(state = { }, action) {
   }
 }
 
+function pages(state = { }, action) {
+  switch (action.type) {
+    case CHANGE_PAGE :
+      return Object.assign({}, state, {
+        current_page: action.current_page,
+      });
+      return state;
+    default :
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   categories,
   posts,
+  pages,
 });
 
 export default rootReducer;
