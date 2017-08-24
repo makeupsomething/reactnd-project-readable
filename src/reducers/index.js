@@ -8,7 +8,10 @@ import {
   REQUEST_CATEGORIES,
   RECEIVE_CATEGORIES,
   CHANGE_PAGE,
+  ADD_COMMENT,
+  RECEIVE_NEW_COMMENT,
   RECEIVE_COMMENTS,
+  UPDATE_WIP_COMMENT,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -58,9 +61,23 @@ function pages(state = { }, action) {
 
 function comments(state = {comments:[] }, action) {
   switch (action.type) {
+    case ADD_COMMENT :
+      return state;
     case RECEIVE_COMMENTS :
       return Object.assign({}, state, {
         comments: state.comments.concat(action.comments),
+      });
+    case UPDATE_WIP_COMMENT :
+      return Object.assign({}, state, {
+        wip_body: action.body,
+        wip_owner: action.owner,
+        wip_parentId: action.parentId,
+      });
+    case RECEIVE_NEW_COMMENT :
+      console.log("recieving new comment reducers");
+      console.log(action.new_comment);
+      return Object.assign({}, state, {
+        comments: state.comments.concat(action.new_comment),
       });
     default :
       return state;

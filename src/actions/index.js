@@ -10,6 +10,9 @@ export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const CHANGE_PAGE = 'CHANGE_PAGE'
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT'
+export const UPDATE_WIP_COMMENT = 'UPDATE_WIP_COMMENT';
 
 const api = 'http://localhost:5001';
 
@@ -155,5 +158,53 @@ function fetchComments(id) {
 export function fetchCommentsIfNeeded(id) {
   return (dispatch, getState) => {
     return dispatch(fetchComments(id));
+  };
+}
+
+function requestAddComment() {
+  return {
+    type: ADD_COMMENT,
+  };
+}
+
+function receiveNewComment(json) {
+  return {
+    type: RECEIVE_NEW_COMMENT,
+    new_comment: json
+  };
+}
+
+export function addCommentIfPossible(id, timestamp, body, owner, parent) {
+  return (dispatch, getState) => {
+    return dispatch(addComment(id, timestamp, body, owner, parent));
+  };
+}
+
+function addComment(id, timestamp, body, owner, parentId) {
+  console.log("action add comment")
+  console.log(id)
+  console.log(body)
+  console.log(owner)
+  console.log(parentId)
+  return (dispatch) => {
+    dispatch(requestAddComment());
+    return fetch(`${api}/comments`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, timestamp, body, owner, parentId }),
+    }).then(res => res.json())
+      .then(json => dispatch(receiveNewComment(json)));
+  };
+}
+
+export function updateWipComment(body, owner, parentId) {
+  return {
+    type: UPDATE_WIP_COMMENT,
+    body: body,
+    owner: owner,
+    parentId: parentId,
   };
 }

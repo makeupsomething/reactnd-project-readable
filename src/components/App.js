@@ -5,6 +5,7 @@ import Categories from './Categories';
 import Post from './Post';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
+import CreateComment from './CreateComment';
 import '../App.css';
 
 import {
@@ -14,6 +15,8 @@ import {
   updateWipPost,
   fetchCommentsIfNeeded,
   updateCurrentPage,
+  addCommentIfPossible,
+  updateWipComment
 } from '../actions';
 
 class App extends Component {
@@ -78,6 +81,50 @@ class App extends Component {
     event.preventDefault();
   }
 
+  handleInputChangeComment(event) {
+    if (event) {
+      const { dispatch, comments } = this.props;
+      const target = event.target;
+      let body = '';
+      let owner = '';
+      let parentId = '';
+      if (target.name === 'body') {
+        body = target.value;
+        owner = comments.wip_owner;
+        parentId = comments.wip_parentId;
+        dispatch(updateWipComment(body, owner, parentId));
+      } else if (target.name === 'owner') {
+        body = comments.wip_body;
+        owner = target.value;
+        parentId = comments.wip_parentId;
+        dispatch(updateWipComment(body, owner, parentId));
+      } else if (target.name === 'parentId') {
+        body = comments.wip_body;
+        owner = comments.wip_owner;
+        parentId = target.value;
+        dispatch(updateWipComment(body, owner, parentId));
+      }
+    }
+  }
+
+  handleSubmitComment(event) {
+    const { dispatch, comments } = this.props;
+    const id = Math.random().toString(36).substr(-8);
+    const timestamp = Date.now();
+    const body = comments.wip_body;
+    const owner = comments.wip_owner;
+    const parentId = comments.wip_parentId;
+    dispatch(addCommentIfPossible(id, timestamp, body, owner, parentId));
+    event.preventDefault();
+  }
+
+  updateWipCommentParentId(parentId) {
+    const { dispatch, comments } = this.props;
+    let body = comments.wip_body;
+    let owner = comments.wip_owner;
+    dispatch(updateWipComment(body, owner, parentId));
+  }
+
   getComments(id) {
     const { dispatch } = this.props;
     dispatch(fetchCommentsIfNeeded(id));
@@ -121,6 +168,18 @@ class App extends Component {
                   this.getComments(id);
                 }}
                 comments={comments}
+                updatePage={(page) => {
+                  this.updatePage(page);
+                }}
+                updateWipCommentParentId={(parentId) => {
+                  this.updateWipCommentParentId(parentId);
+                }}
+                handleSubmitComment={(event) => {
+                  this.handleSubmitComment(event);
+                }}
+                handleInputChangeComment={(parentId) => {
+                  this.handleInputChangeComment(parentId);
+                }}
               />
             </div>
           )}
@@ -142,6 +201,18 @@ class App extends Component {
                   this.getComments(id);
                 }}
                 comments={comments}
+                updatePage={(page) => {
+                  this.updatePage(page);
+                }}
+                updateWipCommentParentId={(parentId) => {
+                  this.updateWipCommentParentId(parentId);
+                }}
+                handleSubmitComment={(event) => {
+                  this.handleSubmitComment(event);
+                }}
+                handleInputChangeComment={(parentId) => {
+                  this.handleInputChangeComment(parentId);
+                }}
               />
             </div>
           )}
@@ -151,7 +222,23 @@ class App extends Component {
           render={() => (
             <div>
               <Post
-                posts={posts}
+                post={posts.posts.find(post => post.id === pages.current_page)}
+                getComments={(id) => {
+                  this.getComments(id);
+                }}
+                comments={comments}
+                updatePage={(page) => {
+                  this.updatePage(page);
+                }}
+                updateWipCommentParentId={(parentId) => {
+                  this.updateWipCommentParentId(parentId);
+                }}
+                handleSubmitComment={(event) => {
+                  this.handleSubmitComment(event);
+                }}
+                handleInputChangeComment={(parentId) => {
+                  this.handleInputChangeComment(parentId);
+                }}
               />
               <CreatePost
                 categories={categories}
