@@ -1,7 +1,8 @@
 import * as API from '../utils/api';
 
 export const ADD_POST = 'ADD_POST';
-export const REMOVE_POST = 'REMOVE_POST';
+export const DELETE_POST = 'DELETE_POST';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const UPDATE_WIP_POST = 'UPDATE_WIP_POST';
 export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -279,9 +280,60 @@ function doUpDownVoteComment(vote, id, pageId) {
 }
 
 function receiveCommentUpDownVote(json) {
-  console.log(json)
   return {
     type: RECEIVE_UP_DOWN_VOTE_COMMENT,
     comment: json
+  };
+}
+
+function requestDeletePost() {
+  return {
+    type: DELETE_POST,
+  };
+}
+
+function deletePost(id) {
+  return (dispatch) => {
+    dispatch(requestDeletePost());
+    return fetch(`${api}/posts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+    }).then(res => res)
+      .then(dispatch(fetchPostsIfNeeded()));
+  };
+}
+
+export function deletePostIfPossible(id) {
+  return (dispatch, getState) => {
+    return dispatch(deletePost(id));
+  };
+}
+
+function requestDeleteComment() {
+  return {
+    type: DELETE_COMMENT,
+  };
+}
+
+function deleteComment(id) {
+  return (dispatch) => {
+    dispatch(requestDeleteComment());
+    return fetch(`${api}/comments/${id}`, {
+      method: 'DELETE',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+    }).then(res => res.json())
+      .then(json => dispatch(receiveCommentUpDownVote(json)));
+  };
+}
+
+export function deleteCommentIfPossible(id) {
+  return (dispatch, getState) => {
+    return dispatch(deleteComment(id));
   };
 }

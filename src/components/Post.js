@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CreateComment from './CreateComment';
 import UpDownVote from './UpDownVote';
+import DeleteButton from './DeleteButton';
 import { Link } from 'react-router-dom';
 /**
 * @description Component for listing the shelves
@@ -21,7 +22,7 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote } = this.props;
+    const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
     console.log("posts")
     console.log(post)
     let commentList = [];
@@ -57,6 +58,13 @@ class Post extends Component {
             value="edit-post">
             Edit Post
           </Link>
+          <DeleteButton
+            post={post}
+            isPost={true}
+            deletePostOrComment={(isPost, id) => {
+              deletePostOrComment(isPost, id);
+            }}
+          />
         </div>
       </div>
     );

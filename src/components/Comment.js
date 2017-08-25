@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CreateComment from './CreateComment';
 import UpDownVote from './UpDownVote';
+import DeleteButton from './DeleteButton';
 import { Link } from 'react-router-dom';
 /**
 * @description Component for listing the shelves
@@ -15,7 +16,7 @@ class Comment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { comment, doUpDownVote } = this.props;
+    const { comment, doUpDownVote, deletePostOrComment } = this.props;
     return (
       <div className="list-books-content">
         <div>
@@ -27,6 +28,13 @@ class Comment extends Component {
             isPost={false}
             doUpDownVote={(isPost, vote, id) => {
               doUpDownVote(isPost, vote, id);
+            }}
+          />
+          <DeleteButton
+            post={comment}
+            isPost={false}
+            deletePostOrComment={(isPost, id) => {
+              deletePostOrComment(isPost, id);
             }}
           />
         </div>

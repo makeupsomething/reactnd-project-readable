@@ -79,9 +79,9 @@ function comments(state = {comments:[] }, action) {
         comments: state.comments.concat(action.new_comment),
       });
     case RECEIVE_UP_DOWN_VOTE_COMMENT :
-    return Object.assign({}, state, {
-      comments: state.comments.map(comment => { return comment.id == action.comment.id ? action.comment : comment }),
-    });
+      return Object.assign({}, state, {
+        comments: state.comments.map(comment => { return comment.id == action.comment.id ? action.comment : comment }),
+      });
     default :
       return state;
   }

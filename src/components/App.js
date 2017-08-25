@@ -21,6 +21,8 @@ import {
   updateWipComment,
   doUpDownVotePostIfPossible,
   doUpDownVoteCommentIfPossible,
+  deletePostIfPossible,
+  deleteCommentIfPossible,
 } from '../actions';
 
 class App extends Component {
@@ -149,6 +151,16 @@ class App extends Component {
     }
   }
 
+  deletePostOrComment(isPost, id) {
+    const { dispatch } = this.props;
+    if(isPost) {
+      console.log("dispatch delete post");
+      dispatch(deletePostIfPossible(id));
+    } else {
+      dispatch(deleteCommentIfPossible(id));
+    }
+  }
+
   render() {
     const { categories, posts, pages, comments } = this.props;
     let allCats = categories.categories;
@@ -196,6 +208,9 @@ class App extends Component {
                   }}
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
+                  }}
+                  deletePostOrComment={(isPost, id) => {
+                    this.deletePostOrComment(isPost, id);
                   }}
                 />
                 <Link
@@ -264,11 +279,17 @@ class App extends Component {
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
                   }}
+                  deletePostOrComment={(isPost, id) => {
+                    this.deletePostOrComment(isPost, id);
+                  }}
                 />
                 <ListComments
                   comments={comments.comments}
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
+                  }}
+                  deletePostOrComment={(isPost, id) => {
+                    this.deletePostOrComment(isPost, id);
                   }}
                 />
               </div>
@@ -303,8 +324,11 @@ class App extends Component {
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);
                   }}
-                  doUpDownVote={(isPost, vote, id) => {
-                    this.doUpDownVote(isPost, vote, id);
+                  doUpDownVote={(isPost, id) => {
+                    this.doUpDownVote(isPost, id);
+                  }}
+                  deletePostOrComment={(isPost, id) => {
+                    this.deletePostOrComment(isPost, id);
                   }}
                 />
               </div>
