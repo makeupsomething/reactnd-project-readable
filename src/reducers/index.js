@@ -12,6 +12,7 @@ import {
   RECEIVE_NEW_COMMENT,
   RECEIVE_COMMENTS,
   UPDATE_WIP_COMMENT,
+  RECEIVE_UP_DOWN_VOTE_COMMENT,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -74,11 +75,13 @@ function comments(state = {comments:[] }, action) {
         wip_parentId: action.parentId,
       });
     case RECEIVE_NEW_COMMENT :
-      console.log("recieving new comment reducers");
-      console.log(action.new_comment);
       return Object.assign({}, state, {
         comments: state.comments.concat(action.new_comment),
       });
+    case RECEIVE_UP_DOWN_VOTE_COMMENT :
+    return Object.assign({}, state, {
+      comments: state.comments.map(comment => { return comment.id == action.comment.id ? action.comment : comment }),
+    });
     default :
       return state;
   }

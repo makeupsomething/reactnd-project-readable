@@ -9,9 +9,9 @@ class UpDownVote extends Component {
   }
 
   handleClick(event) {
-    const { post, doUpDownVote } = this.props;
+    const { post, doUpDownVote, isPost } = this.props;
     let id = post.id;
-    doUpDownVote(true, event.target.name, id)
+    doUpDownVote(isPost, event.target.name, id)
   }
   /**
   * @description The render function

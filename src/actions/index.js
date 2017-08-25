@@ -159,6 +159,15 @@ function fetchComments(id) {
   };
 }
 
+function fetchComment(id) {
+  return (dispatch) => {
+    dispatch(requestComments());
+    return fetch(`${api}/comments/${id}`, { headers })
+      .then(response => response.json())
+      .then(json => dispatch(receiveCommentUpDownVote(json)));
+  };
+}
+
 export function fetchCommentsIfNeeded(id) {
   return (dispatch, getState) => {
     return dispatch(fetchComments(id));
@@ -171,7 +180,7 @@ function requestAddComment() {
   };
 }
 
-function receiveNewComment(json) {
+function receiveNewComments(json) {
   return {
     type: RECEIVE_NEW_COMMENT,
     new_comment: json
@@ -200,7 +209,7 @@ function addComment(id, timestamp, body, owner, parentId) {
       },
       body: JSON.stringify({ id, timestamp, body, owner, parentId }),
     }).then(res => res.json())
-      .then(json => dispatch(receiveNewComment(json)));
+      .then(json => dispatch(receiveNewComments(json)));
   };
 }
 
@@ -237,5 +246,42 @@ function doUpDownVotePost(vote, id) {
       body: JSON.stringify({ option: vote }),
     }).then(res => res.json())
       .then(dispatch(fetchPostsIfNeeded()));
+  };
+}
+
+function requestUpDownVoteComment() {
+  return {
+    type: REQUEST_UP_DOWN_VOTE_COMMENT,
+  };
+}
+
+export function doUpDownVoteCommentIfPossible(vote, id, pageId) {
+  return (dispatch, getState) => {
+    return dispatch(doUpDownVoteComment(vote, id, pageId));
+  };
+}
+
+function doUpDownVoteComment(vote, id, pageId) {
+  console.log("el commento")
+  console.log(pageId)
+  return (dispatch) => {
+    dispatch(requestUpDownVoteComment());
+    return fetch(`${api}/comments/${id}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ option: vote }),
+    }).then(res => res.json())
+      .then(dispatch(fetchComment(id)));
+  };
+}
+
+function receiveCommentUpDownVote(json) {
+  console.log(json)
+  return {
+    type: RECEIVE_UP_DOWN_VOTE_COMMENT,
+    comment: json
   };
 }

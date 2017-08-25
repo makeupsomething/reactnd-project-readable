@@ -1,9 +1,9 @@
 import React from 'react';
-import Post from './Post';
+import Comment from './Comment';
 /**
 * @description Component for listing the shelves
 */
-export default function ListComments({ comments }) {
+export default function ListComments({ comments, doUpDownVote }) {
   let commentList = [];
   if (!comments) {
     commentList = [];
@@ -13,9 +13,12 @@ export default function ListComments({ comments }) {
   return (
     <div className="list-books-content">
       {commentList.map(comment => (
-        <div key={comment.id}>
-          {comment.body}Score{comment.voteScore}
-        </div>
+        <Comment
+          comment={comment}
+          doUpDownVote={(isPost, vote, id) => {
+            doUpDownVote(isPost, vote, id);
+          }}
+        />
       ))}
     </div>
   );

@@ -20,6 +20,7 @@ import {
   addCommentIfPossible,
   updateWipComment,
   doUpDownVotePostIfPossible,
+  doUpDownVoteCommentIfPossible,
 } from '../actions';
 
 class App extends Component {
@@ -140,11 +141,11 @@ class App extends Component {
   }
 
   doUpDownVote(isPost, vote, id) {
-    const { dispatch } = this.props;
+    const { dispatch, pages } = this.props;
     if(isPost) {
       dispatch(doUpDownVotePostIfPossible(vote, id));
     } else {
-      console.log("dispatch the vote function for comments");
+      dispatch(doUpDownVoteCommentIfPossible(vote, id, pages.current_page ));
     }
   }
 
@@ -266,6 +267,9 @@ class App extends Component {
                 />
                 <ListComments
                   comments={comments.comments}
+                  doUpDownVote={(isPost, vote, id) => {
+                    this.doUpDownVote(isPost, vote, id);
+                  }}
                 />
               </div>
             )}

@@ -46,6 +46,7 @@ class Post extends Component {
           </p>
           <UpDownVote
             post={post}
+            isPost={true}
             doUpDownVote={(isPost, vote, id) => {
               doUpDownVote(isPost, vote, id);
             }}
