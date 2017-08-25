@@ -4,11 +4,17 @@ import Post from './Post';
 * @description Component for listing the shelves
 */
 export default function ListComments({ comments }) {
+  let commentList = [];
+  if (!comments) {
+    commentList = [];
+  } else {
+      commentList = comments.filter(comment => comment.deleted === false);
+  }
   return (
     <div className="list-books-content">
-      {comments.map(comment => (
+      {commentList.map(comment => (
         <div key={comment.id}>
-          {comment.body}
+          {comment.body}Score{comment.voteScore}
         </div>
       ))}
     </div>

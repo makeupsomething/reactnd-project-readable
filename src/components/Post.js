@@ -28,7 +28,7 @@ class Post extends Component {
     if (!comments) {
       commentList = [];
     } else {
-        commentList = comments.comments.filter(comment => comment.parentId === post.id);
+        commentList = comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id));
     }
 
     return (

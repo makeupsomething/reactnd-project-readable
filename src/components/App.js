@@ -239,6 +239,38 @@ class App extends Component {
             )}
           />
           <Route
+            path="/:category/:id"
+            render={() => (
+              <div>
+                <Post
+                  post={posts.posts.find(post => post.id === pages.current_page)}
+                  getComments={(id) => {
+                    this.getComments(id);
+                  }}
+                  comments={comments}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                  doUpDownVote={(isPost, vote, id) => {
+                    this.doUpDownVote(isPost, vote, id);
+                  }}
+                />
+                <ListComments
+                  comments={comments.comments}
+                />
+              </div>
+            )}
+          />
+          <Route
             path="/:category"
             render={() => (
               <div>
@@ -270,35 +302,6 @@ class App extends Component {
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
                   }}
-                />
-              </div>
-            )}
-          />
-          <Route
-            path="/:category/:id"
-            render={() => (
-              <div>
-                <Post
-                  post={posts.posts.find(post => post.id === pages.current_page)}
-                  getComments={(id) => {
-                    this.getComments(id);
-                  }}
-                  comments={comments}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
-                  }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
-                  }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
-                  }}
-                />
-                <ListComments
-                  comments={comments.comments}
                 />
               </div>
             )}

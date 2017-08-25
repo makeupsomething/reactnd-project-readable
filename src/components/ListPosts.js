@@ -9,10 +9,14 @@ export default function ListPosts({ posts, pages, getComments, comments, updateP
   if (!pages.current_page) {
     postList = posts.posts;
   } else {
-    if (pages.current_page !== 'home') {
-      postList = posts.posts.filter(post => post.category === pages.current_page);
-    } else {
+    if (!posts.posts) {
       postList = posts.posts;
+    } else {
+      if (pages.current_page !== 'home') {
+        postList = posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page));
+      } else {
+        postList = posts.posts.filter(post => (post.deleted === false));
+      }
     }
   }
 
