@@ -6,6 +6,8 @@ import Post from './Post';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
 import CreateComment from './CreateComment';
+import ListComments from './ListComments';
+import { Link, Switch } from 'react-router-dom';
 import '../App.css';
 
 import {
@@ -16,7 +18,8 @@ import {
   fetchCommentsIfNeeded,
   updateCurrentPage,
   addCommentIfPossible,
-  updateWipComment
+  updateWipComment,
+  doUpDownVotePostIfPossible,
 } from '../actions';
 
 class App extends Component {
@@ -136,6 +139,15 @@ class App extends Component {
     dispatch(updateCurrentPage(page));
   }
 
+  doUpDownVote(isPost, vote, id) {
+    const { dispatch } = this.props;
+    if(isPost) {
+      dispatch(doUpDownVotePostIfPossible(vote, id));
+    } else {
+      console.log("dispatch the vote function for comments");
+    }
+  }
+
   render() {
     const { categories, posts, pages, comments } = this.props;
     let allCats = categories.categories;
@@ -150,108 +162,148 @@ class App extends Component {
     }
     return (
       <div>
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <div>
-              <Categories
-                categories={categories}
-                updatePage={(page) => {
-                  this.updatePage(page);
-                }}
-              />
-              <ListPosts
-                posts={posts}
-                pages={pages}
-                getComments={(id) => {
-                  this.getComments(id);
-                }}
-                comments={comments}
-                updatePage={(page) => {
-                  this.updatePage(page);
-                }}
-                updateWipCommentParentId={(parentId) => {
-                  this.updateWipCommentParentId(parentId);
-                }}
-                handleSubmitComment={(event) => {
-                  this.handleSubmitComment(event);
-                }}
-                handleInputChangeComment={(parentId) => {
-                  this.handleInputChangeComment(parentId);
-                }}
-              />
-            </div>
-          )}
-        />
-        <Route
-          path="/:category"
-          render={() => (
-            <div>
-              <Categories
-                categories={categories}
-                updatePage={(page) => {
-                  this.updatePage(page);
-                }}
-              />
-              <ListPosts
-                posts={posts}
-                pages={pages}
-                getComments={(id) => {
-                  this.getComments(id);
-                }}
-                comments={comments}
-                updatePage={(page) => {
-                  this.updatePage(page);
-                }}
-                updateWipCommentParentId={(parentId) => {
-                  this.updateWipCommentParentId(parentId);
-                }}
-                handleSubmitComment={(event) => {
-                  this.handleSubmitComment(event);
-                }}
-                handleInputChangeComment={(parentId) => {
-                  this.handleInputChangeComment(parentId);
-                }}
-              />
-            </div>
-          )}
-        />
-        <Route
-          path="/:category/:id"
-          render={() => (
-            <div>
-              <Post
-                post={posts.posts.find(post => post.id === pages.current_page)}
-                getComments={(id) => {
-                  this.getComments(id);
-                }}
-                comments={comments}
-                updatePage={(page) => {
-                  this.updatePage(page);
-                }}
-                updateWipCommentParentId={(parentId) => {
-                  this.updateWipCommentParentId(parentId);
-                }}
-                handleSubmitComment={(event) => {
-                  this.handleSubmitComment(event);
-                }}
-                handleInputChangeComment={(parentId) => {
-                  this.handleInputChangeComment(parentId);
-                }}
-              />
-              <CreatePost
-                categories={categories}
-                handleInputChange={(event) => {
-                  this.handleInputChange(event);
-                }}
-                handleSubmit={(event) => {
-                  this.handleSubmit(event);
-                }}
-              />
-            </div>
-          )}
-        />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <div>
+                <Categories
+                  categories={categories}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                />
+                <ListPosts
+                  posts={posts}
+                  pages={pages}
+                  getComments={(id) => {
+                    this.getComments(id);
+                  }}
+                  comments={comments}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                  doUpDownVote={(isPost, vote, id) => {
+                    this.doUpDownVote(isPost, vote, id);
+                  }}
+                />
+                <Link
+                  to={`/new`}
+                  className="add-new-post"
+                  value="add-new-post">
+                  Add New Post
+                </Link>
+              </div>
+            )}
+          />
+          <Route
+            path="/new"
+            render={() => (
+              <div>
+                <CreatePost
+                  categories={categories}
+                  handleInputChange={(event) => {
+                    this.handleInputChange(event);
+                  }}
+                  handleSubmit={(event) => {
+                    this.handleSubmit(event);
+                  }}
+                />
+              </div>
+            )}
+          />
+          <Route
+            path="/edit"
+            render={() => (
+              <div>
+                <CreatePost
+                  categories={categories}
+                  handleInputChange={(event) => {
+                    this.handleInputChange(event);
+                  }}
+                  handleSubmit={(event) => {
+                    this.handleSubmit(event);
+                  }}
+                />
+              </div>
+            )}
+          />
+          <Route
+            path="/:category"
+            render={() => (
+              <div>
+                <Categories
+                  categories={categories}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                />
+                <ListPosts
+                  posts={posts}
+                  pages={pages}
+                  getComments={(id) => {
+                    this.getComments(id);
+                  }}
+                  comments={comments}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                  doUpDownVote={(isPost, vote, id) => {
+                    this.doUpDownVote(isPost, vote, id);
+                  }}
+                />
+              </div>
+            )}
+          />
+          <Route
+            path="/:category/:id"
+            render={() => (
+              <div>
+                <Post
+                  post={posts.posts.find(post => post.id === pages.current_page)}
+                  getComments={(id) => {
+                    this.getComments(id);
+                  }}
+                  comments={comments}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                />
+                <ListComments
+                  comments={comments.comments}
+                />
+              </div>
+            )}
+          />
+        </Switch>
       </div>
     );
   }

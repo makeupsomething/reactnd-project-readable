@@ -3,7 +3,7 @@ import Post from './Post';
 /**
 * @description Component for listing the shelves
 */
-export default function ListPosts({ posts, pages, getComments, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment }) {
+export default function ListPosts({ posts, pages, getComments, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote }) {
 
   let postList = [];
   if (!pages.current_page) {
@@ -41,6 +41,9 @@ export default function ListPosts({ posts, pages, getComments, comments, updateP
             }}
             handleInputChangeComment={(parentId) => {
               handleInputChangeComment(parentId);
+            }}
+            doUpDownVote={(isPost, vote, id) => {
+              doUpDownVote(isPost, vote, id);
             }}
           />
         </div>

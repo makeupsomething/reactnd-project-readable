@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CreateComment from './CreateComment';
-import ListComments from './ListComments';
+import UpDownVote from './UpDownVote';
 import { Link } from 'react-router-dom';
 /**
 * @description Component for listing the shelves
@@ -21,7 +21,7 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment } = this.props;
+    const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote } = this.props;
     console.log("posts")
     console.log(post)
     let commentList = [];
@@ -44,21 +44,18 @@ class Post extends Component {
           <p>
             {post.body}{post.voteScore}NumComments{commentList.length}
           </p>
-          <ListComments
-            comments={commentList}
-          />
-          <CreateComment
-            parent={post}
-            handleInputChangeComment={(event) => {
-              handleInputChangeComment(event);
-            }}
-            handleSubmitComment={(event) => {
-              handleSubmitComment(event);
-            }}
-            updateWipCommentParentId={(parentId) => {
-              updateWipCommentParentId(parentId);
+          <UpDownVote
+            post={post}
+            doUpDownVote={(isPost, vote, id) => {
+              doUpDownVote(isPost, vote, id);
             }}
           />
+          <Link
+            to={`/edit`}
+            className="edit-post"
+            value="edit-post">
+            Edit Post
+          </Link>
         </div>
       </div>
     );

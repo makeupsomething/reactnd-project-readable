@@ -9,10 +9,14 @@ export const REQUEST_COMMENTS = 'REQUEST_COMMENTS';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-export const CHANGE_PAGE = 'CHANGE_PAGE'
+export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT'
 export const UPDATE_WIP_COMMENT = 'UPDATE_WIP_COMMENT';
+export const REQUEST_UP_DOWN_VOTE_POST = 'REQUEST_UP_DOWN_VOTE_POST';
+export const RECEIVE_UP_DOWN_VOTE_POST = 'RECEIVE_UP_DOWN_VOTE_POST';
+export const REQUEST_UP_DOWN_VOTE_COMMENT = 'REQUEST_UP_DOWN_VOTE_COMMENT';
+export const RECEIVE_UP_DOWN_VOTE_COMMENT = 'RECEIVE_UP_DOWN_VOTE_COMMENT';
 
 const api = 'http://localhost:5001';
 
@@ -206,5 +210,32 @@ export function updateWipComment(body, owner, parentId) {
     body: body,
     owner: owner,
     parentId: parentId,
+  };
+}
+
+function requestUpDownVotePost() {
+  return {
+    type: REQUEST_UP_DOWN_VOTE_POST,
+  };
+}
+
+export function doUpDownVotePostIfPossible(vote, id) {
+  return (dispatch, getState) => {
+    return dispatch(doUpDownVotePost(vote, id));
+  };
+}
+
+function doUpDownVotePost(vote, id) {
+  return (dispatch) => {
+    dispatch(requestUpDownVotePost());
+    return fetch(`${api}/posts/${id}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ option: vote }),
+    }).then(res => res.json())
+      .then(dispatch(fetchPostsIfNeeded()));
   };
 }
