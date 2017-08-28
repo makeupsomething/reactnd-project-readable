@@ -1,6 +1,8 @@
 import * as API from '../utils/api';
 
 export const ADD_POST = 'ADD_POST';
+export const EDIT_POST = 'EDIT_POST';
+export const FINISH_EDIT = 'EDIT_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const UPDATE_WIP_POST = 'UPDATE_WIP_POST';
@@ -58,6 +60,41 @@ function addPost(id, timestamp, title, body, owner, category) {
     }).then(res => res.json()).then(dispatch(fetchPostsIfNeeded()));
   };
 }
+
+function requestEditPost() {
+  return {
+    type: EDIT_POST,
+    editing: true,
+  };
+}
+
+export function editPostIfPossible(id, title, body) {
+  return (dispatch, getState) => {
+    return dispatch(editPost(id, title, body));
+  };
+}
+
+function editPost(id, title, body) {
+  return (dispatch) => {
+    dispatch(requestEditPost());
+    return fetch(`${api}/posts/${id}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, body }),
+    }).then(res => res.json()).then(dispatch(fetchPostsIfNeeded()));
+  };
+}
+
+export function finishEdit() {
+  return {
+    type: FINISH_EDIT,
+    editing: false,
+  };
+}
+
 
 export function updateWipPost(title, body, category, owner) {
   return {

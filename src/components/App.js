@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import Categories from './Categories';
 import Post from './Post';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
+import EditPost from './EditPost';
 import CreateComment from './CreateComment';
 import ListComments from './ListComments';
 import { Link, Switch } from 'react-router-dom';
@@ -14,6 +15,8 @@ import {
   fetchCategoriesIfNeeded,
   fetchPostsIfNeeded,
   addPostIfPossible,
+  editPostIfPossible,
+  finishEdit,
   updateWipPost,
   fetchCommentsIfNeeded,
   updateCurrentPage,
@@ -37,6 +40,13 @@ class App extends Component {
     dispatch(fetchCategoriesIfNeeded());
     dispatch(fetchPostsIfNeeded());
     dispatch(updateCurrentPage('home'));
+  }
+
+  componentDidUpdate() {
+    const { dispatch, pages, posts } = this.props;
+    if(pages.current_page === 'home' && posts.editing) {
+      dispatch(finishEdit())
+    }
   }
 
   handleInputChange(event) {
@@ -75,6 +85,14 @@ class App extends Component {
     }
   }
 
+  loadEditPost(post) {
+    const { dispatch } = this.props;
+    let body = post.body;
+    let title = post.title;
+    let category = post.category;
+    let owner = post.author;
+    dispatch(updateWipPost(title, body, category, owner));
+  }
   handleSubmit(event) {
     const { dispatch, posts } = this.props;
     const id = Math.random().toString(36).substr(-8);
@@ -85,6 +103,16 @@ class App extends Component {
     const category = posts.wip_category;
     dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
     event.preventDefault();
+  }
+
+  handleSubmitEdit(event) {
+    const { dispatch, posts, pages } = this.props;
+    const id = pages.current_page;
+    const title = posts.wip_title;
+    const body = posts.wip_body;
+    dispatch(editPostIfPossible(id, title, body));
+    event.preventDefault();
+    dispatch(updateCurrentPage('home'));
   }
 
   handleInputChangeComment(event) {
@@ -239,19 +267,32 @@ class App extends Component {
             )}
           />
           <Route
-            path="/edit"
+            path="/edit/:id"
             render={() => (
-              <div>
-                <CreatePost
-                  categories={categories}
-                  handleInputChange={(event) => {
-                    this.handleInputChange(event);
-                  }}
-                  handleSubmit={(event) => {
-                    this.handleSubmit(event);
-                  }}
-                />
-              </div>
+              (
+                !posts.editing ? (
+                  <div>
+                    <EditPost
+                      posts={posts}
+                      post={posts.posts.find(post => post.id === pages.current_page)}
+                      categories={categories}
+                      handleInputChange={(event) => {
+                        this.handleInputChange(event);
+                      }}
+                      handleSubmitEdit={(event) => {
+                        this.handleSubmitEdit(event);
+                      }}
+                      updatePage={(page) => {
+                        this.updatePage(page);
+                      }}
+                      loadEditPost={(post) => {
+                        this.loadEditPost(post);
+                      }}
+                    />
+                  </div>) : (
+                    <Redirect to="/"/>
+                  )
+                )
             )}
           />
           <Route

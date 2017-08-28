@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 
 import {
   ADD_POST,
+  EDIT_POST,
+  FINISH_EDIT,
   REQUEST_POSTS,
   RECEIVE_POSTS,
   UPDATE_WIP_POST,
@@ -27,7 +29,7 @@ function categories(state = { }, action) {
   }
 }
 
-function posts(state = { }, action) {
+function posts(state = {editing: false}, action) {
   switch (action.type) {
     case ADD_POST :
       console.log(action);
@@ -43,6 +45,14 @@ function posts(state = { }, action) {
         wip_body: action.body,
         wip_category: action.category,
         wip_owner: action.owner,
+      });
+    case EDIT_POST :
+      return Object.assign({}, state, {
+        editing: action.editing,
+      });
+    case FINISH_EDIT :
+      return Object.assign({}, state, {
+        editing: action.editing,
       });
     default :
       return state;

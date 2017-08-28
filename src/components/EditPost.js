@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 /**
 * @description Component for listing the shelves
 */
-class CreatePost extends Component {
+class EditPost extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const { loadEditPost, post } = this.props;
+    loadEditPost(post)
+  }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { post, categories, handleInputChange, handleSubmit } = this.props;
+    const { posts, post, categories, handleInputChange, handleSubmitEdit } = this.props;
     let allCats = categories.categories;
 
     if (!allCats) {
@@ -20,11 +28,11 @@ class CreatePost extends Component {
         <form>
           <label name="title">
             Title:
-            <input name="title" type="text" value={undefined} onChange={handleInputChange} />
+            <input name="title" type="text" value={posts.wip_title} onChange={handleInputChange} />
           </label>
           <label name="body">
             Body:
-            <textarea name="body" value={undefined} onChange={handleInputChange} />
+            <textarea name="body" value={posts.wip_body} onChange={handleInputChange} />
           </label>
           <label>
         Category:
@@ -36,10 +44,10 @@ class CreatePost extends Component {
         Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
           </label>
-          <input type="submit" value="Submit" onClick={handleSubmit} className="icon-btn" />
+          <input type="submit" value="Submit" onClick={handleSubmitEdit} className="icon-btn" />
         </form>
       </div>
     );
   }
 }
-export default CreatePost;
+export default EditPost;
