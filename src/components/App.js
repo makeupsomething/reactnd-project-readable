@@ -324,7 +324,7 @@ class App extends Component {
                   <div>
                     <EditComment
                       comments={comments}
-                      comment={comments.comments.find(comment => comment.parentId === pages.current_page)}
+                      comment={comments.comments.find(comment => comment.id === pages.current_page)}
                       categories={categories}
                       handleInputChangeComment={(event) => {
                         this.handleInputChangeComment(event);

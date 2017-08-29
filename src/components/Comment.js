@@ -31,10 +31,10 @@ class Comment extends Component {
             }}
           />
           <Link
-            to={`/comment/edit/${comment.parentId}`}
+            to={`/comment/edit/${comment.id}`}
             className="edit-comment"
             value="edit-comment"
-            onClick={() => {updatePage(comment.parentId)}}>
+            onClick={() => {updatePage(comment.id)}}>
             Edit Comment
           </Link>
           <DeleteButton
