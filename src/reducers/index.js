@@ -11,6 +11,7 @@ import {
   RECEIVE_CATEGORIES,
   CHANGE_PAGE,
   ADD_COMMENT,
+  EDIT_COMMENT,
   RECEIVE_NEW_COMMENT,
   RECEIVE_COMMENTS,
   UPDATE_WIP_COMMENT,
@@ -91,6 +92,14 @@ function comments(state = {comments:[] }, action) {
     case RECEIVE_UP_DOWN_VOTE_COMMENT :
       return Object.assign({}, state, {
         comments: state.comments.map(comment => { return comment.id == action.comment.id ? action.comment : comment }),
+      });
+    case EDIT_COMMENT :
+      return Object.assign({}, state, {
+        editing: action.editing,
+      });
+    case FINISH_EDIT :
+      return Object.assign({}, state, {
+        editing: action.editing,
       });
     default :
       return state;

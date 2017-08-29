@@ -16,7 +16,7 @@ class Comment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { comment, doUpDownVote, deletePostOrComment } = this.props;
+    const { comment, doUpDownVote, deletePostOrComment, updatePage } = this.props;
     return (
       <div className="list-books-content">
         <div>
@@ -30,6 +30,13 @@ class Comment extends Component {
               doUpDownVote(isPost, vote, id);
             }}
           />
+          <Link
+            to={`/comment/edit/${comment.parentId}`}
+            className="edit-comment"
+            value="edit-comment"
+            onClick={() => {updatePage(comment.parentId)}}>
+            Edit Comment
+          </Link>
           <DeleteButton
             post={comment}
             isPost={false}

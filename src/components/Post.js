@@ -53,7 +53,7 @@ class Post extends Component {
             }}
           />
           <Link
-            to={`/edit/${post.id}`}
+            to={`/post/edit/${post.id}`}
             className="edit-post"
             value="edit-post"
             onClick={() => {updatePage(post.id)}}>

@@ -7,6 +7,7 @@ import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
 import EditPost from './EditPost';
 import CreateComment from './CreateComment';
+import EditComment from './EditComment';
 import ListComments from './ListComments';
 import { Link, Switch } from 'react-router-dom';
 import '../App.css';
@@ -21,6 +22,7 @@ import {
   fetchCommentsIfNeeded,
   updateCurrentPage,
   addCommentIfPossible,
+  editCommentIfPossible,
   updateWipComment,
   doUpDownVotePostIfPossible,
   doUpDownVoteCommentIfPossible,
@@ -43,8 +45,8 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    const { dispatch, pages, posts } = this.props;
-    if(pages.current_page === 'home' && posts.editing) {
+    const { dispatch, pages, posts, comments } = this.props;
+    if(pages.current_page === 'home' && posts.editing || comments.editing) {
       dispatch(finishEdit())
     }
   }
@@ -93,6 +95,7 @@ class App extends Component {
     let owner = post.author;
     dispatch(updateWipPost(title, body, category, owner));
   }
+
   handleSubmit(event) {
     const { dispatch, posts } = this.props;
     const id = Math.random().toString(36).substr(-8);
@@ -150,6 +153,24 @@ class App extends Component {
     const parentId = comments.wip_parentId;
     dispatch(addCommentIfPossible(id, timestamp, body, owner, parentId));
     event.preventDefault();
+  }
+
+  loadEditComment(comment) {
+    const { dispatch } = this.props;
+    let body = comment.body;
+    let parentId = comment.id;
+    let owner = comment.author;
+    dispatch(updateWipComment(body, owner, parentId));
+  }
+
+  handleSubmitEditComment(event) {
+    const { dispatch, comments, pages } = this.props;
+    const id = comments.wip_parentId;
+    const timestamp = Date.now();
+    const body = comments.wip_body;
+    dispatch(editCommentIfPossible(id, timestamp, body));
+    event.preventDefault();
+    dispatch(updateCurrentPage('home'));
   }
 
   updateWipCommentParentId(parentId) {
@@ -267,7 +288,7 @@ class App extends Component {
             )}
           />
           <Route
-            path="/edit/:id"
+            path="/post/edit/:id"
             render={() => (
               (
                 !posts.editing ? (
@@ -287,6 +308,35 @@ class App extends Component {
                       }}
                       loadEditPost={(post) => {
                         this.loadEditPost(post);
+                      }}
+                    />
+                  </div>) : (
+                    <Redirect to="/"/>
+                  )
+                )
+            )}
+          />
+          <Route
+            path="/comment/edit/:id"
+            render={() => (
+              (
+                !comments.editing ? (
+                  <div>
+                    <EditComment
+                      comments={comments}
+                      comment={comments.comments.find(comment => comment.parentId === pages.current_page)}
+                      categories={categories}
+                      handleInputChangeComment={(event) => {
+                        this.handleInputChangeComment(event);
+                      }}
+                      handleSubmitEditComment={(event) => {
+                        this.handleSubmitEditComment(event);
+                      }}
+                      updatePage={(page) => {
+                        this.updatePage(page);
+                      }}
+                      loadEditComment={(comment) => {
+                        this.loadEditComment(comment);
                       }}
                     />
                   </div>) : (
@@ -331,6 +381,9 @@ class App extends Component {
                   }}
                   deletePostOrComment={(isPost, id) => {
                     this.deletePostOrComment(isPost, id);
+                  }}
+                  updatePage={(page) => {
+                    this.updatePage(page);
                   }}
                 />
               </div>

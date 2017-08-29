@@ -2,7 +2,7 @@ import * as API from '../utils/api';
 
 export const ADD_POST = 'ADD_POST';
 export const EDIT_POST = 'EDIT_POST';
-export const FINISH_EDIT = 'EDIT_POST';
+export const FINISH_EDIT = 'FINISH_EDIT';
 export const DELETE_POST = 'DELETE_POST';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const UPDATE_WIP_POST = 'UPDATE_WIP_POST';
@@ -14,6 +14,7 @@ export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT'
 export const UPDATE_WIP_COMMENT = 'UPDATE_WIP_COMMENT';
 export const REQUEST_UP_DOWN_VOTE_POST = 'REQUEST_UP_DOWN_VOTE_POST';
@@ -248,6 +249,33 @@ function addComment(id, timestamp, body, owner, parentId) {
       body: JSON.stringify({ id, timestamp, body, owner, parentId }),
     }).then(res => res.json())
       .then(json => dispatch(receiveNewComments(json)));
+  };
+}
+
+function requestEditComment() {
+  return {
+    type: EDIT_COMMENT,
+    editing: true,
+  };
+}
+
+export function editCommentIfPossible(id, timestamp, body) {
+  return (dispatch, getState) => {
+    return dispatch(editComment(id, timestamp, body));
+  };
+}
+
+function editComment(id, timestamp, body) {
+  return (dispatch) => {
+    dispatch(requestEditComment());
+    return fetch(`${api}/comments/${id}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ timestamp, body }),
+    }).then(res => res.json()).then(dispatch(fetchComment(id)));
   };
 }
 

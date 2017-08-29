@@ -3,7 +3,7 @@ import Comment from './Comment';
 /**
 * @description Component for listing the shelves
 */
-export default function ListComments({ comments, doUpDownVote, deletePostOrComment }) {
+export default function ListComments({ comments, doUpDownVote, deletePostOrComment, updatePage }) {
   let commentList = [];
   if (!comments) {
     commentList = [];
@@ -20,6 +20,9 @@ export default function ListComments({ comments, doUpDownVote, deletePostOrComme
           }}
           deletePostOrComment={(isPost, id) => {
             deletePostOrComment(isPost, id);
+          }}
+          updatePage={(page) => {
+            updatePage(page);
           }}
         />
       ))}
