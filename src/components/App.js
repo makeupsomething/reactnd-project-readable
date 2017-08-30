@@ -9,6 +9,7 @@ import EditPost from './EditPost';
 import CreateComment from './CreateComment';
 import EditComment from './EditComment';
 import ListComments from './ListComments';
+import Sort from './Sort'
 import { Link, Switch } from 'react-router-dom';
 import '../App.css';
 
@@ -262,6 +263,7 @@ class App extends Component {
                     this.deletePostOrComment(isPost, id);
                   }}
                 />
+                <Sort/>
                 <Link
                   to={`/new`}
                   className="add-new-post"
@@ -425,6 +427,7 @@ class App extends Component {
                     this.deletePostOrComment(isPost, id);
                   }}
                 />
+                <Sort/>
               </div>
             )}
           />
