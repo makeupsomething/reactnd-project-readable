@@ -397,7 +397,7 @@ class App extends Component {
                 />
                 <ListComments
                   post={posts.posts.find(post => post.id === pages.current_page)}
-                  comments={comments.comments}
+                  comments={comments}
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
                   }}

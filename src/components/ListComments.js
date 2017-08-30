@@ -8,7 +8,7 @@ export default function ListComments({ post, comments, doUpDownVote, deletePostO
   if (!comments) {
     commentList = [];
   } else {
-      commentList = comments.filter(comment => comment.deleted === false && comment.parentId === post.id);
+      commentList = comments.comments.filter(comment => comment.deleted === false && comment.parentId === post.id);
   }
 
   if(comments.sortBy === 'score') {
