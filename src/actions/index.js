@@ -21,6 +21,8 @@ export const REQUEST_UP_DOWN_VOTE_POST = 'REQUEST_UP_DOWN_VOTE_POST';
 export const RECEIVE_UP_DOWN_VOTE_POST = 'RECEIVE_UP_DOWN_VOTE_POST';
 export const REQUEST_UP_DOWN_VOTE_COMMENT = 'REQUEST_UP_DOWN_VOTE_COMMENT';
 export const RECEIVE_UP_DOWN_VOTE_COMMENT = 'RECEIVE_UP_DOWN_VOTE_COMMENT';
+export const SORT_POSTS = 'SORT_POSTS';
+export const SORT_COMMENTS = 'SORT_COMMENTS';
 
 const api = 'http://localhost:5001';
 
@@ -400,5 +402,19 @@ function deleteComment(id) {
 export function deleteCommentIfPossible(id) {
   return (dispatch, getState) => {
     return dispatch(deleteComment(id));
+  };
+}
+
+export function sortPosts(sortBy) {
+  return {
+    type: SORT_POSTS,
+    sortBy: sortBy,
+  };
+}
+
+export function sortComments(sortBy) {
+  return {
+    type: SORT_COMMENTS,
+    sortBy: sortBy,
   };
 }

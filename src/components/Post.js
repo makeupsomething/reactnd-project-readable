@@ -23,8 +23,6 @@ class Post extends Component {
   */
   render() {
     const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
-    console.log("posts")
-    console.log(post)
     let commentList = [];
     if (!comments) {
       commentList = [];

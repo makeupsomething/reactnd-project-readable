@@ -3,13 +3,25 @@ import Comment from './Comment';
 /**
 * @description Component for listing the shelves
 */
-export default function ListComments({ comments, doUpDownVote, deletePostOrComment, updatePage }) {
+export default function ListComments({ post, comments, doUpDownVote, deletePostOrComment, updatePage }) {
   let commentList = [];
   if (!comments) {
     commentList = [];
   } else {
-      commentList = comments.filter(comment => comment.deleted === false);
+      commentList = comments.filter(comment => comment.deleted === false && comment.parentId === post.id);
   }
+
+  if(comments.sortBy === 'score') {
+    commentList.sort((a, b) => {
+      return b.voteScore - a.voteScore;
+    });
+  } else if(comments.sortBy === 'date') {
+    commentList.sort((a, b) => {
+      return b.timestamp - a.timestamp;
+    });
+  }
+
+
   return (
     <div className="list-books-content">
       {commentList.map(comment => (

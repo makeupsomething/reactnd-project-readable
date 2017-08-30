@@ -24,6 +24,16 @@ export default function ListPosts({ posts, pages, getComments, comments, updateP
     postList = [];
   }
 
+  if(posts.sortBy === 'score') {
+    postList.sort((a, b) => {
+      return b.voteScore - a.voteScore;
+    });
+  } else if(posts.sortBy === 'date') {
+    postList.sort((a, b) => {
+      return b.timestamp - a.timestamp;
+    });
+  }
+
   return (
     <div className="list-books-content">
       {postList.map(post => (

@@ -4,13 +4,12 @@ import React, { Component } from 'react';
 class Sort extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'time'};
-
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    console.log('sorting by ' + event.target.value)
+    const { sortPostsOrComments, isPost} = this.props;
+    sortPostsOrComments(isPost, event.target.value)
   }
 
   render() {
@@ -20,7 +19,7 @@ class Sort extends React.Component {
           Sort By:
           <select value={undefined} onChange={this.handleChange}>
             <option value="date">Date</option>
-            <option value="socre">Score</option>
+            <option value="score">Score</option>
           </select>
         </label>
       </form>

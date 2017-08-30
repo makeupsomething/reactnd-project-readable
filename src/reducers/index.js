@@ -16,6 +16,8 @@ import {
   RECEIVE_COMMENTS,
   UPDATE_WIP_COMMENT,
   RECEIVE_UP_DOWN_VOTE_COMMENT,
+  SORT_POSTS,
+  SORT_COMMENTS,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -30,7 +32,7 @@ function categories(state = { }, action) {
   }
 }
 
-function posts(state = {editing: false}, action) {
+function posts(state = {editing: false, sortBy: 'date'}, action) {
   switch (action.type) {
     case ADD_POST :
       console.log(action);
@@ -55,6 +57,10 @@ function posts(state = {editing: false}, action) {
       return Object.assign({}, state, {
         editing: action.editing,
       });
+    case SORT_POSTS :
+      return Object.assign({}, state, {
+        sortBy: action.sortBy,
+      });
     default :
       return state;
   }
@@ -71,7 +77,7 @@ function pages(state = { }, action) {
   }
 }
 
-function comments(state = {comments:[] }, action) {
+function comments(state = {comments:[], editing: false, sortBy: 'date' }, action) {
   switch (action.type) {
     case ADD_COMMENT :
       return state;
@@ -100,6 +106,10 @@ function comments(state = {comments:[] }, action) {
     case FINISH_EDIT :
       return Object.assign({}, state, {
         editing: action.editing,
+      });
+    case SORT_COMMENTS :
+      return Object.assign({}, state, {
+        sortBy: action.sortBy,
       });
     default :
       return state;

@@ -29,6 +29,8 @@ import {
   doUpDownVoteCommentIfPossible,
   deletePostIfPossible,
   deleteCommentIfPossible,
+  sortPosts,
+  sortComments,
 } from '../actions';
 
 class App extends Component {
@@ -211,6 +213,17 @@ class App extends Component {
     }
   }
 
+  sortPostsOrComments(isPost, sortBy) {
+    const { dispatch } = this.props;
+    if(isPost) {
+      console.log("dispatch sortPosts");
+      dispatch(sortPosts(sortBy));
+    } else {
+      console.log("dispatch sortComments");
+      dispatch(sortComments(sortBy));
+    }
+  }
+
   render() {
     const { categories, posts, pages, comments } = this.props;
     let allCats = categories.categories;
@@ -240,6 +253,7 @@ class App extends Component {
                 <ListPosts
                   posts={posts}
                   pages={pages}
+                  sortedBy={comments.sortedBy}
                   getComments={(id) => {
                     this.getComments(id);
                   }}
@@ -263,7 +277,12 @@ class App extends Component {
                     this.deletePostOrComment(isPost, id);
                   }}
                 />
-                <Sort/>
+                <Sort
+                  isPost={true}
+                  sortPostsOrComments={(isPost, sortBy) => {
+                    this.sortPostsOrComments(isPost, sortBy);
+                  }}
+                />
                 <Link
                   to={`/new`}
                   className="add-new-post"
@@ -377,6 +396,7 @@ class App extends Component {
                   }}
                 />
                 <ListComments
+                  post={posts.posts.find(post => post.id === pages.current_page)}
                   comments={comments.comments}
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
@@ -386,6 +406,12 @@ class App extends Component {
                   }}
                   updatePage={(page) => {
                     this.updatePage(page);
+                  }}
+                />
+                <Sort
+                  isPost={false}
+                  sortPostsOrComments={(isPost, sortBy) => {
+                    this.sortPostsOrComments(isPost, sortBy);
                   }}
                 />
               </div>
@@ -404,6 +430,7 @@ class App extends Component {
                 <ListPosts
                   posts={posts}
                   pages={pages}
+                  sortedBy={comments.sortedBy}
                   getComments={(id) => {
                     this.getComments(id);
                   }}
@@ -427,7 +454,12 @@ class App extends Component {
                     this.deletePostOrComment(isPost, id);
                   }}
                 />
-                <Sort/>
+                <Sort
+                  isPost={true}
+                  sortPostsOrComments={(isPost, sortBy) => {
+                    this.sortPostsOrComments(isPost, sortBy);
+                  }}
+                />
               </div>
             )}
           />
