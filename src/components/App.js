@@ -204,11 +204,11 @@ class App extends Component {
   }
 
   deletePostOrComment(isPost, id) {
-    const { dispatch, pages } = this.props;
+    const { dispatch, pages, categories } = this.props;
     if(isPost) {
       console.log("dispatch delete post");
       dispatch(deletePostIfPossible(id));
-      if(pages.current_page !== 'home' && pages.current_page !== 'react' && pages.current_page !== 'redux' && pages.current_page !== 'udacity') {
+      if(pages.current_page !== 'home' && !categories.categories.find(cat => cat === pages.current_page)) {
         dispatch(updateCurrentPage('home'));
       }
     } else {
