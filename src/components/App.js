@@ -414,6 +414,18 @@ class App extends Component {
                     this.sortPostsOrComments(isPost, sortBy);
                   }}
                 />
+                <CreateComment
+                  parent={posts.posts.find(post => post.id === pages.current_page)}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                />
               </div>
             )}
           />
