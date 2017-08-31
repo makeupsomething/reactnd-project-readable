@@ -19,10 +19,10 @@ class DeleteButton extends Component {
   */
   render() {
     return (
-      <div className="up-down-vote-group">
-      <button name="delete" onClick={this.handleClick}>
-        Delete
-      </button>
+      <div className="delete-button">
+        <button name="delete" onClick={this.handleClick}>
+          Delete
+        </button>
       </div>
     );
   }

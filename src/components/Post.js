@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CreateComment from './CreateComment';
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 /**
 * @description Component for listing the shelves
 */

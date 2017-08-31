@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import { Link, Switch } from 'react-router-dom';
 import Categories from './Categories';
 import Post from './Post';
 import ListPosts from './ListPosts';
@@ -9,8 +10,7 @@ import EditPost from './EditPost';
 import CreateComment from './CreateComment';
 import EditComment from './EditComment';
 import ListComments from './ListComments';
-import Sort from './Sort'
-import { Link, Switch } from 'react-router-dom';
+import Sort from './Sort';
 import '../App.css';
 
 import {
@@ -50,7 +50,7 @@ class App extends Component {
   componentDidUpdate() {
     const { dispatch, pages, posts, comments } = this.props;
     if(pages.current_page === 'home' && posts.editing || comments.editing) {
-      dispatch(finishEdit())
+      dispatch(finishEdit());
     }
   }
 
@@ -204,10 +204,13 @@ class App extends Component {
   }
 
   deletePostOrComment(isPost, id) {
-    const { dispatch } = this.props;
+    const { dispatch, pages } = this.props;
     if(isPost) {
       console.log("dispatch delete post");
       dispatch(deletePostIfPossible(id));
+      if(pages.current_page !== 'home' && pages.current_page !== 'react' && pages.current_page !== 'redux' && pages.current_page !== 'udacity') {
+        dispatch(updateCurrentPage('home'));
+      }
     } else {
       dispatch(deleteCommentIfPossible(id));
     }
@@ -369,64 +372,69 @@ class App extends Component {
           <Route
             path="/:category/:id"
             render={() => (
-              <div>
-                <Post
-                  post={posts.posts.find(post => post.id === pages.current_page)}
-                  getComments={(id) => {
-                    this.getComments(id);
-                  }}
-                  comments={comments}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
-                  }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
-                  }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
-                  }}
-                  doUpDownVote={(isPost, vote, id) => {
-                    this.doUpDownVote(isPost, vote, id);
-                  }}
-                  deletePostOrComment={(isPost, id) => {
-                    this.deletePostOrComment(isPost, id);
-                  }}
-                />
-                <ListComments
-                  post={posts.posts.find(post => post.id === pages.current_page)}
-                  comments={comments}
-                  doUpDownVote={(isPost, vote, id) => {
-                    this.doUpDownVote(isPost, vote, id);
-                  }}
-                  deletePostOrComment={(isPost, id) => {
-                    this.deletePostOrComment(isPost, id);
-                  }}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
-                />
-                <Sort
-                  isPost={false}
-                  sortPostsOrComments={(isPost, sortBy) => {
-                    this.sortPostsOrComments(isPost, sortBy);
-                  }}
-                />
-                <CreateComment
-                  parent={posts.posts.find(post => post.id === pages.current_page)}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
-                  }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
-                  }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
-                  }}
-                />
-              </div>
+              (
+                posts.posts.find(post => post.id === pages.current_page && post.deleted === false) ? (
+                  <div>
+                    <Post
+                      post={posts.posts.find(post => post.id === pages.current_page)}
+                      getComments={(id) => {
+                        this.getComments(id);
+                      }}
+                      comments={comments}
+                      updatePage={(page) => {
+                        this.updatePage(page);
+                      }}
+                      updateWipCommentParentId={(parentId) => {
+                        this.updateWipCommentParentId(parentId);
+                      }}
+                      handleSubmitComment={(event) => {
+                        this.handleSubmitComment(event);
+                      }}
+                      handleInputChangeComment={(parentId) => {
+                        this.handleInputChangeComment(parentId);
+                      }}
+                      doUpDownVote={(isPost, vote, id) => {
+                        this.doUpDownVote(isPost, vote, id);
+                      }}
+                      deletePostOrComment={(isPost, id) => {
+                        this.deletePostOrComment(isPost, id);
+                      }}
+                    />
+                    <ListComments
+                      post={posts.posts.find(post => post.id === pages.current_page)}
+                      comments={comments}
+                      doUpDownVote={(isPost, vote, id) => {
+                        this.doUpDownVote(isPost, vote, id);
+                      }}
+                      deletePostOrComment={(isPost, id) => {
+                        this.deletePostOrComment(isPost, id);
+                      }}
+                      updatePage={(page) => {
+                        this.updatePage(page);
+                      }}
+                    />
+                    <Sort
+                      isPost={false}
+                      sortPostsOrComments={(isPost, sortBy) => {
+                        this.sortPostsOrComments(isPost, sortBy);
+                      }}
+                    />
+                    <CreateComment
+                      parent={posts.posts.find(post => post.id === pages.current_page)}
+                      updateWipCommentParentId={(parentId) => {
+                        this.updateWipCommentParentId(parentId);
+                      }}
+                      handleSubmitComment={(event) => {
+                        this.handleSubmitComment(event);
+                      }}
+                      handleInputChangeComment={(parentId) => {
+                        this.handleInputChangeComment(parentId);
+                      }}
+                    />
+                  </div>) : (
+                    <Redirect to="/"/>
+                  )
+                )
             )}
           />
           <Route
