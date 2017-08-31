@@ -18,6 +18,7 @@ import {
   RECEIVE_UP_DOWN_VOTE_COMMENT,
   SORT_POSTS,
   SORT_COMMENTS,
+  OPEN_MODAL,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -77,6 +78,17 @@ function pages(state = { }, action) {
   }
 }
 
+function modals(state = { newPost: false}, action) {
+  switch (action.type) {
+    case OPEN_MODAL :
+      return Object.assign({}, state, {
+        newPost: action.isOpen,
+      });
+    default :
+      return state;
+  }
+}
+
 function comments(state = {comments:[], editing: false, sortBy: 'date' }, action) {
   switch (action.type) {
     case ADD_COMMENT :
@@ -120,6 +132,7 @@ const rootReducer = combineReducers({
   categories,
   posts,
   pages,
+  modals,
   comments,
 });
 

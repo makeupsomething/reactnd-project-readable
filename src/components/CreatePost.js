@@ -8,7 +8,7 @@ class CreatePost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, categories, handleInputChange, handleSubmit } = this.props;
+    const { post, categories, handleInputChange, handleSubmit, handleOpenCloseModel } = this.props;
     let allCats = categories.categories;
 
     if (!allCats) {
@@ -38,6 +38,9 @@ class CreatePost extends Component {
           </label>
           <input type="submit" value="Submit" onClick={handleSubmit} className="icon-btn" />
         </form>
+        <button name="cancel" onClick={handleOpenCloseModel}>
+          Cancel
+        </button>
       </div>
     );
   }

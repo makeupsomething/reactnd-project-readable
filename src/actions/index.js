@@ -23,7 +23,7 @@ export const REQUEST_UP_DOWN_VOTE_COMMENT = 'REQUEST_UP_DOWN_VOTE_COMMENT';
 export const RECEIVE_UP_DOWN_VOTE_COMMENT = 'RECEIVE_UP_DOWN_VOTE_COMMENT';
 export const SORT_POSTS = 'SORT_POSTS';
 export const SORT_COMMENTS = 'SORT_COMMENTS';
-
+export const OPEN_MODAL = 'OPEN_MODAL'
 const api = 'http://localhost:5001';
 
 
@@ -113,6 +113,13 @@ export function updateCurrentPage(page) {
   return {
     type: CHANGE_PAGE,
     current_page: page,
+  };
+}
+
+export function openCloseModal(isOpen) {
+  return {
+    type: OPEN_MODAL,
+    isOpen: isOpen,
   };
 }
 

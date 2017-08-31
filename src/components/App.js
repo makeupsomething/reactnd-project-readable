@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Link, Switch } from 'react-router-dom';
+import Modal from 'react-modal'
 import Categories from './Categories';
 import Post from './Post';
 import ListPosts from './ListPosts';
@@ -31,6 +32,7 @@ import {
   deleteCommentIfPossible,
   sortPosts,
   sortComments,
+  openCloseModal,
 } from '../actions';
 
 class App extends Component {
@@ -38,6 +40,7 @@ class App extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleOpenCloseModel = this.handleOpenCloseModel.bind(this);
   }
 
   componentDidMount() {
@@ -109,6 +112,8 @@ class App extends Component {
     const category = posts.wip_category;
     dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
     event.preventDefault();
+    dispatch(openCloseModal(false));
+
   }
 
   handleSubmitEdit(event) {
@@ -183,11 +188,6 @@ class App extends Component {
     dispatch(updateWipComment(body, owner, parentId));
   }
 
-  getComments(id) {
-    const { dispatch } = this.props;
-    dispatch(fetchCommentsIfNeeded(id));
-  }
-
   updatePage(page) {
     console.log("updating page")
     const { dispatch } = this.props;
@@ -227,12 +227,24 @@ class App extends Component {
     }
   }
 
+  handleOpenCloseModel(event) {
+    const { dispatch, modals } = this.props;
+    if(modals.newPost === false) {
+      dispatch(openCloseModal(true));
+    } else {
+      dispatch(openCloseModal(false));
+    }
+  }
+
+  getComments(id) {
+    const { dispatch } = this.props;
+    dispatch(fetchCommentsIfNeeded(id));
+  }
+
   render() {
-    const { categories, posts, pages, comments } = this.props;
+    const { categories, posts, pages, comments, modals } = this.props;
     let allCats = categories.categories;
     let postList = posts.posts;
-    console.log("props")
-    console.log(this.props)
     if (!allCats) {
       allCats = [];
     }
@@ -254,12 +266,7 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  posts={posts}
-                  pages={pages}
                   sortedBy={comments.sortedBy}
-                  getComments={(id) => {
-                    this.getComments(id);
-                  }}
                   comments={comments}
                   updatePage={(page) => {
                     this.updatePage(page);
@@ -286,28 +293,26 @@ class App extends Component {
                     this.sortPostsOrComments(isPost, sortBy);
                   }}
                 />
-                <Link
-                  to={`/new`}
-                  className="add-new-post"
-                  value="add-new-post">
-                  Add New Post
-                </Link>
-              </div>
-            )}
-          />
-          <Route
-            path="/new"
-            render={() => (
-              <div>
-                <CreatePost
-                  categories={categories}
-                  handleInputChange={(event) => {
-                    this.handleInputChange(event);
-                  }}
-                  handleSubmit={(event) => {
-                    this.handleSubmit(event);
-                  }}
-                />
+                <button name="open-post-modal" onClick={this.handleOpenCloseModel}>
+                  New Post
+                </button>
+                <Modal
+                  isOpen={modals.newPost}
+                  contentLabel="Modal"
+                >
+                  <CreatePost
+                    categories={categories}
+                    handleInputChange={(event) => {
+                      this.handleInputChange(event);
+                    }}
+                    handleSubmit={(event) => {
+                      this.handleSubmit(event);
+                    }}
+                    handleOpenCloseModel={(event) => {
+                      this.handleOpenCloseModel(event);
+                    }}
+                  />
+                </Modal>
               </div>
             )}
           />
@@ -448,8 +453,6 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  posts={posts}
-                  pages={pages}
                   sortedBy={comments.sortedBy}
                   getComments={(id) => {
                     this.getComments(id);
@@ -474,6 +477,26 @@ class App extends Component {
                     this.deletePostOrComment(isPost, id);
                   }}
                 />
+                <button name="open-post-modal" onClick={this.handleOpenCloseModel}>
+                  New Post
+                </button>
+                <Modal
+                  isOpen={modals.newPost}
+                  contentLabel="Modal"
+                >
+                  <CreatePost
+                    categories={categories}
+                    handleInputChange={(event) => {
+                      this.handleInputChange(event);
+                    }}
+                    handleSubmit={(event) => {
+                      this.handleSubmit(event);
+                    }}
+                    handleOpenCloseModel={(event) => {
+                      this.handleOpenCloseModel(event);
+                    }}
+                  />
+                </Modal>
                 <Sort
                   isPost={true}
                   sortPostsOrComments={(isPost, sortBy) => {
@@ -490,13 +513,14 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { categories, posts, comments, pages } = state;
+  const { categories, posts, comments, pages, modals } = state;
 
   return {
     categories,
     posts,
     comments,
     pages,
+    modals,
   };
 }
 
