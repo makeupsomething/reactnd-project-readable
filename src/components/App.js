@@ -32,7 +32,8 @@ import {
   deleteCommentIfPossible,
   sortPosts,
   sortComments,
-  openCloseModal,
+  newPostModal,
+  editPostModal,
 } from '../actions';
 
 class App extends Component {
@@ -112,7 +113,7 @@ class App extends Component {
     const category = posts.wip_category;
     dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
     event.preventDefault();
-    dispatch(openCloseModal(false));
+    dispatch(newPostModal(false));
 
   }
 
@@ -229,10 +230,18 @@ class App extends Component {
 
   handleOpenCloseModel(event) {
     const { dispatch, modals } = this.props;
-    if(modals.newPost === false) {
-      dispatch(openCloseModal(true));
+    if(event.target.name === 'new-post-modal') {
+      if(modals.newPost === false) {
+        dispatch(newPostModal(true));
+      } else {
+        dispatch(newPostModal(false));
+      }
     } else {
-      dispatch(openCloseModal(false));
+      if(modals.editPost === false) {
+        dispatch(editPostModal(true));
+      } else {
+        dispatch(editPostModal(false));
+      }
     }
   }
 
@@ -294,7 +303,7 @@ class App extends Component {
                     this.sortPostsOrComments(isPost, sortBy);
                   }}
                 />
-                <button name="open-post-modal" onClick={this.handleOpenCloseModel}>
+                <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
                   New Post
                 </button>
                 <Modal
@@ -315,35 +324,6 @@ class App extends Component {
                   />
                 </Modal>
               </div>
-            )}
-          />
-          <Route
-            path="/post/edit/:id"
-            render={() => (
-              (
-                !posts.editing ? (
-                  <div>
-                    <EditPost
-                      posts={posts}
-                      post={posts.posts.find(post => post.id === pages.current_page)}
-                      categories={categories}
-                      handleInputChange={(event) => {
-                        this.handleInputChange(event);
-                      }}
-                      handleSubmitEdit={(event) => {
-                        this.handleSubmitEdit(event);
-                      }}
-                      updatePage={(page) => {
-                        this.updatePage(page);
-                      }}
-                      loadEditPost={(post) => {
-                        this.loadEditPost(post);
-                      }}
-                    />
-                  </div>) : (
-                    <Redirect to="/"/>
-                  )
-                )
             )}
           />
           <Route
@@ -381,11 +361,9 @@ class App extends Component {
               (
                 posts.posts.find(post => post.id === pages.current_page && post.deleted === false) ? (
                   <div>
-                    <Post
-                      post={posts.posts.find(post => post.id === pages.current_page)}
-                      getComments={(id) => {
-                        this.getComments(id);
-                      }}
+                    <ListPosts
+                      posts={posts.posts.filter(post => (post.deleted === false && post.id === pages.current_page))}
+                      sortedBy={posts.sortBy}
                       comments={comments}
                       updatePage={(page) => {
                         this.updatePage(page);
@@ -399,8 +377,8 @@ class App extends Component {
                       handleInputChangeComment={(parentId) => {
                         this.handleInputChangeComment(parentId);
                       }}
-                      doUpDownVote={(isPost, vote, id) => {
-                        this.doUpDownVote(isPost, vote, id);
+                      doUpDownVote={(isPost, id) => {
+                        this.doUpDownVote(isPost, id);
                       }}
                       deletePostOrComment={(isPost, id) => {
                         this.deletePostOrComment(isPost, id);
@@ -476,8 +454,11 @@ class App extends Component {
                     this.deletePostOrComment(isPost, id);
                   }}
                 />
-                <button name="open-post-modal" onClick={this.handleOpenCloseModel}>
+                <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
                   New Post
+                </button>
+                <button name="edit-post-modal" onClick={this.handleOpenCloseModel}>
+                  Edit Post
                 </button>
                 <Modal
                   isOpen={modals.newPost}
@@ -493,6 +474,28 @@ class App extends Component {
                     }}
                     handleOpenCloseModel={(event) => {
                       this.handleOpenCloseModel(event);
+                    }}
+                  />
+                </Modal>
+                <Modal
+                  isOpen={modals.EditPost}
+                  contentLabel="Modal"
+                >
+                  <EditPost
+                    posts={posts}
+                    post={posts.posts.find(post => post.id === pages.current_page)}
+                    categories={categories}
+                    handleInputChange={(event) => {
+                      this.handleInputChange(event);
+                    }}
+                    handleSubmitEdit={(event) => {
+                      this.handleSubmitEdit(event);
+                    }}
+                    updatePage={(page) => {
+                      this.updatePage(page);
+                    }}
+                    loadEditPost={(post) => {
+                      this.loadEditPost(post);
                     }}
                   />
                 </Modal>

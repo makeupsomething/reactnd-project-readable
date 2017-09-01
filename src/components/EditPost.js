@@ -16,13 +16,7 @@ class EditPost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { posts, post, categories, handleInputChange, handleSubmitEdit } = this.props;
-    let allCats = categories.categories;
-
-    if (!allCats) {
-      allCats = [];
-    }
-
+    const { posts, post, handleInputChange, handleSubmitEdit } = this.props;
     return (
       <div className="list-books-content">
         <form>
@@ -35,12 +29,6 @@ class EditPost extends Component {
             <textarea name="body" value={posts.wip_body} onChange={handleInputChange} />
           </label>
           <label>
-        Category:
-            <select name="category" value={undefined} onChange={handleInputChange}>
-              {allCats.map(item => (<option key={item} value={item}>{item}</option>))}
-            </select>
-          </label>
-          <label name="title">
         Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
           </label>

@@ -23,7 +23,8 @@ export const REQUEST_UP_DOWN_VOTE_COMMENT = 'REQUEST_UP_DOWN_VOTE_COMMENT';
 export const RECEIVE_UP_DOWN_VOTE_COMMENT = 'RECEIVE_UP_DOWN_VOTE_COMMENT';
 export const SORT_POSTS = 'SORT_POSTS';
 export const SORT_COMMENTS = 'SORT_COMMENTS';
-export const OPEN_MODAL = 'OPEN_MODAL'
+export const NEW_POST_MODAL = 'NEW_POST_MODAL'
+export const EDIT_POST_MODAL = 'EDIT_POST_MODAL'
 const api = 'http://localhost:5001';
 
 
@@ -116,9 +117,16 @@ export function updateCurrentPage(page) {
   };
 }
 
-export function openCloseModal(isOpen) {
+export function newPostModal(isOpen) {
   return {
-    type: OPEN_MODAL,
+    type: NEW_POST_MODAL,
+    isOpen: isOpen,
+  };
+}
+
+export function editPostModal(isOpen) {
+  return {
+    type: EDIT_POST_MODAL,
     isOpen: isOpen,
   };
 }

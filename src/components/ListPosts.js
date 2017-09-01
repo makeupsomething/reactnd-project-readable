@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Post from './Post';
 import { connect } from 'react-redux';
+import Modal from 'react-modal'
+import EditPost from './EditPost';
 import {
   fetchCommentsIfNeeded,
 } from '../actions';
@@ -14,7 +16,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props
+    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props
 
     let postList = posts;
 
@@ -38,6 +40,7 @@ class ListPosts extends Component {
           <div key={post.id}>
             <Post
               post={post}
+              modals={modals}
               getComments={(id) => {
                 this.getComments(id);
               }}
@@ -61,6 +64,30 @@ class ListPosts extends Component {
                 deletePostOrComment(isPost, id);
               }}
             />
+            <button name="edit-post-modal" onClick={this.handleOpenCloseModel}>
+              Edit Post
+            </button>
+            <Modal
+              isOpen={modals.editPost}
+              contentLabel="Modal"
+            >
+              <EditPost
+                posts={postList}
+                post={post}
+                handleInputChange={(event) => {
+                  this.handleInputChange(event);
+                }}
+                handleSubmitEdit={(event) => {
+                  this.handleSubmitEdit(event);
+                }}
+                updatePage={(page) => {
+                  this.updatePage(page);
+                }}
+                loadEditPost={(post) => {
+                  this.loadEditPost(post);
+                }}
+              />
+            </Modal>
           </div>
         ))}
       </div>
@@ -69,10 +96,11 @@ class ListPosts extends Component {
 }
 
 function mapStateToProps(state) {
-  const { posts, comments } = state;
+  const { posts, comments, modals } = state;
 
   return {
     comments,
+    modals,
   };
 }
 

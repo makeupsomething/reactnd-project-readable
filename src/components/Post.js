@@ -22,7 +22,7 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
+    const { post, modals, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
 
     return (
       <div className="list-books-content">
@@ -44,13 +44,6 @@ class Post extends Component {
               doUpDownVote(isPost, vote, id);
             }}
           />
-          <Link
-            to={`/post/edit/${post.id}`}
-            className="edit-post"
-            value="edit-post"
-            onClick={() => {updatePage(post.id)}}>
-            Edit Post
-          </Link>
           <DeleteButton
             post={post}
             isPost={true}

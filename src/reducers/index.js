@@ -18,7 +18,8 @@ import {
   RECEIVE_UP_DOWN_VOTE_COMMENT,
   SORT_POSTS,
   SORT_COMMENTS,
-  OPEN_MODAL,
+  NEW_POST_MODAL,
+  EDIT_POST_MODAL,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -78,11 +79,15 @@ function pages(state = { }, action) {
   }
 }
 
-function modals(state = { newPost: false}, action) {
+function modals(state = { newPost: false, editPost: false}, action) {
   switch (action.type) {
-    case OPEN_MODAL :
+    case NEW_POST_MODAL :
       return Object.assign({}, state, {
         newPost: action.isOpen,
+      });
+    case EDIT_POST_MODAL :
+      return Object.assign({}, state, {
+        editPost: action.isOpen,
       });
     default :
       return state;
