@@ -244,12 +244,12 @@ class App extends Component {
   render() {
     const { categories, posts, pages, comments, modals } = this.props;
     let allCats = categories.categories;
-    let postList = posts.posts;
+    let postList = [];
     if (!allCats) {
       allCats = [];
     }
-    if (!postList) {
-      postList = [];
+    if (posts.posts) {
+      postList = posts.posts;
     }
     return (
       <div>
@@ -266,7 +266,8 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  sortedBy={comments.sortedBy}
+                  posts={postList.filter(post => (post.deleted === false))}
+                  sortedBy={posts.sortBy}
                   comments={comments}
                   updatePage={(page) => {
                     this.updatePage(page);
@@ -453,10 +454,8 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  sortedBy={comments.sortedBy}
-                  getComments={(id) => {
-                    this.getComments(id);
-                  }}
+                  posts={posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))}
+                  sortedBy={posts.sortBy}
                   comments={comments}
                   updatePage={(page) => {
                     this.updatePage(page);

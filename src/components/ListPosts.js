@@ -14,32 +14,19 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, pages, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props
+    const {posts, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props
 
-    let postList = [];
-    if (!pages.current_page) {
-      postList = posts.posts;
-    } else {
-      if (!posts.posts) {
-        postList = posts.posts;
-      } else {
-        if (pages.current_page !== 'home') {
-          postList = posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page));
-        } else {
-          postList = posts.posts.filter(post => (post.deleted === false));
-        }
-      }
-    }
+    let postList = posts;
 
     if (!postList) {
       postList = [];
     }
 
-    if(posts.sortBy === 'score') {
+    if(sortedBy === 'score') {
       postList.sort((a, b) => {
         return b.voteScore - a.voteScore;
       });
-    } else if(posts.sortBy === 'date') {
+    } else if(sortedBy === 'date') {
       postList.sort((a, b) => {
         return b.timestamp - a.timestamp;
       });
@@ -82,14 +69,10 @@ class ListPosts extends Component {
 }
 
 function mapStateToProps(state) {
-  const { categories, posts, comments, pages, modals } = state;
+  const { posts, comments } = state;
 
   return {
-    categories,
-    posts,
     comments,
-    pages,
-    modals,
   };
 }
 
