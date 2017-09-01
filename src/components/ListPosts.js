@@ -54,7 +54,7 @@ class ListPosts extends Component {
               getComments={(id) => {
                 this.getComments(id);
               }}
-              comments={comments}
+              comments={comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id))}
               updatePage={(page) => {
                 updatePage(page);
               }}

@@ -13,7 +13,7 @@ class Post extends Component {
 
   componentDidMount() {
     const { post, getComments, comments } = this.props;
-    if(comments.comments.length < 1) {
+    if(comments.length < 1) {
       getComments(post.id);
     }
   }
@@ -23,12 +23,6 @@ class Post extends Component {
   */
   render() {
     const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
-    let commentList = [];
-    if (!comments) {
-      commentList = [];
-    } else {
-        commentList = comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id));
-    }
 
     return (
       <div className="list-books-content">
@@ -41,7 +35,7 @@ class Post extends Component {
             {post.title}
           </Link>
           <p>
-            {post.body}{post.voteScore}NumComments{commentList.length}
+            {post.body}{post.voteScore}NumComments{comments.length}
           </p>
           <UpDownVote
             post={post}
