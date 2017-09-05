@@ -88,6 +88,7 @@ function modals(state = { newPost: false, editPost: false}, action) {
     case EDIT_POST_MODAL :
       return Object.assign({}, state, {
         editPost: action.isOpen,
+        postId: action.id,
       });
     default :
       return state;

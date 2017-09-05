@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import CreateComment from './CreateComment';
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
+import Modal from 'react-modal'
+import EditPost from './EditPost';
 import { Link, Redirect } from 'react-router-dom';
 /**
 * @description Component for listing the shelves
@@ -22,7 +24,7 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, modals, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
+    const { post, posts, modals, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleOpenCloseModel, handleInputChange, handleSubmitEdit, loadEditPost } = this.props;
 
     return (
       <div className="list-books-content">
@@ -51,6 +53,31 @@ class Post extends Component {
               deletePostOrComment(isPost, id);
             }}
           />
+          <button name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel}>
+            Edit Post%
+          </button>
+          <Modal
+            isOpen={modals.editPost}
+            contentLabel="Modal"
+          >
+            <EditPost
+              posts={posts}
+              post={post}
+              modals={modals}
+              handleInputChange={(event) => {
+                handleInputChange(event);
+              }}
+              handleSubmitEdit={(event) => {
+                handleSubmitEdit(event);
+              }}
+              updatePage={(page) => {
+                updatePage(page);
+              }}
+              loadEditPost={(post) => {
+                loadEditPost(post);
+              }}
+            />
+          </Modal>
         </div>
       </div>
     );

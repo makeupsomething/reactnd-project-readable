@@ -8,15 +8,24 @@ class EditPost extends Component {
   }
 
   componentDidMount() {
-    const { loadEditPost, post } = this.props;
-    loadEditPost(post)
+    const { loadEditPost, post, modals } = this.props;
+    if(modals.postId === post.id) {
+      loadEditPost(post)
+    }
+  }
+
+  componentDidUpdate() {
+    const { post, posts } = this.props;
+    //console.log("update")
+    //console.log(post)
   }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { posts, post, handleInputChange, handleSubmitEdit } = this.props;
+    const { posts, post, handleInputChange, handleSubmitEdit, loadEditPost } = this.props;
+    console.log(posts)
     return (
       <div className="list-books-content">
         <form>
@@ -29,7 +38,7 @@ class EditPost extends Component {
             <textarea name="body" value={posts.wip_body} onChange={handleInputChange} />
           </label>
           <label>
-        Owner:
+            Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
           </label>
           <input type="submit" value="Submit" onClick={handleSubmitEdit} className="icon-btn" />

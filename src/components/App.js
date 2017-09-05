@@ -118,10 +118,14 @@ class App extends Component {
   }
 
   handleSubmitEdit(event) {
-    const { dispatch, posts, pages } = this.props;
-    const id = pages.current_page;
+    const { dispatch, posts, pages, modals } = this.props;
+    const id = modals.postId;
     const title = posts.wip_title;
     const body = posts.wip_body;
+    console.log("editing post")
+    console.log(id)
+    console.log(title)
+    console.log(body)
     dispatch(editPostIfPossible(id, title, body));
     event.preventDefault();
     dispatch(updateCurrentPage('home'));
@@ -237,8 +241,9 @@ class App extends Component {
         dispatch(newPostModal(false));
       }
     } else {
+      console.log("edit post" + event.target.value);
       if(modals.editPost === false) {
-        dispatch(editPostModal(true));
+        dispatch(editPostModal(true, event.target.value));
       } else {
         dispatch(editPostModal(false));
       }
@@ -275,7 +280,7 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  posts={postList.filter(post => (post.deleted === false))}
+                  posts={posts}
                   sortedBy={posts.sortBy}
                   comments={comments}
                   updatePage={(page) => {
@@ -295,6 +300,21 @@ class App extends Component {
                   }}
                   deletePostOrComment={(isPost, id) => {
                     this.deletePostOrComment(isPost, id);
+                  }}
+                  handleInputChange={(event) => {
+                    this.handleInputChange(event);
+                  }}
+                  handleSubmitEdit={(event) => {
+                    this.handleSubmitEdit(event);
+                  }}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                  loadEditPost={(post) => {
+                    this.loadEditPost(post);
+                  }}
+                  handleOpenCloseModel={(event) => {
+                    this.handleOpenCloseModel(event);
                   }}
                 />
                 <Sort
@@ -383,6 +403,18 @@ class App extends Component {
                       deletePostOrComment={(isPost, id) => {
                         this.deletePostOrComment(isPost, id);
                       }}
+                      handleInputChange={(event) => {
+                        this.handleInputChange(event);
+                      }}
+                      handleSubmitEdit={(event) => {
+                        this.handleSubmitEdit(event);
+                      }}
+                      updatePage={(page) => {
+                        this.updatePage(page);
+                      }}
+                      loadEditPost={(post) => {
+                        this.loadEditPost(post);
+                      }}
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
@@ -453,6 +485,18 @@ class App extends Component {
                   deletePostOrComment={(isPost, id) => {
                     this.deletePostOrComment(isPost, id);
                   }}
+                  handleInputChange={(event) => {
+                    this.handleInputChange(event);
+                  }}
+                  handleSubmitEdit={(event) => {
+                    this.handleSubmitEdit(event);
+                  }}
+                  updatePage={(page) => {
+                    this.updatePage(page);
+                  }}
+                  loadEditPost={(post) => {
+                    this.loadEditPost(post);
+                  }}
                 />
                 <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
                   New Post
@@ -474,28 +518,6 @@ class App extends Component {
                     }}
                     handleOpenCloseModel={(event) => {
                       this.handleOpenCloseModel(event);
-                    }}
-                  />
-                </Modal>
-                <Modal
-                  isOpen={modals.EditPost}
-                  contentLabel="Modal"
-                >
-                  <EditPost
-                    posts={posts}
-                    post={posts.posts.find(post => post.id === pages.current_page)}
-                    categories={categories}
-                    handleInputChange={(event) => {
-                      this.handleInputChange(event);
-                    }}
-                    handleSubmitEdit={(event) => {
-                      this.handleSubmitEdit(event);
-                    }}
-                    updatePage={(page) => {
-                      this.updatePage(page);
-                    }}
-                    loadEditPost={(post) => {
-                      this.loadEditPost(post);
                     }}
                   />
                 </Modal>

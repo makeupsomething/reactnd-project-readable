@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Post from './Post';
 import { connect } from 'react-redux';
-import Modal from 'react-modal'
-import EditPost from './EditPost';
 import {
   fetchCommentsIfNeeded,
 } from '../actions';
@@ -16,9 +14,9 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props
+    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleInputChange, handleSubmitEdit, loadEditPost, handleOpenCloseModel } = this.props
 
-    let postList = posts;
+    let postList = posts.posts;
 
     if (!postList) {
       postList = [];
@@ -40,6 +38,7 @@ class ListPosts extends Component {
           <div key={post.id}>
             <Post
               post={post}
+              posts={posts}
               modals={modals}
               getComments={(id) => {
                 this.getComments(id);
@@ -63,31 +62,22 @@ class ListPosts extends Component {
               deletePostOrComment={(isPost, id) => {
                 deletePostOrComment(isPost, id);
               }}
+              handleInputChange={(event) => {
+                handleInputChange(event);
+              }}
+              handleSubmitEdit={(event) => {
+                handleSubmitEdit(event);
+              }}
+              updatePage={(page) => {
+                updatePage(page);
+              }}
+              loadEditPost={(post) => {
+                loadEditPost(post);
+              }}
+              handleOpenCloseModel={(event) => {
+                handleOpenCloseModel(event);
+              }}
             />
-            <button name="edit-post-modal" onClick={this.handleOpenCloseModel}>
-              Edit Post
-            </button>
-            <Modal
-              isOpen={modals.editPost}
-              contentLabel="Modal"
-            >
-              <EditPost
-                posts={postList}
-                post={post}
-                handleInputChange={(event) => {
-                  this.handleInputChange(event);
-                }}
-                handleSubmitEdit={(event) => {
-                  this.handleSubmitEdit(event);
-                }}
-                updatePage={(page) => {
-                  this.updatePage(page);
-                }}
-                loadEditPost={(post) => {
-                  this.loadEditPost(post);
-                }}
-              />
-            </Modal>
           </div>
         ))}
       </div>

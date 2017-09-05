@@ -124,10 +124,11 @@ export function newPostModal(isOpen) {
   };
 }
 
-export function editPostModal(isOpen) {
+export function editPostModal(isOpen, id) {
   return {
     type: EDIT_POST_MODAL,
     isOpen: isOpen,
+    id: id
   };
 }
 
