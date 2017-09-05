@@ -14,7 +14,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleInputChange, handleSubmitEdit, loadEditPost, handleOpenCloseModel } = this.props
+    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleInputChange, loadEditPost, handleOpenCloseModel } = this.props
 
     let postList = posts.posts;
 
@@ -64,9 +64,6 @@ class ListPosts extends Component {
               }}
               handleInputChange={(event) => {
                 handleInputChange(event);
-              }}
-              handleSubmitEdit={(event) => {
-                handleSubmitEdit(event);
               }}
               updatePage={(page) => {
                 updatePage(page);

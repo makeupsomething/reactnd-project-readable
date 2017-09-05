@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  editPostIfPossible,
+  updateCurrentPage,
+  editPostModal,
+} from '../actions';
 /**
 * @description Component for listing the shelves
 */
 class EditPost extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
   }
 
   componentDidMount() {
@@ -14,17 +21,26 @@ class EditPost extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const { post, posts } = this.props;
-    //console.log("update")
-    //console.log(post)
+  handleSubmitEdit(event) {
+    const { dispatch, posts, pages, modals } = this.props;
+    const id = modals.postId;
+    const title = posts.wip_title;
+    const body = posts.wip_body;
+    console.log("editing post")
+    console.log(id)
+    console.log(title)
+    console.log(body)
+    dispatch(editPostIfPossible(id, title, body));
+    event.preventDefault();
+    //dispatch(updateCurrentPage('home'));
+    dispatch(editPostModal(false))
   }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { posts, post, handleInputChange, handleSubmitEdit, loadEditPost } = this.props;
+    const { posts, post, handleInputChange, loadEditPost } = this.props;
     console.log(posts)
     return (
       <div className="list-books-content">
@@ -41,10 +57,22 @@ class EditPost extends Component {
             Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
           </label>
-          <input type="submit" value="Submit" onClick={handleSubmitEdit} className="icon-btn" />
+          <input type="submit" value="Submit" onClick={this.handleSubmitEdit} className="icon-btn" />
         </form>
       </div>
     );
   }
 }
-export default EditPost;
+
+function mapStateToProps(state) {
+  const { posts, pages, comments, modals } = state;
+
+  return {
+    posts,
+    pages,
+    comments,
+    modals,
+  };
+}
+
+export default connect(mapStateToProps)(EditPost);

@@ -117,20 +117,6 @@ class App extends Component {
 
   }
 
-  handleSubmitEdit(event) {
-    const { dispatch, posts, pages, modals } = this.props;
-    const id = modals.postId;
-    const title = posts.wip_title;
-    const body = posts.wip_body;
-    console.log("editing post")
-    console.log(id)
-    console.log(title)
-    console.log(body)
-    dispatch(editPostIfPossible(id, title, body));
-    event.preventDefault();
-    dispatch(updateCurrentPage('home'));
-  }
-
   handleInputChangeComment(event) {
     if (event) {
       const { dispatch, comments } = this.props;
@@ -304,9 +290,6 @@ class App extends Component {
                   handleInputChange={(event) => {
                     this.handleInputChange(event);
                   }}
-                  handleSubmitEdit={(event) => {
-                    this.handleSubmitEdit(event);
-                  }}
                   updatePage={(page) => {
                     this.updatePage(page);
                   }}
@@ -406,9 +389,6 @@ class App extends Component {
                       handleInputChange={(event) => {
                         this.handleInputChange(event);
                       }}
-                      handleSubmitEdit={(event) => {
-                        this.handleSubmitEdit(event);
-                      }}
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
@@ -487,9 +467,6 @@ class App extends Component {
                   }}
                   handleInputChange={(event) => {
                     this.handleInputChange(event);
-                  }}
-                  handleSubmitEdit={(event) => {
-                    this.handleSubmitEdit(event);
                   }}
                   updatePage={(page) => {
                     this.updatePage(page);
