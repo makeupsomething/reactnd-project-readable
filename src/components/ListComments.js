@@ -1,9 +1,10 @@
 import React from 'react';
 import Comment from './Comment';
+import Sort from './Sort';
 /**
 * @description Component for listing the shelves
 */
-export default function ListComments({ post, comments, doUpDownVote, deletePostOrComment, updatePage }) {
+export default function ListComments({ post, comments, doUpDownVote, deletePostOrComment, updatePage, sortPostsOrComments }) {
   let commentList = [];
   if (!comments) {
     commentList = [];
@@ -21,7 +22,6 @@ export default function ListComments({ post, comments, doUpDownVote, deletePostO
     });
   }
 
-
   return (
     <div className="list-books-content">
       {commentList.map(comment => (
@@ -38,6 +38,12 @@ export default function ListComments({ post, comments, doUpDownVote, deletePostO
           }}
         />
       ))}
+      <Sort
+        isPost={false}
+        sortPostsOrComments={(isPost, sortBy) => {
+          sortPostsOrComments(isPost, sortBy);
+        }}
+      />
     </div>
   );
 }

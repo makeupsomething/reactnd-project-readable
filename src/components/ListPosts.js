@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Post from './Post';
+import ListComments from './ListComments';
 import { connect } from 'react-redux';
+import Sort from './Sort';
 import {
   fetchCommentsIfNeeded,
 } from '../actions';
@@ -14,7 +16,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, modals, sortedBy, comments, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel } = this.props
+    const {posts, modals, sortedBy, comments, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments } = this.props
 
     let postList = posts.posts;
 
@@ -65,6 +67,12 @@ class ListPosts extends Component {
             />
           </div>
         ))}
+        <Sort
+          isPost={true}
+          sortPostsOrComments={(isPost, sortBy) => {
+            sortPostsOrComments(isPost, sortBy);
+          }}
+        />
       </div>
     );
   }

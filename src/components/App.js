@@ -11,7 +11,6 @@ import EditPost from './EditPost';
 import CreateComment from './CreateComment';
 import EditComment from './EditComment';
 import ListComments from './ListComments';
-import Sort from './Sort';
 import '../App.css';
 
 import {
@@ -275,9 +274,6 @@ class App extends Component {
                   handleOpenCloseModel={(event) => {
                     this.handleOpenCloseModel(event);
                   }}
-                />
-                <Sort
-                  isPost={true}
                   sortPostsOrComments={(isPost, sortBy) => {
                     this.sortPostsOrComments(isPost, sortBy);
                   }}
@@ -369,9 +365,6 @@ class App extends Component {
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
-                    />
-                    <Sort
-                      isPost={false}
                       sortPostsOrComments={(isPost, sortBy) => {
                         this.sortPostsOrComments(isPost, sortBy);
                       }}
@@ -442,14 +435,11 @@ class App extends Component {
                     handleOpenCloseModel={(event) => {
                       this.handleOpenCloseModel(event);
                     }}
+                    sortPostsOrComments={(isPost, sortBy) => {
+                      this.sortPostsOrComments(isPost, sortBy);
+                    }}
                   />
                 </Modal>
-                <Sort
-                  isPost={true}
-                  sortPostsOrComments={(isPost, sortBy) => {
-                    this.sortPostsOrComments(isPost, sortBy);
-                  }}
-                />
               </div>
             )}
           />
