@@ -14,7 +14,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel } = this.props
+    const {posts, modals, sortedBy, comments, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel } = this.props
 
     let postList = posts.posts;
 
@@ -46,15 +46,6 @@ class ListPosts extends Component {
               comments={comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id))}
               updatePage={(page) => {
                 updatePage(page);
-              }}
-              updateWipCommentParentId={(parentId) => {
-                updateWipCommentParentId(parentId);
-              }}
-              handleSubmitComment={(event) => {
-                handleSubmitComment(event);
-              }}
-              handleInputChangeComment={(parentId) => {
-                handleInputChangeComment(parentId);
               }}
               doUpDownVote={(isPost, vote, id) => {
                 doUpDownVote(isPost, vote, id);

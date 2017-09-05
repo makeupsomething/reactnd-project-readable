@@ -263,15 +263,6 @@ class App extends Component {
                   updatePage={(page) => {
                     this.updatePage(page);
                   }}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
-                  }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
-                  }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
-                  }}
                   doUpDownVote={(isPost, vote, id) => {
                     this.doUpDownVote(isPost, vote, id);
                   }}
@@ -356,15 +347,6 @@ class App extends Component {
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
-                      updateWipCommentParentId={(parentId) => {
-                        this.updateWipCommentParentId(parentId);
-                      }}
-                      handleSubmitComment={(event) => {
-                        this.handleSubmitComment(event);
-                      }}
-                      handleInputChangeComment={(parentId) => {
-                        this.handleInputChangeComment(parentId);
-                      }}
                       doUpDownVote={(isPost, id) => {
                         this.doUpDownVote(isPost, id);
                       }}
@@ -426,15 +408,6 @@ class App extends Component {
                   posts={posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))}
                   sortedBy={posts.sortBy}
                   comments={comments}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
-                  }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
-                  }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
-                  }}
                   doUpDownVote={(isPost, id) => {
                     this.doUpDownVote(isPost, id);
                   }}
