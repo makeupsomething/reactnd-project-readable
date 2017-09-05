@@ -256,9 +256,6 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  posts={posts}
-                  sortedBy={posts.sortBy}
-                  comments={comments}
                   updatePage={(page) => {
                     this.updatePage(page);
                   }}
@@ -337,9 +334,6 @@ class App extends Component {
                 posts.posts.find(post => post.id === pages.current_page && post.deleted === false) ? (
                   <div>
                     <ListPosts
-                      posts={posts.posts.filter(post => (post.deleted === false && post.id === pages.current_page))}
-                      sortedBy={posts.sortBy}
-                      comments={comments}
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
@@ -351,6 +345,9 @@ class App extends Component {
                       }}
                       handleInputChange={(event) => {
                         this.handleInputChange(event);
+                      }}
+                      sortPostsOrComments={(isPost, sortBy) => {
+                        this.sortPostsOrComments(isPost, sortBy);
                       }}
                     />
                     <ListComments
@@ -398,9 +395,6 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  posts={posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))}
-                  sortedBy={posts.sortBy}
-                  comments={comments}
                   doUpDownVote={(isPost, id) => {
                     this.doUpDownVote(isPost, id);
                   }}
@@ -412,6 +406,9 @@ class App extends Component {
                   }}
                   updatePage={(page) => {
                     this.updatePage(page);
+                  }}
+                  sortPostsOrComments={(isPost, sortBy) => {
+                    this.sortPostsOrComments(isPost, sortBy);
                   }}
                 />
                 <button name="new-post-modal" onClick={this.handleOpenCloseModel}>

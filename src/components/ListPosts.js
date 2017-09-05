@@ -16,24 +16,31 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, modals, sortedBy, comments, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments } = this.props
+    const { posts, modals, comments, pages, categories, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments } = this.props
 
-    let postList = posts.posts;
+    let postList = []
 
-    if (!postList) {
-      postList = [];
+    if(posts.posts) {
+      if(pages.current_page == "home") {
+        postList = posts.posts
+      } else if (categories.categories.indexOf(pages.current_page) > -1 ) {
+        postList = posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))
+      }
+      else {
+        postList = posts.posts.filter(post => (post.deleted === false && post.id === pages.current_page))
+      }
     }
 
-    if(sortedBy === 'score') {
+    if(posts.sortBy === 'score') {
       postList.sort((a, b) => {
         return b.voteScore - a.voteScore;
       });
-    } else if(sortedBy === 'date') {
+    } else if(posts.sortBy === 'date') {
       postList.sort((a, b) => {
         return b.timestamp - a.timestamp;
       });
     }
-
+    console.log(postList)
     return (
       <div className="list-books-content">
         {postList.map(post => (
@@ -79,11 +86,14 @@ class ListPosts extends Component {
 }
 
 function mapStateToProps(state) {
-  const { posts, comments, modals } = state;
+  const { posts, comments, modals, pages, categories } = state;
 
   return {
+    posts,
     comments,
     modals,
+    pages,
+    categories
   };
 }
 
