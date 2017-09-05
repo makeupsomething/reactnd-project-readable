@@ -281,9 +281,6 @@ class App extends Component {
                   handleInputChange={(event) => {
                     this.handleInputChange(event);
                   }}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
                   handleOpenCloseModel={(event) => {
                     this.handleOpenCloseModel(event);
                   }}
@@ -377,9 +374,6 @@ class App extends Component {
                       handleInputChange={(event) => {
                         this.handleInputChange(event);
                       }}
-                      updatePage={(page) => {
-                        this.updatePage(page);
-                      }}
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
@@ -432,9 +426,6 @@ class App extends Component {
                   posts={posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))}
                   sortedBy={posts.sortBy}
                   comments={comments}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
                   updateWipCommentParentId={(parentId) => {
                     this.updateWipCommentParentId(parentId);
                   }}

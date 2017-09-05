@@ -32,7 +32,7 @@ class EditPost extends Component {
   }
 
   handleSubmitEdit(event) {
-    const { dispatch, posts, pages, modals } = this.props;
+    const { dispatch, posts, modals } = this.props;
     const id = modals.postId;
     const title = posts.wip_title;
     const body = posts.wip_body;
