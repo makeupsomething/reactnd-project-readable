@@ -14,7 +14,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleInputChange, loadEditPost, handleOpenCloseModel } = this.props
+    const {posts, modals, sortedBy, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel } = this.props
 
     let postList = posts.posts;
 
@@ -67,9 +67,6 @@ class ListPosts extends Component {
               }}
               updatePage={(page) => {
                 updatePage(page);
-              }}
-              loadEditPost={(post) => {
-                loadEditPost(post);
               }}
               handleOpenCloseModel={(event) => {
                 handleOpenCloseModel(event);

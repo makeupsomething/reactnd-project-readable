@@ -4,6 +4,7 @@ import {
   editPostIfPossible,
   updateCurrentPage,
   editPostModal,
+  updateWipPost,
 } from '../actions';
 /**
 * @description Component for listing the shelves
@@ -15,10 +16,19 @@ class EditPost extends Component {
   }
 
   componentDidMount() {
-    const { loadEditPost, post, modals } = this.props;
+    const { post, modals } = this.props;
     if(modals.postId === post.id) {
-      loadEditPost(post)
+      this.loadEditPost(post)
     }
+  }
+
+  loadEditPost(post) {
+    const { dispatch } = this.props;
+    let body = post.body;
+    let title = post.title;
+    let category = post.category;
+    let owner = post.author;
+    dispatch(updateWipPost(title, body, category, owner));
   }
 
   handleSubmitEdit(event) {
@@ -26,13 +36,8 @@ class EditPost extends Component {
     const id = modals.postId;
     const title = posts.wip_title;
     const body = posts.wip_body;
-    console.log("editing post")
-    console.log(id)
-    console.log(title)
-    console.log(body)
     dispatch(editPostIfPossible(id, title, body));
     event.preventDefault();
-    //dispatch(updateCurrentPage('home'));
     dispatch(editPostModal(false))
   }
   /**
@@ -40,7 +45,7 @@ class EditPost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { posts, post, handleInputChange, loadEditPost } = this.props;
+    const { posts, post, handleInputChange } = this.props;
     console.log(posts)
     return (
       <div className="list-books-content">

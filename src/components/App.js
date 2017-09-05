@@ -94,15 +94,6 @@ class App extends Component {
     }
   }
 
-  loadEditPost(post) {
-    const { dispatch } = this.props;
-    let body = post.body;
-    let title = post.title;
-    let category = post.category;
-    let owner = post.author;
-    dispatch(updateWipPost(title, body, category, owner));
-  }
-
   handleSubmit(event) {
     const { dispatch, posts } = this.props;
     const id = Math.random().toString(36).substr(-8);
@@ -293,9 +284,6 @@ class App extends Component {
                   updatePage={(page) => {
                     this.updatePage(page);
                   }}
-                  loadEditPost={(post) => {
-                    this.loadEditPost(post);
-                  }}
                   handleOpenCloseModel={(event) => {
                     this.handleOpenCloseModel(event);
                   }}
@@ -392,9 +380,6 @@ class App extends Component {
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
-                      loadEditPost={(post) => {
-                        this.loadEditPost(post);
-                      }}
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
@@ -470,9 +455,6 @@ class App extends Component {
                   }}
                   updatePage={(page) => {
                     this.updatePage(page);
-                  }}
-                  loadEditPost={(post) => {
-                    this.loadEditPost(post);
                   }}
                 />
                 <button name="new-post-modal" onClick={this.handleOpenCloseModel}>

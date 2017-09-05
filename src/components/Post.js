@@ -24,7 +24,7 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, posts, modals, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleOpenCloseModel, handleInputChange, loadEditPost } = this.props;
+    const { post, posts, modals, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment, handleOpenCloseModel, handleInputChange } = this.props;
 
     return (
       <div className="list-books-content">
@@ -69,9 +69,6 @@ class Post extends Component {
               }}
               updatePage={(page) => {
                 updatePage(page);
-              }}
-              loadEditPost={(post) => {
-                loadEditPost(post);
               }}
             />
           </Modal>
