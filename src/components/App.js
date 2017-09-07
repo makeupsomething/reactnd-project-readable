@@ -79,32 +79,6 @@ class App extends Component {
     }
   }
 
-  handleInputChangeComment(event) {
-    if (event) {
-      const { dispatch, comments } = this.props;
-      const target = event.target;
-      let body = '';
-      let owner = '';
-      let parentId = '';
-      if (target.name === 'body') {
-        body = target.value;
-        owner = comments.wip_owner;
-        parentId = comments.wip_parentId;
-        dispatch(updateWipComment(body, owner, parentId));
-      } else if (target.name === 'owner') {
-        body = comments.wip_body;
-        owner = target.value;
-        parentId = comments.wip_parentId;
-        dispatch(updateWipComment(body, owner, parentId));
-      } else if (target.name === 'parentId') {
-        body = comments.wip_body;
-        owner = comments.wip_owner;
-        parentId = target.value;
-        dispatch(updateWipComment(body, owner, parentId));
-      }
-    }
-  }
-
   updatePage(page) {
     const { dispatch } = this.props;
     dispatch(updateCurrentPage(page));
@@ -187,9 +161,6 @@ class App extends Component {
                   handleOpenCloseModel={(event) => {
                     this.handleOpenCloseModel(event);
                   }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
-                  }}
                 />
               </div>
             )}
@@ -206,9 +177,6 @@ class App extends Component {
                       }}
                       handleInputChange={(event) => {
                         this.handleInputChange(event);
-                      }}
-                      handleInputChangeComment={(parentId) => {
-                        this.handleInputChangeComment(parentId);
                       }}
                       handleOpenCloseModel={(event) => {
                         this.handleOpenCloseModel(event);
@@ -229,9 +197,6 @@ class App extends Component {
                   }}
                   updatePage={(page) => {
                     this.updatePage(page);
-                  }}
-                  handleInputChangeComment={(parentId) => {
-                    this.handleInputChangeComment(parentId);
                   }}
                   handleOpenCloseModel={(event) => {
                     this.handleOpenCloseModel(event);

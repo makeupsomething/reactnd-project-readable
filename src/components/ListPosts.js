@@ -6,10 +6,44 @@ import Post from './Post';
 import CreateComment from './CreateComment';
 import Sort from './Sort';
 
+import {
+  updateWipComment,
+} from '../actions';
+
 /**
 * @description Component for listing the shelves
 */
 class ListPosts extends Component {
+  constructor(props) {
+    super(props);
+    this.handleInputChangeComment = this.handleInputChangeComment.bind(this);
+  }
+
+  handleInputChangeComment(event) {
+    if (event) {
+      const { dispatch, comments } = this.props;
+      const target = event.target;
+      let body = '';
+      let owner = '';
+      let parentId = '';
+      if (target.name === 'body') {
+        body = target.value;
+        owner = comments.wip_owner;
+        parentId = comments.wip_parentId;
+        dispatch(updateWipComment(body, owner, parentId));
+      } else if (target.name === 'owner') {
+        body = comments.wip_body;
+        owner = target.value;
+        parentId = comments.wip_parentId;
+        dispatch(updateWipComment(body, owner, parentId));
+      } else if (target.name === 'parentId') {
+        body = comments.wip_body;
+        owner = comments.wip_owner;
+        parentId = target.value;
+        dispatch(updateWipComment(body, owner, parentId));
+      }
+    }
+  }
 
   render() {
     const {
@@ -21,7 +55,6 @@ class ListPosts extends Component {
       updatePage,
       handleInputChange,
       handleOpenCloseModel,
-      handleInputChangeComment,
     } = this.props;
 
     let postList = [];
@@ -62,7 +95,7 @@ class ListPosts extends Component {
                 handleOpenCloseModel(event);
               }}
               handleInputChangeComment={(parentId) => {
-                handleInputChangeComment(parentId);
+                this.handleInputChangeComment(parentId);
               }}
             />
             <button name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel}>
@@ -75,7 +108,7 @@ class ListPosts extends Component {
               <CreateComment
                 parent={modals.parentId}
                 handleInputChangeComment={(parentId) => {
-                  handleInputChangeComment(parentId);
+                  this.handleInputChangeComment(parentId);
                 }}
               />
             </Modal>
