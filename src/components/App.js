@@ -34,7 +34,6 @@ import {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOpenCloseModel = this.handleOpenCloseModel.bind(this);
   }
@@ -87,19 +86,6 @@ class App extends Component {
         dispatch(updateWipPost(title, body, category, owner));
       }
     }
-  }
-
-  handleSubmit(event) {
-    const { dispatch, posts } = this.props;
-    const id = Math.random().toString(36).substr(-8);
-    const timestamp = Date.now();
-    const title = posts.wip_title;
-    const body = posts.wip_body;
-    const owner = posts.wip_owner;
-    const category = posts.wip_category;
-    dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
-    event.preventDefault();
-    dispatch(newPostModal(false));
   }
 
   handleInputChangeComment(event) {
@@ -281,11 +267,11 @@ class App extends Component {
                     handleInputChange={(event) => {
                       this.handleInputChange(event);
                     }}
-                    handleSubmit={(event) => {
-                      this.handleSubmit(event);
-                    }}
                     handleOpenCloseModel={(event) => {
                       this.handleOpenCloseModel(event);
+                    }}
+                    sortPostsOrComments={(isPost, sortBy) => {
+                      this.sortPostsOrComments(isPost, sortBy);
                     }}
                   />
                 </Modal>
@@ -406,9 +392,6 @@ class App extends Component {
                     categories={categories}
                     handleInputChange={(event) => {
                       this.handleInputChange(event);
-                    }}
-                    handleSubmit={(event) => {
-                      this.handleSubmit(event);
                     }}
                     handleOpenCloseModel={(event) => {
                       this.handleOpenCloseModel(event);

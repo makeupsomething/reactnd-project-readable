@@ -37,11 +37,6 @@ class EditComment extends Component {
     const { dispatch, comments } = this.props;
     dispatch(editCommentModal(false));
   }
-
-  componentDidUpdate() {
-    console.log("update edit coment")
-  }
-
   /**
   * @description The render function
   * @returns { object } The UI
