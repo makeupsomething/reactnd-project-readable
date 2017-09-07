@@ -16,7 +16,7 @@ class Comment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { comment, comments, categories, modals, deletePostOrComment, updatePage, handleInputChangeComment, handleOpenCloseModel } = this.props;
+    const { comment, comments, categories, modals, updatePage, handleInputChangeComment, handleOpenCloseModel } = this.props;
     return (
       <div className="list-books-content">
         <div>
@@ -30,9 +30,6 @@ class Comment extends Component {
           <DeleteButton
             post={comment}
             isPost={false}
-            deletePostOrComment={(isPost, id) => {
-              deletePostOrComment(isPost, id);
-            }}
           />
           <button name="edit-comment-modal" value={comment.id} onClick={handleOpenCloseModel}>
             Edit Comment%

@@ -18,13 +18,13 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, modals, comments, pages, categories, updatePage, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment } = this.props
+    const { posts, modals, comments, pages, categories, updatePage, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment } = this.props
 
     let postList = []
 
     if(posts.posts) {
       if(pages.current_page == "home") {
-        postList = posts.posts
+        postList = posts.posts.filter(post => (post.deleted === false))
       } else if (categories.categories.indexOf(pages.current_page) > -1 ) {
         postList = posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))
       }
@@ -57,9 +57,6 @@ class ListPosts extends Component {
               comments={comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id))}
               updatePage={(page) => {
                 updatePage(page);
-              }}
-              deletePostOrComment={(isPost, id) => {
-                deletePostOrComment(isPost, id);
               }}
               handleInputChange={(event) => {
                 handleInputChange(event);

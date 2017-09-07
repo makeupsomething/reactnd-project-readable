@@ -24,7 +24,7 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, posts, modals, comments, updatePage, deletePostOrComment, handleOpenCloseModel, handleInputChange } = this.props;
+    const { post, posts, modals, comments, updatePage, handleOpenCloseModel, handleInputChange } = this.props;
 
     return (
       <div className="list-books-content">
@@ -46,9 +46,6 @@ class Post extends Component {
           <DeleteButton
             post={post}
             isPost={true}
-            deletePostOrComment={(isPost, id) => {
-              deletePostOrComment(isPost, id);
-            }}
           />
           <button name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel}>
             Edit Post%

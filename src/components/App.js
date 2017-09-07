@@ -115,18 +115,6 @@ class App extends Component {
     dispatch(updateCurrentPage(page));
   }
 
-  deletePostOrComment(isPost, id) {
-    const { dispatch, pages, categories } = this.props;
-    if (isPost) {
-      dispatch(deletePostIfPossible(id));
-      if (pages.current_page !== 'home' && !categories.categories.find(cat => cat === pages.current_page)) {
-        dispatch(updateCurrentPage('home'));
-      }
-    } else {
-      dispatch(deleteCommentIfPossible(id));
-    }
-  }
-
   sortPostsOrComments(isPost, sortBy) {
     const { dispatch } = this.props;
     if (isPost) {
@@ -216,9 +204,6 @@ class App extends Component {
                   updatePage={(page) => {
                     this.updatePage(page);
                   }}
-                  deletePostOrComment={(isPost, id) => {
-                    this.deletePostOrComment(isPost, id);
-                  }}
                   handleInputChange={(event) => {
                     this.handleInputChange(event);
                   }}
@@ -245,9 +230,6 @@ class App extends Component {
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
-                      deletePostOrComment={(isPost, id) => {
-                        this.deletePostOrComment(isPost, id);
-                      }}
                       handleInputChange={(event) => {
                         this.handleInputChange(event);
                       }}
@@ -263,9 +245,6 @@ class App extends Component {
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
-                      deletePostOrComment={(isPost, id) => {
-                        this.deletePostOrComment(isPost, id);
-                      }}
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
@@ -295,9 +274,6 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  deletePostOrComment={(isPost, id) => {
-                    this.deletePostOrComment(isPost, id);
-                  }}
                   handleInputChange={(event) => {
                     this.handleInputChange(event);
                   }}
