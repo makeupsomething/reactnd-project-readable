@@ -115,15 +115,6 @@ class App extends Component {
     dispatch(updateCurrentPage(page));
   }
 
-  sortPostsOrComments(isPost, sortBy) {
-    const { dispatch } = this.props;
-    if (isPost) {
-      dispatch(sortPosts(sortBy));
-    } else {
-      dispatch(sortComments(sortBy));
-    }
-  }
-
   handleOpenCloseModel(event) {
     const { dispatch, modals } = this.props;
     if (event.target.name === 'new-post-modal') {
@@ -154,11 +145,6 @@ class App extends Component {
     }
   }
 
-  getComments(id) {
-    const { dispatch } = this.props;
-    dispatch(fetchCommentsIfNeeded(id));
-  }
-
   render() {
     const { categories, posts, pages, comments, modals } = this.props;
     let allCats = categories.categories;
@@ -182,9 +168,6 @@ class App extends Component {
           }}
           handleOpenCloseModel={(event) => {
             this.handleOpenCloseModel(event);
-          }}
-          sortPostsOrComments={(isPost, sortBy) => {
-            this.sortPostsOrComments(isPost, sortBy);
           }}
         />
       </Modal>
@@ -210,9 +193,6 @@ class App extends Component {
                   handleOpenCloseModel={(event) => {
                     this.handleOpenCloseModel(event);
                   }}
-                  sortPostsOrComments={(isPost, sortBy) => {
-                    this.sortPostsOrComments(isPost, sortBy);
-                  }}
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);
                   }}
@@ -233,9 +213,6 @@ class App extends Component {
                       handleInputChange={(event) => {
                         this.handleInputChange(event);
                       }}
-                      sortPostsOrComments={(isPost, sortBy) => {
-                        this.sortPostsOrComments(isPost, sortBy);
-                      }}
                       handleInputChangeComment={(parentId) => {
                         this.handleInputChangeComment(parentId);
                       }}
@@ -247,9 +224,6 @@ class App extends Component {
                       post={posts.posts.find(post => post.id === pages.current_page)}
                       updatePage={(page) => {
                         this.updatePage(page);
-                      }}
-                      sortPostsOrComments={(isPost, sortBy) => {
-                        this.sortPostsOrComments(isPost, sortBy);
                       }}
                       handleInputChangeComment={(event) => {
                         this.handleInputChangeComment(event);
@@ -279,9 +253,6 @@ class App extends Component {
                   }}
                   updatePage={(page) => {
                     this.updatePage(page);
-                  }}
-                  sortPostsOrComments={(isPost, sortBy) => {
-                    this.sortPostsOrComments(isPost, sortBy);
                   }}
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);

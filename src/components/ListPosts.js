@@ -18,7 +18,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, modals, comments, pages, categories, updatePage, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment } = this.props
+    const { posts, modals, comments, pages, categories, updatePage, handleInputChange, handleOpenCloseModel, handleInputChangeComment } = this.props
 
     let postList = []
 
@@ -86,9 +86,6 @@ class ListPosts extends Component {
         ))}
         <Sort
           isPost={true}
-          sortPostsOrComments={(isPost, sortBy) => {
-            sortPostsOrComments(isPost, sortBy);
-          }}
         />
       </div>
     );

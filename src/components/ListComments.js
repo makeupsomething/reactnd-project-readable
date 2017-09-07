@@ -7,7 +7,7 @@ import Sort from './Sort';
 */
 class ListComments extends Component {
   render() {
-    const { post, comments, modals, updatePage, sortPostsOrComments, handleInputChangeComment, handleOpenCloseModel  }  = this.props
+    const { post, comments, modals, updatePage, handleInputChangeComment, handleOpenCloseModel  }  = this.props
     let commentList = [];
     if (!comments) {
       commentList = [];
@@ -45,9 +45,6 @@ class ListComments extends Component {
         ))}
         <Sort
           isPost={false}
-          sortPostsOrComments={(isPost, sortBy) => {
-            sortPostsOrComments(isPost, sortBy);
-          }}
         />
       </div>
     );
