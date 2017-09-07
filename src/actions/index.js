@@ -25,6 +25,8 @@ export const SORT_POSTS = 'SORT_POSTS';
 export const SORT_COMMENTS = 'SORT_COMMENTS';
 export const NEW_POST_MODAL = 'NEW_POST_MODAL'
 export const EDIT_POST_MODAL = 'EDIT_POST_MODAL'
+export const NEW_COMMENT_MODAL = 'NEW_COMMENT_MODAL'
+export const EDIT_COMMENT_MODAL = 'EDIT_COMMENT_MODAL'
 const api = 'http://localhost:5001';
 
 
@@ -127,6 +129,22 @@ export function newPostModal(isOpen) {
 export function editPostModal(isOpen, id) {
   return {
     type: EDIT_POST_MODAL,
+    isOpen: isOpen,
+    id: id
+  };
+}
+
+export function newCommentModal(isOpen, parentId) {
+  return {
+    type: NEW_COMMENT_MODAL,
+    isOpen: isOpen,
+    parentId: parentId,
+  };
+}
+
+export function editCommentModal(isOpen, id) {
+  return {
+    type: EDIT_COMMENT_MODAL,
     isOpen: isOpen,
     id: id
   };

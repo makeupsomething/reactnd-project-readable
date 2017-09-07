@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Post from './Post';
 import ListComments from './ListComments';
+import CreateComment from './CreateComment';
 import { connect } from 'react-redux';
+import Modal from 'react-modal'
 import Sort from './Sort';
 import {
   fetchCommentsIfNeeded,
@@ -16,7 +18,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, modals, comments, pages, categories, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments } = this.props
+    const { posts, modals, comments, pages, categories, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment, handleSubmitComment, updateWipCommentParentId } = this.props
 
     let postList = []
 
@@ -72,6 +74,26 @@ class ListPosts extends Component {
                 handleOpenCloseModel(event);
               }}
             />
+            <button name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel}>
+              Add Comment%
+            </button>
+            <Modal
+              isOpen={modals.newComment}
+              contentLabel="Modal"
+            >
+              <CreateComment
+                parent={modals.parentId}
+                updateWipCommentParentId={(parentId) => {
+                  updateWipCommentParentId(parentId);
+                }}
+                handleSubmitComment={(event) => {
+                  handleSubmitComment(event);
+                }}
+                handleInputChangeComment={(parentId) => {
+                  handleInputChangeComment(parentId);
+                }}
+              />
+            </Modal>
           </div>
         ))}
         <Sort

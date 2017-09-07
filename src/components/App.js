@@ -33,6 +33,8 @@ import {
   sortComments,
   newPostModal,
   editPostModal,
+  newCommentModal,
+  editCommentModal,
 } from '../actions';
 
 class App extends Component {
@@ -142,6 +144,7 @@ class App extends Component {
     const parentId = comments.wip_parentId;
     dispatch(addCommentIfPossible(id, timestamp, body, owner, parentId));
     event.preventDefault();
+    dispatch(newCommentModal(false));
   }
 
   loadEditComment(comment) {
@@ -216,12 +219,17 @@ class App extends Component {
       } else {
         dispatch(newPostModal(false));
       }
-    } else {
-      console.log("edit post" + event.target.value);
+    } else if(event.target.name === 'edit-post-modal') {
       if(modals.editPost === false) {
         dispatch(editPostModal(true, event.target.value));
       } else {
         dispatch(editPostModal(false));
+      }
+    } else if(event.target.name === 'add-comment-modal') {
+      if(modals.editPost === false) {
+        dispatch(newCommentModal(true, event.target.value));
+      } else {
+        dispatch(newCommentModal(false, event.target.value));
       }
     }
   }
@@ -273,6 +281,15 @@ class App extends Component {
                   }}
                   sortPostsOrComments={(isPost, sortBy) => {
                     this.sortPostsOrComments(isPost, sortBy);
+                  }}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
                   }}
                 />
                 <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
@@ -349,6 +366,18 @@ class App extends Component {
                       sortPostsOrComments={(isPost, sortBy) => {
                         this.sortPostsOrComments(isPost, sortBy);
                       }}
+                      updateWipCommentParentId={(parentId) => {
+                        this.updateWipCommentParentId(parentId);
+                      }}
+                      handleSubmitComment={(event) => {
+                        this.handleSubmitComment(event);
+                      }}
+                      handleInputChangeComment={(parentId) => {
+                        this.handleInputChangeComment(parentId);
+                      }}
+                      handleOpenCloseModel={(event) => {
+                        this.handleOpenCloseModel(event);
+                      }}
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
@@ -364,18 +393,6 @@ class App extends Component {
                       }}
                       sortPostsOrComments={(isPost, sortBy) => {
                         this.sortPostsOrComments(isPost, sortBy);
-                      }}
-                    />
-                    <CreateComment
-                      parent={posts.posts.find(post => post.id === pages.current_page)}
-                      updateWipCommentParentId={(parentId) => {
-                        this.updateWipCommentParentId(parentId);
-                      }}
-                      handleSubmitComment={(event) => {
-                        this.handleSubmitComment(event);
-                      }}
-                      handleInputChangeComment={(parentId) => {
-                        this.handleInputChangeComment(parentId);
                       }}
                     />
                   </div>) : (
@@ -410,12 +427,21 @@ class App extends Component {
                   sortPostsOrComments={(isPost, sortBy) => {
                     this.sortPostsOrComments(isPost, sortBy);
                   }}
+                  updateWipCommentParentId={(parentId) => {
+                    this.updateWipCommentParentId(parentId);
+                  }}
+                  handleSubmitComment={(event) => {
+                    this.handleSubmitComment(event);
+                  }}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                  handleOpenCloseModel={(event) => {
+                    this.handleOpenCloseModel(event);
+                  }}
                 />
                 <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
                   New Post
-                </button>
-                <button name="edit-post-modal" onClick={this.handleOpenCloseModel}>
-                  Edit Post
                 </button>
                 <Modal
                   isOpen={modals.newPost}

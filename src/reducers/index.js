@@ -20,6 +20,8 @@ import {
   SORT_COMMENTS,
   NEW_POST_MODAL,
   EDIT_POST_MODAL,
+  NEW_COMMENT_MODAL,
+  EDIT_COMMENT_MODAL,
 } from '../actions';
 
 function categories(state = { }, action) {
@@ -79,7 +81,7 @@ function pages(state = { }, action) {
   }
 }
 
-function modals(state = { newPost: false, editPost: false}, action) {
+function modals(state = { newPost: false, editPost: false, newComment: false, editComment: false}, action) {
   switch (action.type) {
     case NEW_POST_MODAL :
       return Object.assign({}, state, {
@@ -90,6 +92,16 @@ function modals(state = { newPost: false, editPost: false}, action) {
         editPost: action.isOpen,
         postId: action.id,
       });
+      case NEW_COMMENT_MODAL :
+        return Object.assign({}, state, {
+          newComment: action.isOpen,
+          parentId: action.parentId,
+        });
+      case EDIT_COMMENT_MODAL :
+        return Object.assign({}, state, {
+          editComment: action.isOpen,
+          commentId: action.id,
+        });
     default :
       return state;
   }
