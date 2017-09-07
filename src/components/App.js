@@ -113,11 +113,6 @@ class App extends Component {
     }
   }
 
-  updateWipCommentParentId(parentId) {
-    const { dispatch, comments } = this.props;
-    dispatch(updateWipComment(comments.wip_body, comments.wip_owner, parentId));
-  }
-
   updatePage(page) {
     const { dispatch } = this.props;
     dispatch(updateCurrentPage(page));
@@ -248,9 +243,6 @@ class App extends Component {
                   sortPostsOrComments={(isPost, sortBy) => {
                     this.sortPostsOrComments(isPost, sortBy);
                   }}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
-                  }}
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);
                   }}
@@ -279,9 +271,6 @@ class App extends Component {
                       }}
                       sortPostsOrComments={(isPost, sortBy) => {
                         this.sortPostsOrComments(isPost, sortBy);
-                      }}
-                      updateWipCommentParentId={(parentId) => {
-                        this.updateWipCommentParentId(parentId);
                       }}
                       handleInputChangeComment={(parentId) => {
                         this.handleInputChangeComment(parentId);
@@ -341,9 +330,6 @@ class App extends Component {
                   }}
                   sortPostsOrComments={(isPost, sortBy) => {
                     this.sortPostsOrComments(isPost, sortBy);
-                  }}
-                  updateWipCommentParentId={(parentId) => {
-                    this.updateWipCommentParentId(parentId);
                   }}
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);

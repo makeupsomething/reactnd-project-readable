@@ -11,11 +11,17 @@ class CreateComment extends Component {
   constructor(props) {
     super(props);
     this.handleSubmitComment = this.handleSubmitComment.bind(this);
+    this.updateWipCommentParentId = this.updateWipCommentParentId.bind(this);
   }
 
   componentDidMount() {
-    const { parent, updateWipCommentParentId } = this.props;
-    updateWipCommentParentId(parent)
+    const { parent } = this.props;
+    this.updateWipCommentParentId(parent)
+  }
+
+  updateWipCommentParentId(parentId) {
+    const { dispatch, comments } = this.props;
+    dispatch(updateWipComment(comments.wip_body, comments.wip_owner, parentId));
   }
 
   handleSubmitComment(event) {

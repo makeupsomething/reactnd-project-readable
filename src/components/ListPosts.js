@@ -18,7 +18,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, modals, comments, pages, categories, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment, updateWipCommentParentId } = this.props
+    const { posts, modals, comments, pages, categories, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment } = this.props
 
     let postList = []
 
@@ -83,9 +83,6 @@ class ListPosts extends Component {
             >
               <CreateComment
                 parent={modals.parentId}
-                updateWipCommentParentId={(parentId) => {
-                  updateWipCommentParentId(parentId);
-                }}
                 handleInputChangeComment={(parentId) => {
                   handleInputChangeComment(parentId);
                 }}
