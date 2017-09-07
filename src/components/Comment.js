@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
 import EditComment from './EditComment';
-import Modal from 'react-modal';
 /**
 * @description Component for listing the shelves
 */
 class Comment extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { comment, comments, categories, modals, updatePage, handleInputChangeComment, handleOpenCloseModel } = this.props;
+    const {
+      comment,
+      modals,
+      updatePage,
+      handleInputChangeComment,
+      handleOpenCloseModel,
+    } = this.props;
+
     return (
       <div className="list-books-content">
         <div>

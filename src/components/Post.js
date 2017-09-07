@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import CreateComment from './CreateComment';
+import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
+
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
-import Modal from 'react-modal'
 import EditPost from './EditPost';
-import { Link, Redirect } from 'react-router-dom';
 /**
 * @description Component for listing the shelves
 */
 class Post extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { post, getComments, comments } = this.props;
-    if(comments.length < 1) {
+    if (comments.length < 1) {
       getComments(post.id);
     }
   }
@@ -24,7 +20,15 @@ class Post extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, posts, modals, comments, updatePage, handleOpenCloseModel, handleInputChange } = this.props;
+    const {
+      post,
+      posts,
+      modals,
+      comments,
+      updatePage,
+      handleOpenCloseModel,
+      handleInputChange,
+    } = this.props;
 
     return (
       <div className="list-books-content">
@@ -33,7 +37,8 @@ class Post extends Component {
             to={`/${post.category}/${post.id}`}
             className={post.id}
             value={post.id}
-            onClick={() => {updatePage(post.id)}}>
+            onClick={() => { updatePage(post.id); }}
+          >
             {post.title}
           </Link>
           <p>
@@ -41,11 +46,11 @@ class Post extends Component {
           </p>
           <UpDownVote
             post={post}
-            isPost={true}
+            isPost
           />
           <DeleteButton
             post={post}
-            isPost={true}
+            isPost
           />
           <button name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel}>
             Edit Post%

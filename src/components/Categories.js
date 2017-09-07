@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 * @description Component for listing the shelves
 */
 export default function Categories({ categories, updatePage }) {
-
   let allCats = categories.categories;
 
   if (!allCats) {
@@ -16,10 +15,11 @@ export default function Categories({ categories, updatePage }) {
     <div className="list-categories">
       <div>
         <Link
-          to={`/`}
+          to={'/'}
           className="home"
           value="home"
-          onClick={() => {updatePage("home")}}>
+          onClick={() => { updatePage('home'); }}
+        >
           Top
         </Link>
       </div>
@@ -29,10 +29,11 @@ export default function Categories({ categories, updatePage }) {
             to={`/${item}`}
             className={item}
             value={item}
-            onClick={() => {updatePage(item)}}>
+            onClick={() => { updatePage(item); }}
+          >
             {item}
           </Link>
-      </div>))}
+        </div>))}
     </div>
   );
 }

@@ -17,8 +17,8 @@ class EditComment extends Component {
 
   componentDidMount() {
     const { comment, modals } = this.props;
-    if(modals.commentId === comment.id) {
-      this.loadEditComment(comment)
+    if (modals.commentId === comment.id) {
+      this.loadEditComment(comment);
     }
   }
 
@@ -28,9 +28,7 @@ class EditComment extends Component {
   }
 
   handleSubmitEditComment(event) {
-    console.log("##########")
     const { dispatch, comments } = this.props;
-    console.log(comments)
     const id = comments.wip_parentId;
     const timestamp = Date.now();
     const body = comments.wip_body;
@@ -48,7 +46,7 @@ class EditComment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { comments, comment, handleInputChangeComment } = this.props;
+    const { comments, handleInputChangeComment } = this.props;
 
     return (
       <div className="list-books-content">

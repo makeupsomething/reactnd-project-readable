@@ -27,7 +27,7 @@ class EditPost extends Component {
     let body = post.body;
     let title = post.title;
     let category = post.category;
-    let owner = post.author;
+    const owner = post.author;
     dispatch(updateWipPost(title, body, category, owner));
   }
 
@@ -38,15 +38,14 @@ class EditPost extends Component {
     const body = posts.wip_body;
     dispatch(editPostIfPossible(id, title, body));
     event.preventDefault();
-    dispatch(editPostModal(false))
+    dispatch(editPostModal(false));
   }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { posts, post, handleInputChange } = this.props;
-    console.log(posts)
+    const { posts, handleInputChange } = this.props;
     return (
       <div className="list-books-content">
         <form>

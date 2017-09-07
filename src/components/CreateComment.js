@@ -17,7 +17,7 @@ class CreateComment extends Component {
 
   componentDidMount() {
     const { parent } = this.props;
-    this.updateWipCommentParentId(parent)
+    this.updateWipCommentParentId(parent);
   }
 
   updateWipCommentParentId(parentId) {

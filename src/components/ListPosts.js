@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Post from './Post';
-import ListComments from './ListComments';
-import CreateComment from './CreateComment';
 import { connect } from 'react-redux';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+
+import Post from './Post';
+import CreateComment from './CreateComment';
 import Sort from './Sort';
+
 import {
   fetchCommentsIfNeeded,
 } from '../actions';
@@ -18,31 +19,40 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, modals, comments, pages, categories, updatePage, handleInputChange, handleOpenCloseModel, handleInputChangeComment } = this.props
+    const {
+      posts,
+      modals,
+      comments,
+      pages,
+      categories,
+      updatePage,
+      handleInputChange,
+      handleOpenCloseModel,
+      handleInputChangeComment,
+    } = this.props;
 
-    let postList = []
+    let postList = [];
 
-    if(posts.posts) {
-      if(pages.current_page == "home") {
-        postList = posts.posts.filter(post => (post.deleted === false))
-      } else if (categories.categories.indexOf(pages.current_page) > -1 ) {
-        postList = posts.posts.filter(post => (post.deleted === false && post.category === pages.current_page))
-      }
-      else {
-        postList = posts.posts.filter(post => (post.deleted === false && post.id === pages.current_page))
+    if (posts.posts) {
+      if (pages.current_page === 'home') {
+        postList = posts.posts.filter(post => (post.deleted === false));
+      } else if (categories.categories.indexOf(pages.current_page) > -1) {
+        postList = posts.posts.filter(post => (!post.deleted && post.category === pages.current_page));
+      } else {
+        postList = posts.posts.filter(post => (post.deleted === false && post.id === pages.current_page));
       }
     }
 
-    if(posts.sortBy === 'score') {
+    if (posts.sortBy === 'score') {
       postList.sort((a, b) => {
         return b.voteScore - a.voteScore;
       });
-    } else if(posts.sortBy === 'date') {
+    } else if (posts.sortBy === 'date') {
       postList.sort((a, b) => {
         return b.timestamp - a.timestamp;
       });
     }
-    console.log(postList)
+
     return (
       <div className="list-books-content">
         {postList.map(post => (
@@ -54,15 +64,12 @@ class ListPosts extends Component {
               getComments={(id) => {
                 this.getComments(id);
               }}
-              comments={comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id))}
+              comments={comments.comments.filter(comment => (!comment.deleted && comment.parentId === post.id))}
               updatePage={(page) => {
                 updatePage(page);
               }}
               handleInputChange={(event) => {
                 handleInputChange(event);
-              }}
-              updatePage={(page) => {
-                updatePage(page);
               }}
               handleOpenCloseModel={(event) => {
                 handleOpenCloseModel(event);
@@ -85,7 +92,7 @@ class ListPosts extends Component {
           </div>
         ))}
         <Sort
-          isPost={true}
+          isPost
         />
       </div>
     );
@@ -100,7 +107,7 @@ function mapStateToProps(state) {
     comments,
     modals,
     pages,
-    categories
+    categories,
   };
 }
 

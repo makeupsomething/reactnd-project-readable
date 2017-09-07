@@ -16,8 +16,8 @@ class UpDownVote extends Component {
 
   handleClick(event) {
     const { post, isPost } = this.props;
-    let id = post.id;
-    this.doUpDownVote(isPost, event.target.name, id)
+    const id = post.id;
+    this.doUpDownVote(isPost, event.target.name, id);
   }
 
   doUpDownVote(isPost, vote, id) {
@@ -35,12 +35,12 @@ class UpDownVote extends Component {
   render() {
     return (
       <div className="up-down-vote-group">
-      <button name="upVote" onClick={this.handleClick}>
-        Up
-      </button>
-      <button name="downVote" onClick={this.handleClick}>
-        Down
-      </button>
+        <button name="upVote" onClick={this.handleClick}>
+          Up
+        </button>
+        <button name="downVote" onClick={this.handleClick}>
+          Down
+        </button>
       </div>
     );
   }

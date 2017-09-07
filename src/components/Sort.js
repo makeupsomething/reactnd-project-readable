@@ -6,7 +6,7 @@ import {
   sortComments,
 } from '../actions';
 
-class Sort extends React.Component {
+class Sort extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -14,8 +14,8 @@ class Sort extends React.Component {
   }
 
   handleChange(event) {
-    const {isPost} = this.props;
-    this.sortPostsOrComments(isPost, event.target.value)
+    const { isPost } = this.props;
+    this.sortPostsOrComments(isPost, event.target.value);
   }
 
   sortPostsOrComments(isPost, sortBy) {

@@ -7,19 +7,27 @@ import Sort from './Sort';
 */
 class ListComments extends Component {
   render() {
-    const { post, comments, modals, updatePage, handleInputChangeComment, handleOpenCloseModel  }  = this.props
+    const {
+      post,
+      comments,
+      modals,
+      updatePage,
+      handleInputChangeComment,
+      handleOpenCloseModel,
+    } = this.props;
+
     let commentList = [];
     if (!comments) {
       commentList = [];
     } else {
-        commentList = comments.comments.filter(comment => comment.deleted === false && comment.parentId === post.id);
+      commentList = comments.comments.filter(c => !c.deleted && c.parentId === post.id);
     }
 
-    if(comments.sortBy === 'score') {
+    if (comments.sortBy === 'score') {
       commentList.sort((a, b) => {
         return b.voteScore - a.voteScore;
       });
-    } else if(comments.sortBy === 'date') {
+    } else if (comments.sortBy === 'date') {
       commentList.sort((a, b) => {
         return b.timestamp - a.timestamp;
       });
@@ -60,7 +68,7 @@ function mapStateToProps(state) {
     comments,
     modals,
     pages,
-    categories
+    categories,
   };
 }
 

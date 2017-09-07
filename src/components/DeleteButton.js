@@ -15,10 +15,10 @@ class DeleteButton extends Component {
     this.deletePostOrComment = this.deletePostOrComment.bind(this);
   }
 
-  handleClick(event) {
+  handleClick() {
     const { post, isPost } = this.props;
     let id = post.id;
-    this.deletePostOrComment(isPost, id)
+    this.deletePostOrComment(isPost, id);
   }
 
   deletePostOrComment(isPost, id) {
