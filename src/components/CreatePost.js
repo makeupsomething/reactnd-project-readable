@@ -30,7 +30,7 @@ class CreatePost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, categories, handleInputChange, handleOpenCloseModel } = this.props;
+    const { post, posts, categories, handleInputChange, handleOpenCloseModel } = this.props;
     let allCats = categories.categories;
 
     if (!allCats) {
@@ -50,7 +50,8 @@ class CreatePost extends Component {
           </label>
           <label>
         Category:
-            <select name="category" value={undefined} onChange={handleInputChange}>
+            <select name="category" value={posts.wip_category ? posts.wip_category : 'none'} onChange={handleInputChange}>
+              <option value="none" disabled>Select Category</option>
               {allCats.map(item => (<option key={item} value={item}>{item}</option>))}
             </select>
           </label>
