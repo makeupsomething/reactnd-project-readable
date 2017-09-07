@@ -116,7 +116,6 @@ class App extends Component {
       if (modals.newPost === false) {
         dispatch(newPostModal(true));
       } else {
-        console.log("close new post modal")
         dispatch(newPostModal(false));
       }
     } else if (event.target.name === 'edit-post-modal') {
@@ -141,7 +140,7 @@ class App extends Component {
   }
 
   render() {
-    const { categories, posts, pages, comments, modals } = this.props;
+    const { categories, posts, pages, modals } = this.props;
     let allCats = categories.categories;
     if (!allCats) {
       allCats = [];
@@ -149,23 +148,23 @@ class App extends Component {
 
     return (
       <div>
-      <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
-        New Post
-      </button>
-      <Modal
-        isOpen={modals.newPost}
-        contentLabel="Modal"
-      >
-        <CreatePost
-          categories={categories}
-          handleInputChange={(event) => {
-            this.handleInputChange(event);
-          }}
-          handleOpenCloseModel={(event) => {
-            this.handleOpenCloseModel(event);
-          }}
-        />
-      </Modal>
+        <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
+          New Post
+        </button>
+        <Modal
+          isOpen={modals.newPost}
+          contentLabel="Modal"
+        >
+          <CreatePost
+            categories={categories}
+            handleInputChange={(event) => {
+              this.handleInputChange(event);
+            }}
+            handleOpenCloseModel={(event) => {
+              this.handleOpenCloseModel(event);
+            }}
+          />
+        </Modal>
         <Switch>
           <Route
             exact
@@ -199,7 +198,7 @@ class App extends Component {
             path="/:category/:id"
             render={() => (
               (
-                posts.posts.find(post => post.id === pages.current_page && post.deleted === false) ? (
+                posts.posts.find(post => post.id === pages.current_page && !post.deleted) ? (
                   <div>
                     <ListPosts
                       updatePage={(page) => {
