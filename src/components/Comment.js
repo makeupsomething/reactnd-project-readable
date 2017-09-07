@@ -10,13 +10,12 @@ class Comment extends Component {
   constructor(props) {
     super(props);
   }
-
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { comment, comments, categories, modals, doUpDownVote, deletePostOrComment, updatePage, handleInputChangeComment, handleSubmitEditComment, loadEditComment, handleOpenCloseModel } = this.props;
+    const { comment, comments, categories, modals, doUpDownVote, deletePostOrComment, updatePage, handleInputChangeComment, loadEditComment, handleOpenCloseModel } = this.props;
     return (
       <div className="list-books-content">
         <div>
@@ -45,15 +44,9 @@ class Comment extends Component {
             contentLabel="Modal"
           >
             <EditComment
-              comments={comments}
               comment={comment}
-              modals={modals}
-              categories={categories}
               handleInputChangeComment={(event) => {
                 handleInputChangeComment(event);
-              }}
-              handleSubmitEditComment={(event) => {
-                handleSubmitEditComment(event);
               }}
               updatePage={(page) => {
                 updatePage(page);

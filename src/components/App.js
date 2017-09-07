@@ -155,17 +155,6 @@ class App extends Component {
     dispatch(updateWipComment(body, owner, parentId));
   }
 
-  handleSubmitEditComment(event) {
-    const { dispatch, comments, pages } = this.props;
-    const id = comments.wip_parentId;
-    const timestamp = Date.now();
-    const body = comments.wip_body;
-    dispatch(editCommentIfPossible(id, timestamp, body));
-    event.preventDefault();
-    dispatch(editCommentModal(false));
-    //dispatch(updateCurrentPage('home'));
-  }
-
   updateWipCommentParentId(parentId) {
     const { dispatch, comments } = this.props;
     let body = comments.wip_body;
@@ -373,9 +362,6 @@ class App extends Component {
                       }}
                       handleInputChangeComment={(event) => {
                         this.handleInputChangeComment(event);
-                      }}
-                      handleSubmitEditComment={(event) => {
-                        this.handleSubmitEditComment(event);
                       }}
                       loadEditComment={(comment) => {
                         this.loadEditComment(comment);
