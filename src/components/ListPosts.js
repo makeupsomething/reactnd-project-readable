@@ -61,6 +61,9 @@ class ListPosts extends Component {
               handleOpenCloseModel={(event) => {
                 handleOpenCloseModel(event);
               }}
+              handleInputChangeComment={(parentId) => {
+                handleInputChangeComment(parentId);
+              }}
             />
             <button name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel}>
               Add Comment%

@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Route } from 'react-router';
 
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
 import EditPost from './EditPost';
+import ListComments from './ListComments';
 
 import {
   fetchCommentsIfNeeded,
@@ -43,6 +45,7 @@ class Post extends Component {
       updatePage,
       handleOpenCloseModel,
       handleInputChange,
+      handleInputChangeComment,
     } = this.props;
 
     let numComments = 0
@@ -89,6 +92,23 @@ class Post extends Component {
               }}
             />
           </Modal>
+          <Route
+            path="/:category/:id"
+            render={() => (
+              <ListComments
+                post={post}
+                updatePage={(page) => {
+                  updatePage(page);
+                }}
+                handleInputChangeComment={(event) => {
+                  handleInputChangeComment(event);
+                }}
+                handleOpenCloseModel={(event) => {
+                  handleOpenCloseModel(event);
+                }}
+              />
+            )}
+          />
         </div>
       </div>
     );

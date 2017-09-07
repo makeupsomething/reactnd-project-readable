@@ -7,7 +7,6 @@ import Modal from 'react-modal';
 import Categories from './Categories';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
-import ListComments from './ListComments';
 import '../App.css';
 
 import {
@@ -210,18 +209,6 @@ class App extends Component {
                       }}
                       handleInputChangeComment={(parentId) => {
                         this.handleInputChangeComment(parentId);
-                      }}
-                      handleOpenCloseModel={(event) => {
-                        this.handleOpenCloseModel(event);
-                      }}
-                    />
-                    <ListComments
-                      post={posts.posts.find(post => post.id === pages.current_page)}
-                      updatePage={(page) => {
-                        this.updatePage(page);
-                      }}
-                      handleInputChangeComment={(event) => {
-                        this.handleInputChangeComment(event);
                       }}
                       handleOpenCloseModel={(event) => {
                         this.handleOpenCloseModel(event);
