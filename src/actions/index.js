@@ -146,7 +146,7 @@ export function editCommentModal(isOpen, id) {
   return {
     type: EDIT_COMMENT_MODAL,
     isOpen: isOpen,
-    id: id
+    commentId: id
   };
 }
 

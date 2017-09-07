@@ -8,11 +8,12 @@ class EditComment extends Component {
   }
 
   componentDidMount() {
-    const { loadEditComment, comment } = this.props;
-    console.log("##########")
-    console.log(comment)
-    loadEditComment(comment)
+    const { comment, modals, loadEditComment } = this.props;
+    if(modals.commentId === comment.id) {
+      loadEditComment(comment)
+    }
   }
+
   /**
   * @description The render function
   * @returns { object } The UI

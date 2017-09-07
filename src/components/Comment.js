@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import CreateComment from './CreateComment';
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
-import { Link } from 'react-router-dom';
+import EditComment from './EditComment';
+import Modal from 'react-modal';
 /**
 * @description Component for listing the shelves
 */
@@ -16,7 +16,7 @@ class Comment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { comment, doUpDownVote, deletePostOrComment, updatePage } = this.props;
+    const { comment, comments, categories, modals, doUpDownVote, deletePostOrComment, updatePage, handleInputChangeComment, handleSubmitEditComment, loadEditComment, handleOpenCloseModel } = this.props;
     return (
       <div className="list-books-content">
         <div>
@@ -30,13 +30,6 @@ class Comment extends Component {
               doUpDownVote(isPost, vote, id);
             }}
           />
-          <Link
-            to={`/comment/edit/${comment.id}`}
-            className="edit-comment"
-            value="edit-comment"
-            onClick={() => {updatePage(comment.id)}}>
-            Edit Comment
-          </Link>
           <DeleteButton
             post={comment}
             isPost={false}
@@ -44,6 +37,32 @@ class Comment extends Component {
               deletePostOrComment(isPost, id);
             }}
           />
+          <button name="edit-comment-modal" value={comment.id} onClick={handleOpenCloseModel}>
+            Edit Comment%
+          </button>
+          <Modal
+            isOpen={modals.editComment}
+            contentLabel="Modal"
+          >
+            <EditComment
+              comments={comments}
+              comment={comment}
+              modals={modals}
+              categories={categories}
+              handleInputChangeComment={(event) => {
+                handleInputChangeComment(event);
+              }}
+              handleSubmitEditComment={(event) => {
+                handleSubmitEditComment(event);
+              }}
+              updatePage={(page) => {
+                updatePage(page);
+              }}
+              loadEditComment={(comment) => {
+                loadEditComment(comment);
+              }}
+            />
+          </Modal>
         </div>
       </div>
     );

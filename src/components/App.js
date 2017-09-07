@@ -162,7 +162,8 @@ class App extends Component {
     const body = comments.wip_body;
     dispatch(editCommentIfPossible(id, timestamp, body));
     event.preventDefault();
-    dispatch(updateCurrentPage('home'));
+    dispatch(editCommentModal(false));
+    //dispatch(updateCurrentPage('home'));
   }
 
   updateWipCommentParentId(parentId) {
@@ -230,6 +231,12 @@ class App extends Component {
         dispatch(newCommentModal(true, event.target.value));
       } else {
         dispatch(newCommentModal(false, event.target.value));
+      }
+    } else if(event.target.name === 'edit-comment-modal') {
+      if(modals.editPost === false) {
+        dispatch(editCommentModal(true, event.target.value));
+      } else {
+        dispatch(editCommentModal(false, event.target.value));
       }
     }
   }
@@ -316,35 +323,6 @@ class App extends Component {
             )}
           />
           <Route
-            path="/comment/edit/:id"
-            render={() => (
-              (
-                !comments.editing ? (
-                  <div>
-                    <EditComment
-                      comments={comments}
-                      comment={comments.comments.find(comment => comment.id === pages.current_page)}
-                      categories={categories}
-                      handleInputChangeComment={(event) => {
-                        this.handleInputChangeComment(event);
-                      }}
-                      handleSubmitEditComment={(event) => {
-                        this.handleSubmitEditComment(event);
-                      }}
-                      updatePage={(page) => {
-                        this.updatePage(page);
-                      }}
-                      loadEditComment={(comment) => {
-                        this.loadEditComment(comment);
-                      }}
-                    />
-                  </div>) : (
-                    <Redirect to="/"/>
-                  )
-                )
-            )}
-          />
-          <Route
             path="/:category/:id"
             render={() => (
               (
@@ -381,7 +359,6 @@ class App extends Component {
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
-                      comments={comments}
                       doUpDownVote={(isPost, vote, id) => {
                         this.doUpDownVote(isPost, vote, id);
                       }}
@@ -393,6 +370,18 @@ class App extends Component {
                       }}
                       sortPostsOrComments={(isPost, sortBy) => {
                         this.sortPostsOrComments(isPost, sortBy);
+                      }}
+                      handleInputChangeComment={(event) => {
+                        this.handleInputChangeComment(event);
+                      }}
+                      handleSubmitEditComment={(event) => {
+                        this.handleSubmitEditComment(event);
+                      }}
+                      loadEditComment={(comment) => {
+                        this.loadEditComment(comment);
+                      }}
+                      handleOpenCloseModel={(event) => {
+                        this.handleOpenCloseModel(event);
                       }}
                     />
                   </div>) : (

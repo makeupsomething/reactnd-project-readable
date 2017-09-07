@@ -100,7 +100,7 @@ function modals(state = { newPost: false, editPost: false, newComment: false, ed
       case EDIT_COMMENT_MODAL :
         return Object.assign({}, state, {
           editComment: action.isOpen,
-          commentId: action.id,
+          commentId: action.commentId,
         });
     default :
       return state;
