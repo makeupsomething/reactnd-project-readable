@@ -60,9 +60,7 @@ class Post extends Component {
             contentLabel="Modal"
           >
             <EditPost
-              posts={posts}
               post={post}
-              modals={modals}
               handleInputChange={(event) => {
                 handleInputChange(event);
               }}
