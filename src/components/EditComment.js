@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   editCommentIfPossible,
   editCommentModal,
+  updateWipComment,
 } from '../actions';
 /**
 * @description Component for listing the shelves
@@ -15,10 +16,15 @@ class EditComment extends Component {
   }
 
   componentDidMount() {
-    const { comment, modals, loadEditComment } = this.props;
+    const { comment, modals } = this.props;
     if(modals.commentId === comment.id) {
-      loadEditComment(comment)
+      this.loadEditComment(comment)
     }
+  }
+
+  loadEditComment(comment) {
+    const { dispatch } = this.props;
+    dispatch(updateWipComment(comment.body, comment.author, comment.id));
   }
 
   handleSubmitEditComment(event) {

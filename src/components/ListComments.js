@@ -7,7 +7,7 @@ import Sort from './Sort';
 */
 class ListComments extends Component {
   render() {
-    const { post, comments, modals, doUpDownVote, deletePostOrComment, updatePage, sortPostsOrComments, handleInputChangeComment, loadEditComment, handleOpenCloseModel  }  = this.props
+    const { post, comments, modals, doUpDownVote, deletePostOrComment, updatePage, sortPostsOrComments, handleInputChangeComment, handleOpenCloseModel  }  = this.props
     let commentList = [];
     if (!comments) {
       commentList = [];
@@ -43,9 +43,6 @@ class ListComments extends Component {
             }}
             handleInputChangeComment={(event) => {
               handleInputChangeComment(event);
-            }}
-            loadEditComment={(comment) => {
-              loadEditComment(comment);
             }}
             handleOpenCloseModel={(event) => {
               handleOpenCloseModel(event);

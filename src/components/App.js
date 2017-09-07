@@ -126,11 +126,6 @@ class App extends Component {
     dispatch(newCommentModal(false));
   }
 
-  loadEditComment(comment) {
-    const { dispatch } = this.props;
-    dispatch(updateWipComment(comment.body, comment.author, comment.id));
-  }
-
   updateWipCommentParentId(parentId) {
     const { dispatch, comments } = this.props;
     dispatch(updateWipComment(comments.wip_body, comments.wip_owner, parentId));
@@ -329,9 +324,6 @@ class App extends Component {
                       }}
                       handleInputChangeComment={(event) => {
                         this.handleInputChangeComment(event);
-                      }}
-                      loadEditComment={(comment) => {
-                        this.loadEditComment(comment);
                       }}
                       handleOpenCloseModel={(event) => {
                         this.handleOpenCloseModel(event);
