@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import { Link, Switch } from 'react-router-dom';
-import Modal from 'react-modal'
+import { Switch } from 'react-router-dom';
+import Modal from 'react-modal';
 import Categories from './Categories';
-import Post from './Post';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
-import EditPost from './EditPost';
-import CreateComment from './CreateComment';
-import EditComment from './EditComment';
 import ListComments from './ListComments';
 import '../App.css';
 
@@ -17,13 +13,11 @@ import {
   fetchCategoriesIfNeeded,
   fetchPostsIfNeeded,
   addPostIfPossible,
-  editPostIfPossible,
   finishEdit,
   updateWipPost,
   fetchCommentsIfNeeded,
   updateCurrentPage,
   addCommentIfPossible,
-  editCommentIfPossible,
   updateWipComment,
   doUpDownVotePostIfPossible,
   doUpDownVoteCommentIfPossible,
@@ -54,7 +48,7 @@ class App extends Component {
 
   componentDidUpdate() {
     const { dispatch, pages, posts, comments } = this.props;
-    if(pages.current_page === 'home' && posts.editing || comments.editing) {
+    if ((pages.current_page === 'home' && posts.editing) || comments.editing) {
       dispatch(finishEdit());
     }
   }
@@ -106,7 +100,6 @@ class App extends Component {
     dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
     event.preventDefault();
     dispatch(newPostModal(false));
-
   }
 
   handleInputChangeComment(event) {
@@ -149,40 +142,33 @@ class App extends Component {
 
   loadEditComment(comment) {
     const { dispatch } = this.props;
-    let body = comment.body;
-    let parentId = comment.id;
-    let owner = comment.author;
-    dispatch(updateWipComment(body, owner, parentId));
+    dispatch(updateWipComment(comment.body, comment.author, comment.id));
   }
 
   updateWipCommentParentId(parentId) {
     const { dispatch, comments } = this.props;
-    let body = comments.wip_body;
-    let owner = comments.wip_owner;
-    dispatch(updateWipComment(body, owner, parentId));
+    dispatch(updateWipComment(comments.wip_body, comments.wip_owner, parentId));
   }
 
   updatePage(page) {
-    console.log("updating page")
     const { dispatch } = this.props;
     dispatch(updateCurrentPage(page));
   }
 
   doUpDownVote(isPost, vote, id) {
     const { dispatch, pages } = this.props;
-    if(isPost) {
+    if (isPost) {
       dispatch(doUpDownVotePostIfPossible(vote, id));
     } else {
-      dispatch(doUpDownVoteCommentIfPossible(vote, id, pages.current_page ));
+      dispatch(doUpDownVoteCommentIfPossible(vote, id, pages.current_page));
     }
   }
 
   deletePostOrComment(isPost, id) {
     const { dispatch, pages, categories } = this.props;
-    if(isPost) {
-      console.log("dispatch delete post");
+    if (isPost) {
       dispatch(deletePostIfPossible(id));
-      if(pages.current_page !== 'home' && !categories.categories.find(cat => cat === pages.current_page)) {
+      if (pages.current_page !== 'home' && !categories.categories.find(cat => cat === pages.current_page)) {
         dispatch(updateCurrentPage('home'));
       }
     } else {
@@ -192,37 +178,35 @@ class App extends Component {
 
   sortPostsOrComments(isPost, sortBy) {
     const { dispatch } = this.props;
-    if(isPost) {
-      console.log("dispatch sortPosts");
+    if (isPost) {
       dispatch(sortPosts(sortBy));
     } else {
-      console.log("dispatch sortComments");
       dispatch(sortComments(sortBy));
     }
   }
 
   handleOpenCloseModel(event) {
     const { dispatch, modals } = this.props;
-    if(event.target.name === 'new-post-modal') {
-      if(modals.newPost === false) {
+    if (event.target.name === 'new-post-modal') {
+      if (modals.newPost === false) {
         dispatch(newPostModal(true));
       } else {
         dispatch(newPostModal(false));
       }
-    } else if(event.target.name === 'edit-post-modal') {
-      if(modals.editPost === false) {
+    } else if (event.target.name === 'edit-post-modal') {
+      if (modals.editPost === false) {
         dispatch(editPostModal(true, event.target.value));
       } else {
         dispatch(editPostModal(false));
       }
-    } else if(event.target.name === 'add-comment-modal') {
-      if(modals.editPost === false) {
+    } else if (event.target.name === 'add-comment-modal') {
+      if (modals.editPost === false) {
         dispatch(newCommentModal(true, event.target.value));
       } else {
         dispatch(newCommentModal(false, event.target.value));
       }
-    } else if(event.target.name === 'edit-comment-modal') {
-      if(modals.editPost === false) {
+    } else if (event.target.name === 'edit-comment-modal') {
+      if (modals.editPost === false) {
         dispatch(editCommentModal(true, event.target.value));
       } else {
         dispatch(editCommentModal(false, event.target.value));
@@ -238,13 +222,10 @@ class App extends Component {
   render() {
     const { categories, posts, pages, comments, modals } = this.props;
     let allCats = categories.categories;
-    let postList = [];
     if (!allCats) {
       allCats = [];
     }
-    if (posts.posts) {
-      postList = posts.posts;
-    }
+
     return (
       <div>
         <Switch>
@@ -370,10 +351,9 @@ class App extends Component {
                         this.handleOpenCloseModel(event);
                       }}
                     />
-                  </div>) : (
-                    <Redirect to="/"/>
-                  )
+                  </div>) : (<Redirect to="/" />
                 )
+              )
             )}
           />
           <Route
