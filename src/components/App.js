@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import Modal from 'react-modal';
+
 import Categories from './Categories';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
@@ -148,6 +149,12 @@ class App extends Component {
 
     return (
       <div>
+        <Categories
+          categories={categories}
+          updatePage={(page) => {
+            this.updatePage(page);
+          }}
+        />
         <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
           New Post
         </button>
@@ -171,12 +178,6 @@ class App extends Component {
             path="/"
             render={() => (
               <div>
-                <Categories
-                  categories={categories}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
-                />
                 <ListPosts
                   updatePage={(page) => {
                     this.updatePage(page);
@@ -235,12 +236,6 @@ class App extends Component {
             path="/:category"
             render={() => (
               <div>
-                <Categories
-                  categories={categories}
-                  updatePage={(page) => {
-                    this.updatePage(page);
-                  }}
-                />
                 <ListPosts
                   handleInputChange={(event) => {
                     this.handleInputChange(event);
