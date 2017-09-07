@@ -60,7 +60,7 @@ class CreatePost extends Component {
           </label>
           <input type="submit" value="Submit" onClick={this.handleSubmit} className="icon-btn" />
         </form>
-        <button name="cancel" onClick={handleOpenCloseModel}>
+        <button name="new-post-modal" onClick={handleOpenCloseModel}>
           Cancel
         </button>
       </div>

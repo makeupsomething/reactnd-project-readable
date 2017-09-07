@@ -12,7 +12,6 @@ import '../App.css';
 import {
   fetchCategoriesIfNeeded,
   fetchPostsIfNeeded,
-  addPostIfPossible,
   finishEdit,
   updateWipPost,
   fetchCommentsIfNeeded,
@@ -172,6 +171,7 @@ class App extends Component {
       if (modals.newPost === false) {
         dispatch(newPostModal(true));
       } else {
+        console.log("close new post modal")
         dispatch(newPostModal(false));
       }
     } else if (event.target.name === 'edit-post-modal') {
@@ -209,6 +209,26 @@ class App extends Component {
 
     return (
       <div>
+      <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
+        New Post
+      </button>
+      <Modal
+        isOpen={modals.newPost}
+        contentLabel="Modal"
+      >
+        <CreatePost
+          categories={categories}
+          handleInputChange={(event) => {
+            this.handleInputChange(event);
+          }}
+          handleOpenCloseModel={(event) => {
+            this.handleOpenCloseModel(event);
+          }}
+          sortPostsOrComments={(isPost, sortBy) => {
+            this.sortPostsOrComments(isPost, sortBy);
+          }}
+        />
+      </Modal>
         <Switch>
           <Route
             exact
@@ -250,26 +270,6 @@ class App extends Component {
                     this.handleInputChangeComment(parentId);
                   }}
                 />
-                <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
-                  New Post
-                </button>
-                <Modal
-                  isOpen={modals.newPost}
-                  contentLabel="Modal"
-                >
-                  <CreatePost
-                    categories={categories}
-                    handleInputChange={(event) => {
-                      this.handleInputChange(event);
-                    }}
-                    handleOpenCloseModel={(event) => {
-                      this.handleOpenCloseModel(event);
-                    }}
-                    sortPostsOrComments={(isPost, sortBy) => {
-                      this.sortPostsOrComments(isPost, sortBy);
-                    }}
-                  />
-                </Modal>
               </div>
             )}
           />
@@ -373,26 +373,6 @@ class App extends Component {
                     this.handleOpenCloseModel(event);
                   }}
                 />
-                <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
-                  New Post
-                </button>
-                <Modal
-                  isOpen={modals.newPost}
-                  contentLabel="Modal"
-                >
-                  <CreatePost
-                    categories={categories}
-                    handleInputChange={(event) => {
-                      this.handleInputChange(event);
-                    }}
-                    handleOpenCloseModel={(event) => {
-                      this.handleOpenCloseModel(event);
-                    }}
-                    sortPostsOrComments={(isPost, sortBy) => {
-                      this.sortPostsOrComments(isPost, sortBy);
-                    }}
-                  />
-                </Modal>
               </div>
             )}
           />
