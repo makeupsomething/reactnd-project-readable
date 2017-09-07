@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
 import EditComment from './EditComment';
+
 /**
 * @description Component for listing the shelves
 */

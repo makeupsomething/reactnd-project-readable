@@ -39,7 +39,6 @@ class ListComments extends Component {
           <Comment
             comment={comment}
             modals={modals}
-            comments={comments}
             updatePage={(page) => {
               updatePage(page);
             }}

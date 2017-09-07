@@ -6,17 +6,10 @@ import Post from './Post';
 import CreateComment from './CreateComment';
 import Sort from './Sort';
 
-import {
-  fetchCommentsIfNeeded,
-} from '../actions';
 /**
 * @description Component for listing the shelves
 */
 class ListPosts extends Component {
-  getComments(id) {
-    const { dispatch } = this.props;
-    dispatch(fetchCommentsIfNeeded(id));
-  }
 
   render() {
     const {
@@ -59,12 +52,6 @@ class ListPosts extends Component {
           <div key={post.id}>
             <Post
               post={post}
-              posts={posts}
-              modals={modals}
-              getComments={(id) => {
-                this.getComments(id);
-              }}
-              comments={comments.comments.filter(comment => (!comment.deleted && comment.parentId === post.id))}
               updatePage={(page) => {
                 updatePage(page);
               }}
