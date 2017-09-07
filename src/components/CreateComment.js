@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   addCommentIfPossible,
   newCommentModal,
+  updateWipComment,
 } from '../actions';
 /**
 * @description Component for listing the shelves

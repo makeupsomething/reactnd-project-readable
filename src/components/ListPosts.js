@@ -18,7 +18,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, modals, comments, pages, categories, updatePage, doUpDownVote, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment } = this.props
+    const { posts, modals, comments, pages, categories, updatePage, deletePostOrComment, handleInputChange, handleOpenCloseModel, sortPostsOrComments, handleInputChangeComment } = this.props
 
     let postList = []
 
@@ -57,9 +57,6 @@ class ListPosts extends Component {
               comments={comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id))}
               updatePage={(page) => {
                 updatePage(page);
-              }}
-              doUpDownVote={(isPost, vote, id) => {
-                doUpDownVote(isPost, vote, id);
               }}
               deletePostOrComment={(isPost, id) => {
                 deletePostOrComment(isPost, id);

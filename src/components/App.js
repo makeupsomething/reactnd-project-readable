@@ -16,10 +16,7 @@ import {
   updateWipPost,
   fetchCommentsIfNeeded,
   updateCurrentPage,
-  addCommentIfPossible,
   updateWipComment,
-  doUpDownVotePostIfPossible,
-  doUpDownVoteCommentIfPossible,
   deletePostIfPossible,
   deleteCommentIfPossible,
   sortPosts,
@@ -116,15 +113,6 @@ class App extends Component {
   updatePage(page) {
     const { dispatch } = this.props;
     dispatch(updateCurrentPage(page));
-  }
-
-  doUpDownVote(isPost, vote, id) {
-    const { dispatch, pages } = this.props;
-    if (isPost) {
-      dispatch(doUpDownVotePostIfPossible(vote, id));
-    } else {
-      dispatch(doUpDownVoteCommentIfPossible(vote, id, pages.current_page));
-    }
   }
 
   deletePostOrComment(isPost, id) {
@@ -228,9 +216,6 @@ class App extends Component {
                   updatePage={(page) => {
                     this.updatePage(page);
                   }}
-                  doUpDownVote={(isPost, vote, id) => {
-                    this.doUpDownVote(isPost, vote, id);
-                  }}
                   deletePostOrComment={(isPost, id) => {
                     this.deletePostOrComment(isPost, id);
                   }}
@@ -260,9 +245,6 @@ class App extends Component {
                       updatePage={(page) => {
                         this.updatePage(page);
                       }}
-                      doUpDownVote={(isPost, id) => {
-                        this.doUpDownVote(isPost, id);
-                      }}
                       deletePostOrComment={(isPost, id) => {
                         this.deletePostOrComment(isPost, id);
                       }}
@@ -281,9 +263,6 @@ class App extends Component {
                     />
                     <ListComments
                       post={posts.posts.find(post => post.id === pages.current_page)}
-                      doUpDownVote={(isPost, vote, id) => {
-                        this.doUpDownVote(isPost, vote, id);
-                      }}
                       deletePostOrComment={(isPost, id) => {
                         this.deletePostOrComment(isPost, id);
                       }}
@@ -316,9 +295,6 @@ class App extends Component {
                   }}
                 />
                 <ListPosts
-                  doUpDownVote={(isPost, id) => {
-                    this.doUpDownVote(isPost, id);
-                  }}
                   deletePostOrComment={(isPost, id) => {
                     this.deletePostOrComment(isPost, id);
                   }}

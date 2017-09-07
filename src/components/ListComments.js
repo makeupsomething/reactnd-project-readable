@@ -7,7 +7,7 @@ import Sort from './Sort';
 */
 class ListComments extends Component {
   render() {
-    const { post, comments, modals, doUpDownVote, deletePostOrComment, updatePage, sortPostsOrComments, handleInputChangeComment, handleOpenCloseModel  }  = this.props
+    const { post, comments, modals, deletePostOrComment, updatePage, sortPostsOrComments, handleInputChangeComment, handleOpenCloseModel  }  = this.props
     let commentList = [];
     if (!comments) {
       commentList = [];
@@ -32,9 +32,6 @@ class ListComments extends Component {
             comment={comment}
             modals={modals}
             comments={comments}
-            doUpDownVote={(isPost, vote, id) => {
-              doUpDownVote(isPost, vote, id);
-            }}
             deletePostOrComment={(isPost, id) => {
               deletePostOrComment(isPost, id);
             }}

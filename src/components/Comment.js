@@ -16,7 +16,7 @@ class Comment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { comment, comments, categories, modals, doUpDownVote, deletePostOrComment, updatePage, handleInputChangeComment, handleOpenCloseModel } = this.props;
+    const { comment, comments, categories, modals, deletePostOrComment, updatePage, handleInputChangeComment, handleOpenCloseModel } = this.props;
     return (
       <div className="list-books-content">
         <div>
@@ -26,9 +26,6 @@ class Comment extends Component {
           <UpDownVote
             post={comment}
             isPost={false}
-            doUpDownVote={(isPost, vote, id) => {
-              doUpDownVote(isPost, vote, id);
-            }}
           />
           <DeleteButton
             post={comment}
