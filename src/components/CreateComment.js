@@ -1,22 +1,40 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  addCommentIfPossible,
+  newCommentModal,
+} from '../actions';
 /**
 * @description Component for listing the shelves
 */
 class CreateComment extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmitComment = this.handleSubmitComment.bind(this);
   }
 
   componentDidMount() {
     const { parent, updateWipCommentParentId } = this.props;
     updateWipCommentParentId(parent)
   }
+
+  handleSubmitComment(event) {
+    const { dispatch, comments } = this.props;
+    const id = Math.random().toString(36).substr(-8);
+    const timestamp = Date.now();
+    const body = comments.wip_body;
+    const owner = comments.wip_owner;
+    const parentId = comments.wip_parentId;
+    dispatch(addCommentIfPossible(id, timestamp, body, owner, parentId));
+    event.preventDefault();
+    dispatch(newCommentModal(false));
+  }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { handleInputChangeComment, handleSubmitComment } = this.props;
+    const { handleInputChangeComment } = this.props;
 
     return (
       <div className="list-books-content">
@@ -29,10 +47,19 @@ class CreateComment extends Component {
         Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChangeComment} />
           </label>
-          <input type="submit" value="Submit Comment" onClick={handleSubmitComment} className="icon-btn" />
+          <input type="submit" value="Submit Comment" onClick={this.handleSubmitComment} className="icon-btn" />
         </form>
       </div>
     );
   }
 }
-export default CreateComment;
+
+function mapStateToProps(state) {
+  const { comments } = state;
+
+  return {
+    comments,
+  };
+}
+
+export default connect(mapStateToProps)(CreateComment);

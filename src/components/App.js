@@ -113,18 +113,6 @@ class App extends Component {
     }
   }
 
-  handleSubmitComment(event) {
-    const { dispatch, comments } = this.props;
-    const id = Math.random().toString(36).substr(-8);
-    const timestamp = Date.now();
-    const body = comments.wip_body;
-    const owner = comments.wip_owner;
-    const parentId = comments.wip_parentId;
-    dispatch(addCommentIfPossible(id, timestamp, body, owner, parentId));
-    event.preventDefault();
-    dispatch(newCommentModal(false));
-  }
-
   updateWipCommentParentId(parentId) {
     const { dispatch, comments } = this.props;
     dispatch(updateWipComment(comments.wip_body, comments.wip_owner, parentId));
@@ -263,9 +251,6 @@ class App extends Component {
                   updateWipCommentParentId={(parentId) => {
                     this.updateWipCommentParentId(parentId);
                   }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
-                  }}
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);
                   }}
@@ -297,9 +282,6 @@ class App extends Component {
                       }}
                       updateWipCommentParentId={(parentId) => {
                         this.updateWipCommentParentId(parentId);
-                      }}
-                      handleSubmitComment={(event) => {
-                        this.handleSubmitComment(event);
                       }}
                       handleInputChangeComment={(parentId) => {
                         this.handleInputChangeComment(parentId);
@@ -362,9 +344,6 @@ class App extends Component {
                   }}
                   updateWipCommentParentId={(parentId) => {
                     this.updateWipCommentParentId(parentId);
-                  }}
-                  handleSubmitComment={(event) => {
-                    this.handleSubmitComment(event);
                   }}
                   handleInputChangeComment={(parentId) => {
                     this.handleInputChangeComment(parentId);
