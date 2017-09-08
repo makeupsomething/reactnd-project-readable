@@ -22,6 +22,8 @@ import {
   editCommentModal,
 } from '../actions';
 
+import AppBar from 'material-ui/AppBar';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -122,6 +124,11 @@ class App extends Component {
 
     return (
       <div>
+          <AppBar
+            title="Readable"
+            iconClassNameRight="muidocs-icon-navigation-expand-more"
+          />
+
         <Categories
           categories={categories}
           updatePage={(page) => {
