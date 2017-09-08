@@ -23,12 +23,15 @@ import {
 } from '../actions';
 
 import AppBar from 'material-ui/AppBar';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOpenCloseModel = this.handleOpenCloseModel.bind(this);
+    this.openCloseNewPostModel = this.openCloseNewPostModel.bind(this);
   }
 
   componentDidMount() {
@@ -86,15 +89,18 @@ class App extends Component {
     dispatch(updateCurrentPage(page));
   }
 
+  openCloseNewPostModel(event) {
+    const { dispatch, modals } = this.props;
+    if (modals.newPost === false) {
+      dispatch(newPostModal(true));
+    } else {
+      dispatch(newPostModal(false));
+    }
+  }
+
   handleOpenCloseModel(event) {
     const { dispatch, modals } = this.props;
-    if (event.target.name === 'new-post-modal') {
-      if (modals.newPost === false) {
-        dispatch(newPostModal(true));
-      } else {
-        dispatch(newPostModal(false));
-      }
-    } else if (event.target.name === 'edit-post-modal') {
+    if (event.target.name === 'edit-post-modal') {
       if (modals.editPost === false) {
         dispatch(editPostModal(true, event.target.value));
       } else {
@@ -117,6 +123,13 @@ class App extends Component {
 
   render() {
     const { categories, posts, pages, modals } = this.props;
+
+    const style = {
+      position: 'fixed',
+      right: '20px',
+      bottom: '20px'
+    };
+
     let allCats = categories.categories;
     if (!allCats) {
       allCats = [];
@@ -128,7 +141,9 @@ class App extends Component {
             title="Readable"
             iconClassNameRight="muidocs-icon-navigation-expand-more"
           />
-
+          <FloatingActionButton style={style} onClick={this.openCloseNewPostModel}>
+            <ContentAdd />
+          </FloatingActionButton>
         <Categories
           categories={categories}
           updatePage={(page) => {
