@@ -1,24 +1,52 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  editCommentIfPossible,
+  editCommentModal,
+  updateWipComment,
+} from '../actions';
 /**
 * @description Component for listing the shelves
 */
 class EditComment extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmitEditComment = this.handleSubmitEditComment.bind(this);
+    this.cancelEditComment = this.cancelEditComment.bind(this);
   }
 
   componentDidMount() {
-    const { loadEditComment, comment } = this.props;
-    console.log("##########")
-    console.log(comment)
-    loadEditComment(comment)
+    const { comment, modals } = this.props;
+    if (modals.commentId === comment.id) {
+      this.loadEditComment(comment);
+    }
+  }
+
+  loadEditComment(comment) {
+    const { dispatch } = this.props;
+    dispatch(updateWipComment(comment.body, comment.author, comment.id));
+  }
+
+  handleSubmitEditComment(event) {
+    const { dispatch, comments } = this.props;
+    const id = comments.wip_parentId;
+    const timestamp = Date.now();
+    const body = comments.wip_body;
+    dispatch(editCommentIfPossible(id, timestamp, body));
+    event.preventDefault();
+    dispatch(editCommentModal(false));
+  }
+
+  cancelEditComment() {
+    const { dispatch, comments } = this.props;
+    dispatch(editCommentModal(false));
   }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { comments, comment, categories, handleInputChangeComment, handleSubmitEditComment } = this.props;
+    const { comments, handleInputChangeComment } = this.props;
 
     return (
       <div className="list-books-content">
@@ -31,10 +59,23 @@ class EditComment extends Component {
         Owner:
             <input name="owner" type="text" value={comments.wip_owner} onChange={handleInputChangeComment} />
           </label>
-          <input type="submit" value="Submit Comment" onClick={handleSubmitEditComment} className="icon-btn" />
+          <input type="submit" value="Submit Comment" onClick={this.handleSubmitEditComment} className="icon-btn" />
         </form>
+        <button name="cancel" onClick={this.cancelEditComment}>
+          Cancel%
+        </button>
       </div>
     );
   }
 }
-export default EditComment;
+
+function mapStateToProps(state) {
+  const { comments, modals } = state;
+
+  return {
+    comments,
+    modals,
+  };
+}
+
+export default connect(mapStateToProps)(EditComment);

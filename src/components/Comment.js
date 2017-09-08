@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
-import CreateComment from './CreateComment';
+import Modal from 'react-modal';
+
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
-import { Link } from 'react-router-dom';
+import EditComment from './EditComment';
+
 /**
 * @description Component for listing the shelves
 */
 class Comment extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { comment, doUpDownVote, deletePostOrComment, updatePage } = this.props;
+    const {
+      comment,
+      modals,
+      updatePage,
+      handleInputChangeComment,
+      handleOpenCloseModel,
+    } = this.props;
+
     return (
       <div className="list-books-content">
         <div>
@@ -26,24 +31,28 @@ class Comment extends Component {
           <UpDownVote
             post={comment}
             isPost={false}
-            doUpDownVote={(isPost, vote, id) => {
-              doUpDownVote(isPost, vote, id);
-            }}
           />
-          <Link
-            to={`/comment/edit/${comment.id}`}
-            className="edit-comment"
-            value="edit-comment"
-            onClick={() => {updatePage(comment.id)}}>
-            Edit Comment
-          </Link>
           <DeleteButton
             post={comment}
             isPost={false}
-            deletePostOrComment={(isPost, id) => {
-              deletePostOrComment(isPost, id);
-            }}
           />
+          <button name="edit-comment-modal" value={comment.id} onClick={handleOpenCloseModel}>
+            Edit Comment%
+          </button>
+          <Modal
+            isOpen={modals.editComment}
+            contentLabel="Modal"
+          >
+            <EditComment
+              comment={comment}
+              handleInputChangeComment={(event) => {
+                handleInputChangeComment(event);
+              }}
+              updatePage={(page) => {
+                updatePage(page);
+              }}
+            />
+          </Modal>
         </div>
       </div>
     );

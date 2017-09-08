@@ -23,7 +23,10 @@ export const REQUEST_UP_DOWN_VOTE_COMMENT = 'REQUEST_UP_DOWN_VOTE_COMMENT';
 export const RECEIVE_UP_DOWN_VOTE_COMMENT = 'RECEIVE_UP_DOWN_VOTE_COMMENT';
 export const SORT_POSTS = 'SORT_POSTS';
 export const SORT_COMMENTS = 'SORT_COMMENTS';
-
+export const NEW_POST_MODAL = 'NEW_POST_MODAL'
+export const EDIT_POST_MODAL = 'EDIT_POST_MODAL'
+export const NEW_COMMENT_MODAL = 'NEW_COMMENT_MODAL'
+export const EDIT_COMMENT_MODAL = 'EDIT_COMMENT_MODAL'
 const api = 'http://localhost:5001';
 
 
@@ -113,6 +116,37 @@ export function updateCurrentPage(page) {
   return {
     type: CHANGE_PAGE,
     current_page: page,
+  };
+}
+
+export function newPostModal(isOpen) {
+  return {
+    type: NEW_POST_MODAL,
+    isOpen: isOpen,
+  };
+}
+
+export function editPostModal(isOpen, id) {
+  return {
+    type: EDIT_POST_MODAL,
+    isOpen: isOpen,
+    id: id
+  };
+}
+
+export function newCommentModal(isOpen, parentId) {
+  return {
+    type: NEW_COMMENT_MODAL,
+    isOpen: isOpen,
+    parentId: parentId,
+  };
+}
+
+export function editCommentModal(isOpen, id) {
+  return {
+    type: EDIT_COMMENT_MODAL,
+    isOpen: isOpen,
+    commentId: id
   };
 }
 

@@ -1,33 +1,56 @@
 import React, { Component } from 'react';
-import CreateComment from './CreateComment';
+import Modal from 'react-modal';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Route } from 'react-router';
+
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
-import { Link, Redirect } from 'react-router-dom';
+import EditPost from './EditPost';
+import ListComments from './ListComments';
+
+import {
+  fetchCommentsIfNeeded,
+} from '../actions';
+
 /**
 * @description Component for listing the shelves
 */
 class Post extends Component {
   constructor(props) {
     super(props);
+    this.getComments = this.getComments.bind(this);
   }
 
   componentDidMount() {
     const { post, getComments, comments } = this.props;
-    if(comments.comments.length < 1) {
-      getComments(post.id);
+    if (comments.comments.length < 1) {
+      this.getComments(post.id);
     }
+  }
+
+  getComments(id) {
+    const { dispatch } = this.props;
+    dispatch(fetchCommentsIfNeeded(id));
   }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { post, comments, updatePage, updateWipCommentParentId, handleInputChangeComment, handleSubmitComment, doUpDownVote, deletePostOrComment } = this.props;
-    let commentList = [];
-    if (!comments) {
-      commentList = [];
-    } else {
-        commentList = comments.comments.filter(comment => (comment.deleted === false && comment.parentId === post.id));
+    const {
+      post,
+      modals,
+      comments,
+      updatePage,
+      handleOpenCloseModel,
+      handleInputChange,
+      handleInputChangeComment,
+    } = this.props;
+
+    let numComments = 0
+    if (comments.comments) {
+      numComments = comments.comments.filter(comment => (!comment.deleted && comment.parentId === post.id))
     }
 
     return (
@@ -37,32 +60,54 @@ class Post extends Component {
             to={`/${post.category}/${post.id}`}
             className={post.id}
             value={post.id}
-            onClick={() => {updatePage(post.id)}}>
+            onClick={() => { updatePage(post.id); }}
+          >
             {post.title}
           </Link>
           <p>
-            {post.body}{post.voteScore}NumComments{commentList.length}
+            {post.body}{post.voteScore}NumComments{numComments.length}
           </p>
           <UpDownVote
             post={post}
-            isPost={true}
-            doUpDownVote={(isPost, vote, id) => {
-              doUpDownVote(isPost, vote, id);
-            }}
+            isPost
           />
-          <Link
-            to={`/post/edit/${post.id}`}
-            className="edit-post"
-            value="edit-post"
-            onClick={() => {updatePage(post.id)}}>
-            Edit Post
-          </Link>
           <DeleteButton
             post={post}
-            isPost={true}
-            deletePostOrComment={(isPost, id) => {
-              deletePostOrComment(isPost, id);
-            }}
+            isPost
+          />
+          <button name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel}>
+            Edit Post%
+          </button>
+          <Modal
+            isOpen={modals.editPost}
+            contentLabel="Modal"
+          >
+            <EditPost
+              post={post}
+              handleInputChange={(event) => {
+                handleInputChange(event);
+              }}
+              updatePage={(page) => {
+                updatePage(page);
+              }}
+            />
+          </Modal>
+          <Route
+            path="/:category/:id"
+            render={() => (
+              <ListComments
+                post={post}
+                updatePage={(page) => {
+                  updatePage(page);
+                }}
+                handleInputChangeComment={(event) => {
+                  handleInputChangeComment(event);
+                }}
+                handleOpenCloseModel={(event) => {
+                  handleOpenCloseModel(event);
+                }}
+              />
+            )}
           />
         </div>
       </div>
@@ -70,4 +115,13 @@ class Post extends Component {
   }
 }
 
-export default Post;
+function mapStateToProps(state) {
+  const { comments, modals } = state;
+
+  return {
+    comments,
+    modals,
+  };
+}
+
+export default connect(mapStateToProps)(Post);

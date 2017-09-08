@@ -1,28 +1,51 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  editPostIfPossible,
+  updateCurrentPage,
+  editPostModal,
+  updateWipPost,
+} from '../actions';
 /**
 * @description Component for listing the shelves
 */
 class EditPost extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
   }
 
   componentDidMount() {
-    const { loadEditPost, post } = this.props;
-    loadEditPost(post)
+    const { post, modals } = this.props;
+    if(modals.postId === post.id) {
+      this.loadEditPost(post)
+    }
+  }
+
+  loadEditPost(post) {
+    const { dispatch } = this.props;
+    let body = post.body;
+    let title = post.title;
+    let category = post.category;
+    const owner = post.author;
+    dispatch(updateWipPost(title, body, category, owner));
+  }
+
+  handleSubmitEdit(event) {
+    const { dispatch, posts, modals } = this.props;
+    const id = modals.postId;
+    const title = posts.wip_title;
+    const body = posts.wip_body;
+    dispatch(editPostIfPossible(id, title, body));
+    event.preventDefault();
+    dispatch(editPostModal(false));
   }
   /**
   * @description The render function
   * @returns { object } The UI
   */
   render() {
-    const { posts, post, categories, handleInputChange, handleSubmitEdit } = this.props;
-    let allCats = categories.categories;
-
-    if (!allCats) {
-      allCats = [];
-    }
-
+    const { posts, handleInputChange } = this.props;
     return (
       <div className="list-books-content">
         <form>
@@ -35,19 +58,25 @@ class EditPost extends Component {
             <textarea name="body" value={posts.wip_body} onChange={handleInputChange} />
           </label>
           <label>
-        Category:
-            <select name="category" value={undefined} onChange={handleInputChange}>
-              {allCats.map(item => (<option key={item} value={item}>{item}</option>))}
-            </select>
-          </label>
-          <label name="title">
-        Owner:
+            Owner:
             <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
           </label>
-          <input type="submit" value="Submit" onClick={handleSubmitEdit} className="icon-btn" />
+          <input type="submit" value="Submit" onClick={this.handleSubmitEdit} className="icon-btn" />
         </form>
       </div>
     );
   }
 }
-export default EditPost;
+
+function mapStateToProps(state) {
+  const { posts, pages, comments, modals } = state;
+
+  return {
+    posts,
+    pages,
+    comments,
+    modals,
+  };
+}
+
+export default connect(mapStateToProps)(EditPost);

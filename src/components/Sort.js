@@ -1,15 +1,30 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  sortPosts,
+  sortComments,
+} from '../actions';
 
-class Sort extends React.Component {
+class Sort extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.sortPostsOrComments = this.sortPostsOrComments.bind(this);
   }
 
   handleChange(event) {
-    const { sortPostsOrComments, isPost} = this.props;
-    sortPostsOrComments(isPost, event.target.value)
+    const { isPost } = this.props;
+    this.sortPostsOrComments(isPost, event.target.value);
+  }
+
+  sortPostsOrComments(isPost, sortBy) {
+    const { dispatch } = this.props;
+    if (isPost) {
+      dispatch(sortPosts(sortBy));
+    } else {
+      dispatch(sortComments(sortBy));
+    }
   }
 
   render() {
@@ -27,4 +42,11 @@ class Sort extends React.Component {
   }
 }
 
-export default Sort;
+function mapStateToProps(state) {
+  const { } = state;
+
+  return {
+  };
+}
+
+export default connect(mapStateToProps)(Sort);
