@@ -150,9 +150,6 @@ class App extends Component {
             this.updatePage(page);
           }}
         />
-        <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
-          New Post
-        </button>
         <Modal
           isOpen={modals.newPost}
           contentLabel="Modal"

@@ -3,6 +3,10 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import Badge from 'material-ui/Badge';
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
@@ -48,50 +52,72 @@ class Post extends Component {
       handleInputChangeComment,
     } = this.props;
 
-    let numComments = 0
+    const style = {
+      margin: 5,
+    };
+
+    let numComments = 0;
     if (comments.comments) {
-      numComments = comments.comments.filter(comment => (!comment.deleted && comment.parentId === post.id))
+      numComments = comments.comments.filter(comment => (!comment.deleted && comment.parentId === post.id));
     }
 
     return (
       <div className="list-books-content">
         <div>
-          <Link
-            to={`/${post.category}/${post.id}`}
-            className={post.id}
-            value={post.id}
-            onClick={() => { updatePage(post.id); }}
-          >
-            {post.title}
-          </Link>
-          <p>
-            {post.body}{post.voteScore}NumComments{numComments.length}
-          </p>
-          <UpDownVote
-            post={post}
-            isPost
-          />
-          <DeleteButton
-            post={post}
-            isPost
-          />
-          <button name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel}>
-            Edit Post%
-          </button>
-          <Modal
-            isOpen={modals.editPost}
-            contentLabel="Modal"
-          >
-            <EditPost
-              post={post}
-              handleInputChange={(event) => {
-                handleInputChange(event);
-              }}
-              updatePage={(page) => {
-                updatePage(page);
-              }}
+          <Card>
+            <CardHeader
+              title={post.title}
             />
-          </Modal>
+            <Link
+              to={`/${post.category}/${post.id}`}
+              className={post.id}
+              value={post.id}
+              onClick={() => { updatePage(post.id); }}
+            />
+            <CardText>
+              {post.body}
+            </CardText>
+            <Badge
+              badgeContent={post.voteScore}
+              primary={true}
+            >
+              <NotificationsIcon />
+            </Badge>
+            <CardActions>
+              <UpDownVote
+                post={post}
+                isPost
+                label="Up Vote"
+                name="upVote"
+              />
+              <UpDownVote
+                post={post}
+                isPost
+                label="Down Vote"
+                name="downVote"
+              />
+              <RaisedButton style={style} label={`View Comments(${numComments.length})`} />
+              <RaisedButton style={style} label="Edit Post" name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel} />
+              <DeleteButton
+                post={post}
+                isPost
+              />
+            </CardActions>
+            <Modal
+              isOpen={modals.editPost}
+              contentLabel="Modal"
+            >
+              <EditPost
+                post={post}
+                handleInputChange={(event) => {
+                  handleInputChange(event);
+                }}
+                updatePage={(page) => {
+                  updatePage(page);
+                }}
+              />
+            </Modal>
+          </Card>
           <Route
             path="/:category/:id"
             render={() => (

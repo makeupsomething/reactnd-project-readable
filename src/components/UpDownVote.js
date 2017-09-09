@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import {
   doUpDownVotePostIfPossible,
   doUpDownVoteCommentIfPossible,
@@ -15,9 +17,10 @@ class UpDownVote extends Component {
   }
 
   handleClick(event) {
-    const { post, isPost } = this.props;
+    const { post, isPost, name } = this.props;
     const id = post.id;
-    this.doUpDownVote(isPost, event.target.name, id);
+    console.log(name)
+    this.doUpDownVote(isPost, name, id);
   }
 
   doUpDownVote(isPost, vote, id) {
@@ -33,15 +36,14 @@ class UpDownVote extends Component {
   * @returns { object } The UI
   */
   render() {
+    const { label } = this.props;
+
+    const style = {
+      margin: 5,
+    };
+
     return (
-      <div className="up-down-vote-group">
-        <button name="upVote" onClick={this.handleClick}>
-          Up
-        </button>
-        <button name="downVote" onClick={this.handleClick}>
-          Down
-        </button>
-      </div>
+      <RaisedButton style={style} label={label} onClick={this.handleClick} />
     );
   }
 }
