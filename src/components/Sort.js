@@ -1,6 +1,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
 import {
   sortPosts,
   sortComments,
@@ -13,9 +16,9 @@ class Sort extends Component {
     this.sortPostsOrComments = this.sortPostsOrComments.bind(this);
   }
 
-  handleChange(event) {
+  handleChange(event, index, value) {
     const { isPost } = this.props;
-    this.sortPostsOrComments(isPost, event.target.value);
+    this.sortPostsOrComments(isPost, value);
   }
 
   sortPostsOrComments(isPost, sortBy) {
@@ -28,16 +31,15 @@ class Sort extends Component {
   }
 
   render() {
+    const { defaultSort } = this.props;
+    //var injectTapEventPlugin = require("react-tap-event-plugin");
+    //injectTapEventPlugin();
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Sort By:
-          <select value={undefined} onChange={this.handleChange}>
-            <option value="date">Date</option>
-            <option value="score">Score</option>
-          </select>
-        </label>
-      </form>
+      <DropDownMenu value={defaultSort} onChange={this.handleChange}>
+        <MenuItem value="date" primaryText="Date (newest first)" />
+        <MenuItem value="score" primaryText="Score (high to low)" />
+      </DropDownMenu>
     );
   }
 }

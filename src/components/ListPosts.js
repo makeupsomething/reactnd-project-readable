@@ -81,6 +81,10 @@ class ListPosts extends Component {
 
     return (
       <div className="list-books-content">
+        <Sort
+          isPost
+          defaultSort={posts.sortBy}
+        />
         {postList.map(post => (
           <div key={post.id}>
             <Post
@@ -111,9 +115,6 @@ class ListPosts extends Component {
             </Modal>
           </div>
         ))}
-        <Sort
-          isPost
-        />
       </div>
     );
   }
