@@ -102,6 +102,7 @@ class Post extends Component {
                 post={post}
                 isPost
               />
+              <RaisedButton style={style} label="Add Comment"  name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel} />
             </CardActions>
             <Modal
               isOpen={modals.editPost}

@@ -98,9 +98,6 @@ class ListPosts extends Component {
                 this.handleInputChangeComment(parentId);
               }}
             />
-            <button name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel}>
-              Add Comment%
-            </button>
             <Modal
               isOpen={modals.newComment}
               contentLabel="Modal"

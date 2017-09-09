@@ -45,7 +45,7 @@ class DeleteButton extends Component {
     };
 
     return (
-        <RaisedButton style={style} label="Delete" name="delete" onClick={this.handleClick} />
+        <RaisedButton style={style} label="Delete Post" name="delete" onClick={this.handleClick} />
     );
   }
 }
