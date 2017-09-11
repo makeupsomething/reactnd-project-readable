@@ -9,7 +9,6 @@ import Sort from './Sort';
 import {
   updateWipComment,
 } from '../actions';
-
 /**
 * @description Component for listing the shelves
 */
@@ -102,6 +101,8 @@ class ListPosts extends Component {
                 this.handleInputChangeComment(parentId);
               }}
             />
+            <br />
+            <br />
             <Modal
               isOpen={modals.newComment}
               contentLabel="Modal"
