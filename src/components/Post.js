@@ -149,6 +149,9 @@ class Post extends Component {
           <Route
             path="/:category/:id"
             render={() => (
+              <div>
+              <br />
+              <br />
               <ListComments
                 post={post}
                 updatePage={(page) => {
@@ -161,9 +164,12 @@ class Post extends Component {
                   this.handleOpenCloseAddCommentModel(event);
                 }}
               />
+              </div>
             )}
           />
         </div>
+        <br />
+        <br />
       </div>
     );
   }

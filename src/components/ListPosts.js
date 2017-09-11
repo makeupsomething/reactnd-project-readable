@@ -114,8 +114,6 @@ class ListPosts extends Component {
                 this.handleInputChangeComment(parentId);
               }}
             />
-            <br />
-            <br />
             <Dialog
               title="Add Comment"
               repositionOnUpdate={ false }

@@ -52,7 +52,7 @@ class ListComments extends Component {
     }
 
     return (
-      <div className="list-books-content">
+      <div className="list-comments">
         {commentList.map(comment => (
           <Comment
             comment={comment}

@@ -86,6 +86,8 @@ class Comment extends Component {
             Change it up
           </Dialog>
         </div>
+        <br />
+        <br />
       </div>
     );
   }
