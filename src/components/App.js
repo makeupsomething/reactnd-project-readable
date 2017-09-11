@@ -101,15 +101,9 @@ class App extends Component {
     }
   }
 
-  handleOpenCloseModel(event) {
+  handleOpenCloseModel(event, index, value) {
     const { dispatch, modals } = this.props;
-    if (event.target.name === 'edit-post-modal') {
-      if (modals.editPost === false) {
-        dispatch(editPostModal(true, event.target.value));
-      } else {
-        dispatch(editPostModal(false));
-      }
-    } else if (event.target.name === 'add-comment-modal') {
+    if (event.target.name === 'add-comment-modal') {
       if (modals.editPost === false) {
         dispatch(newCommentModal(true, event.target.value));
       } else {

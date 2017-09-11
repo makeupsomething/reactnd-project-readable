@@ -15,6 +15,7 @@ import ListComments from './ListComments';
 
 import {
   fetchCommentsIfNeeded,
+  editPostModal
 } from '../actions';
 
 /**
@@ -24,6 +25,7 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.getComments = this.getComments.bind(this);
+    this.handleOpenCloseEditPostModel = this.handleOpenCloseEditPostModel.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +38,16 @@ class Post extends Component {
   getComments(id) {
     const { dispatch } = this.props;
     dispatch(fetchCommentsIfNeeded(id));
+  }
+
+  handleOpenCloseEditPostModel(event, postId) {
+    const { dispatch, modals } = this.props;
+    console.log(postId)
+    if (modals.editPost === false) {
+      dispatch(editPostModal(true, postId));
+    } else {
+      dispatch(editPostModal(false));
+    }
   }
   /**
   * @description The render function
@@ -97,7 +109,7 @@ class Post extends Component {
                 name="downVote"
               />
               <RaisedButton style={style} label={`View Comments(${numComments.length})`} />
-              <RaisedButton style={style} label="Edit Post" name="edit-post-modal" value={post.id} onClick={handleOpenCloseModel} />
+              <RaisedButton style={style} label="Edit Post" name="edit-post-modal" value={post.id} onClick={(e) => this.handleOpenCloseEditPostModel(e, post.id)} />
               <DeleteButton
                 post={post}
                 isPost
