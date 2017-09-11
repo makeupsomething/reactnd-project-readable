@@ -6,6 +6,11 @@ import {
   editPostModal,
   updateWipPost,
 } from '../actions';
+
+import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 /**
 * @description Component for listing the shelves
 */
@@ -45,24 +50,43 @@ class EditPost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { posts, handleInputChange } = this.props;
+    const { posts, handleInputChange, handleOpenCloseEditPostModel } = this.props;
     return (
       <div className="list-books-content">
-        <form>
-          <label name="title">
-            Title:
-            <input name="title" type="text" value={posts.wip_title} onChange={handleInputChange} />
-          </label>
-          <label name="body">
-            Body:
-            <textarea name="body" value={posts.wip_body} onChange={handleInputChange} />
-          </label>
-          <label>
-            Owner:
-            <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
-          </label>
-          <input type="submit" value="Submit" onClick={this.handleSubmitEdit} className="icon-btn" />
-        </form>
+        <TextField
+          hintText="Title"
+          name="title"
+          type="text"
+          floatingLabelText="Title"
+          floatingLabelFixed={true}
+          value={posts.wip_title}
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed={true}
+          value={posts.wip_body}
+          multiLine={true}
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <FlatButton
+          label="Cancel"
+          primary={true}
+          onClick={handleOpenCloseEditPostModel}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary={true}
+          keyboardFocused={true}
+          onClick={this.handleSubmitEdit}
+        />
       </div>
     );
   }

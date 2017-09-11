@@ -18,6 +18,8 @@ import {
   editPostModal
 } from '../actions';
 
+import Dialog from 'material-ui/Dialog';
+
 /**
 * @description Component for listing the shelves
 */
@@ -116,10 +118,11 @@ class Post extends Component {
               />
               <RaisedButton style={style} label="Add Comment"  name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel} />
             </CardActions>
-            <Modal
-              isOpen={modals.editPost}
-              contentLabel="Modal"
-            >
+          </Card>
+          <Dialog
+            title="Edit Post"
+            repositionOnUpdate={ false }
+            actions={
               <EditPost
                 post={post}
                 handleInputChange={(event) => {
@@ -128,9 +131,17 @@ class Post extends Component {
                 updatePage={(page) => {
                   updatePage(page);
                 }}
+                handleOpenCloseEditPostModel={(event) => {
+                  this.handleOpenCloseEditPostModel(event);
+                }}
               />
-            </Modal>
-          </Card>
+            }
+            modal={false}
+            open={modals.editPost}
+            onRequestClose={this.handleOpenCloseEditPostModel}
+          >
+            Change it up
+          </Dialog>
           <Route
             path="/:category/:id"
             render={() => (

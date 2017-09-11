@@ -48,6 +48,8 @@ class CreatePost extends Component {
         hintText="Title"
         name="title"
         type="text"
+        floatingLabelText="Title"
+        floatingLabelFixed={true}
         onChange={handleInputChange}
       /><br />
       <br />
@@ -55,6 +57,8 @@ class CreatePost extends Component {
         hintText="Body"
         name="body"
         type="text"
+        floatingLabelText="Body"
+        floatingLabelFixed={true}
         multiLine={true}
         onChange={handleInputChange}
       /><br />
@@ -63,6 +67,8 @@ class CreatePost extends Component {
         hintText="Owner"
         name="owner"
         type="text"
+        floatingLabelText="Owner"
+        floatingLabelFixed={true}
         onChange={handleInputChange}
       /><br />
       <br />
