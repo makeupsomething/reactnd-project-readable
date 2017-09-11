@@ -5,6 +5,11 @@ import {
   newCommentModal,
   updateWipComment,
 } from '../actions';
+
+import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 /**
 * @description Component for listing the shelves
 */
@@ -41,21 +46,42 @@ class CreateComment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { handleInputChangeComment } = this.props;
+    const { handleInputChangeComment, parent, handleOpenCloseAddCommentModel } = this.props;
 
     return (
-      <div className="list-books-content">
-        <form>
-          <label name="body">
-            Body:
-            <textarea name="body" value={undefined} onChange={handleInputChangeComment} />
-          </label>
-          <label name="owner">
-        Owner:
-            <input name="owner" type="text" value={undefined} onChange={handleInputChangeComment} />
-          </label>
-          <input type="submit" value="Submit Comment" onClick={this.handleSubmitComment} className="icon-btn" />
-        </form>
+      <div>
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed={true}
+          multiLine={true}
+          onChange={handleInputChangeComment}
+        /><br />
+        <br />
+        <TextField
+          hintText="Owner"
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed={true}
+          onChange={handleInputChangeComment}
+        /><br />
+        <br />
+        <FlatButton
+          label="Cancel"
+          primary={true}
+          onClick={(e) => handleOpenCloseAddCommentModel(e, parent)}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary={true}
+          keyboardFocused={true}
+          onClick={this.handleSubmitComment}
+        />
       </div>
     );
   }

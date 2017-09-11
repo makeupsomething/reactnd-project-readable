@@ -15,7 +15,8 @@ import ListComments from './ListComments';
 
 import {
   fetchCommentsIfNeeded,
-  editPostModal
+  editPostModal,
+  newCommentModal,
 } from '../actions';
 
 import Dialog from 'material-ui/Dialog';
@@ -44,7 +45,6 @@ class Post extends Component {
 
   handleOpenCloseEditPostModel(event, postId) {
     const { dispatch, modals } = this.props;
-    console.log(postId)
     if (modals.editPost === false) {
       dispatch(editPostModal(true, postId));
     } else {
@@ -64,6 +64,7 @@ class Post extends Component {
       handleOpenCloseModel,
       handleInputChange,
       handleInputChangeComment,
+      handleOpenCloseAddCommentModel
     } = this.props;
 
     const style = {
@@ -116,7 +117,7 @@ class Post extends Component {
                 post={post}
                 isPost
               />
-              <RaisedButton style={style} label="Add Comment"  name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel} />
+              <RaisedButton style={style} label="Add Comment"  name="add-comment-modal" value={post.id} onClick={(e) => handleOpenCloseAddCommentModel(e, post.id)} />
             </CardActions>
           </Card>
           <Dialog
@@ -153,8 +154,8 @@ class Post extends Component {
                 handleInputChangeComment={(event) => {
                   handleInputChangeComment(event);
                 }}
-                handleOpenCloseModel={(event) => {
-                  handleOpenCloseModel(event);
+                handleOpenCloseAddCommentModel={(event) => {
+                  this.handleOpenCloseAddCommentModel(event);
                 }}
               />
             )}
