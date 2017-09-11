@@ -65,20 +65,26 @@ class Comment extends Component {
               </Badge>
             </CardActions>
           </Card>
-          <Modal
-            isOpen={modals.editComment}
-            contentLabel="Modal"
+          <Dialog
+            title="Edit Comment"
+            repositionOnUpdate={ false }
+            actions={
+              <EditComment
+                comment={comment}
+                handleInputChangeComment={(event) => {
+                  handleInputChangeComment(event);
+                }}
+                updatePage={(page) => {
+                  updatePage(page);
+                }}
+              />
+            }
+            modal={false}
+            open={modals.editComment}
+            onRequestClose={handleOpenCloseEditCommentModel}
           >
-            <EditComment
-              comment={comment}
-              handleInputChangeComment={(event) => {
-                handleInputChangeComment(event);
-              }}
-              updatePage={(page) => {
-                updatePage(page);
-              }}
-            />
-          </Modal>
+            Change it up
+          </Dialog>
         </div>
       </div>
     );

@@ -5,6 +5,9 @@ import {
   editCommentModal,
   updateWipComment,
 } from '../actions';
+
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 /**
 * @description Component for listing the shelves
 */
@@ -50,20 +53,40 @@ class EditComment extends Component {
 
     return (
       <div className="list-books-content">
-        <form>
-          <label name="body">
-            Body:
-            <textarea name="body" value={comments.wip_body} onChange={handleInputChangeComment} />
-          </label>
-          <label name="owner">
-        Owner:
-            <input name="owner" type="text" value={comments.wip_owner} onChange={handleInputChangeComment} />
-          </label>
-          <input type="submit" value="Submit Comment" onClick={this.handleSubmitEditComment} className="icon-btn" />
-        </form>
-        <button name="cancel" onClick={this.cancelEditComment}>
-          Cancel%
-        </button>
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed={true}
+          multiLine={true}
+          value={comments.wip_body}
+          onChange={handleInputChangeComment}
+        /><br />
+        <br />
+        <TextField
+          hintText="Owner"
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed={true}
+          value={comments.wip_owner}
+          disabled={true}
+        /><br />
+        <br />
+        <FlatButton
+          label="Cancel"
+          primary={true}
+          onClick={this.cancelEditComment}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary={true}
+          keyboardFocused={true}
+          onClick={this.handleSubmitEditComment}
+        />
       </div>
     );
   }

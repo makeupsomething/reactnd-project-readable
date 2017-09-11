@@ -50,7 +50,13 @@ class EditPost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { posts, handleInputChange, handleOpenCloseEditPostModel } = this.props;
+    const { posts, categories, handleInputChange, handleOpenCloseEditPostModel } = this.props;
+    let allCats = categories.categories;
+
+    if (!allCats) {
+      allCats = [];
+    }
+    
     return (
       <div className="list-books-content">
         <TextField
@@ -74,6 +80,21 @@ class EditPost extends Component {
           onChange={handleInputChange}
         /><br />
         <br />
+        <TextField
+          hintText="Owner"
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed={true}
+          value={posts.wip_owner}
+          disabled={true}
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} disabled={true} onChange={handleInputChange}>
+          <MenuItem value="none" disabled={true} primaryText="Select Category" />
+          {allCats.map(item => (<MenuItem key={item} value={item} primaryText={item} />))}
+        </DropDownMenu><br />
         <FlatButton
           label="Cancel"
           primary={true}
@@ -93,13 +114,14 @@ class EditPost extends Component {
 }
 
 function mapStateToProps(state) {
-  const { posts, pages, comments, modals } = state;
+  const { posts, pages, comments, modals, categories } = state;
 
   return {
     posts,
     pages,
     comments,
     modals,
+    categories,
   };
 }
 
