@@ -3,10 +3,6 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import Badge from 'material-ui/Badge';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
@@ -20,6 +16,10 @@ import {
 } from '../actions';
 
 import Dialog from 'material-ui/Dialog';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import Badge from 'material-ui/Badge';
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
 /**
 * @description Component for listing the shelves
@@ -86,12 +86,6 @@ class Post extends Component {
             <CardText>
               {post.body}
             </CardText>
-            <Badge
-              badgeContent={post.voteScore}
-              primary={true}
-            >
-              <NotificationsIcon />
-            </Badge>
             <CardActions>
               <UpDownVote
                 post={post}
@@ -121,6 +115,12 @@ class Post extends Component {
                 isPost
               />
               <RaisedButton style={style} label="Add Comment"  name="add-comment-modal" value={post.id} onClick={(e) => handleOpenCloseAddCommentModel(e, post.id)} />
+              <Badge
+                badgeContent={post.voteScore}
+                primary={true}
+              >
+                <NotificationsIcon />
+              </Badge>
             </CardActions>
           </Card>
           <Dialog

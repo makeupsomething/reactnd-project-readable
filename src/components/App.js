@@ -31,7 +31,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleOpenCloseModel = this.handleOpenCloseModel.bind(this);
     this.openCloseNewPostModel = this.openCloseNewPostModel.bind(this);
   }
 
@@ -97,23 +96,6 @@ class App extends Component {
       dispatch(newPostModal(true));
     } else {
       dispatch(newPostModal(false));
-    }
-  }
-
-  handleOpenCloseModel(event, index, value) {
-    const { dispatch, modals } = this.props;
-    if (event.target.name === 'add-comment-modal') {
-      if (modals.editPost === false) {
-        dispatch(newCommentModal(true, event.target.value));
-      } else {
-        dispatch(newCommentModal(false, event.target.value));
-      }
-    } else if (event.target.name === 'edit-comment-modal') {
-      if (modals.editPost === false) {
-        dispatch(editCommentModal(true, event.target.value));
-      } else {
-        dispatch(editCommentModal(false, event.target.value));
-      }
     }
   }
 

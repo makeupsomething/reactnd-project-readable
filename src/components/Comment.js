@@ -5,6 +5,12 @@ import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
 import EditComment from './EditComment';
 
+import Dialog from 'material-ui/Dialog';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import Badge from 'material-ui/Badge';
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
+
 /**
 * @description Component for listing the shelves
 */
@@ -19,26 +25,46 @@ class Comment extends Component {
       modals,
       updatePage,
       handleInputChangeComment,
-      handleOpenCloseModel,
+      handleOpenCloseEditCommentModel,
     } = this.props;
+
+    const style = {
+      margin: 5,
+    };
 
     return (
       <div className="list-books-content">
         <div>
-          <p>
-            {comment.body}{comment.voteScore}
-          </p>
-          <UpDownVote
-            post={comment}
-            isPost={false}
-          />
-          <DeleteButton
-            post={comment}
-            isPost={false}
-          />
-          <button name="edit-comment-modal" value={comment.id} onClick={handleOpenCloseModel}>
-            Edit Comment%
-          </button>
+          <Card>
+            <CardText>
+              {comment.body}
+            </CardText>
+            <CardActions>
+              <UpDownVote
+                post={comment}
+                isPost={false}
+                label="Up Vote"
+                name="upVote"
+              />
+              <UpDownVote
+                post={comment}
+                isPost={false}
+                label="Down Vote"
+                name="downVote"
+              />
+              <RaisedButton style={style} label="Edit Comment" name="edit-comment-modal" value={comment.id} onClick={(e) => handleOpenCloseEditCommentModel(e, comment.id)} />
+              <DeleteButton
+                post={comment}
+                isPost={false}
+              />
+              <Badge
+                badgeContent={comment.voteScore}
+                primary={true}
+              >
+                <NotificationsIcon />
+              </Badge>
+            </CardActions>
+          </Card>
           <Modal
             isOpen={modals.editComment}
             contentLabel="Modal"
