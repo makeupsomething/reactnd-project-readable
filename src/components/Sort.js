@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DropDownMenu from 'material-ui/DropDownMenu';
+import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 import {
@@ -31,23 +31,36 @@ class Sort extends Component {
   }
 
   render() {
-    const { defaultSort } = this.props;
-    //var injectTapEventPlugin = require("react-tap-event-plugin");
-    //injectTapEventPlugin();
+    const { defaultSort, comments, posts, isPost } = this.props;
+
+    let currentValue = "date";
+    if(isPost) {
+      currentValue = posts.sortBy;
+    } else {
+      currentValue = comments.sortBy;
+    }
 
     return (
-      <DropDownMenu value={defaultSort} onChange={this.handleChange}>
-        <MenuItem value="date" primaryText="Date (newest first)" />
-        <MenuItem value="score" primaryText="Score (high to low)" />
-      </DropDownMenu>
+      <div>
+        <SelectField
+          floatingLabelText="Sort By"
+          value={currentValue}
+          onChange={this.handleChange}
+        >
+          <MenuItem value="date" primaryText="Date" />
+          <MenuItem value="score" primaryText="Score" />
+        </SelectField>
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { } = state;
+  const { comments, posts } = state;
 
   return {
+    comments,
+    posts,
   };
 }
 
