@@ -83,12 +83,6 @@ class Post extends Component {
             <CardHeader
               title={post.title}
             />
-            <Link
-              to={`/${post.category}/${post.id}`}
-              className={post.id}
-              value={post.id}
-              onClick={() => { updatePage(post.id); }}
-            />
             <CardText>
               {post.body}
             </CardText>
@@ -111,7 +105,16 @@ class Post extends Component {
                 label="Down Vote"
                 name="downVote"
               />
-              <RaisedButton style={style} label={`View Comments(${numComments.length})`} />
+              <RaisedButton
+                style={style}
+                label={`View Comments(${numComments.length})`}
+                onClick={() => { updatePage(post.id); }}
+                containerElement={<Link
+                    to={`/${post.category}/${post.id}`}
+                    className={post.id}
+                    value={post.id}
+                  />}
+              />
               <RaisedButton style={style} label="Edit Post" name="edit-post-modal" value={post.id} onClick={(e) => this.handleOpenCloseEditPostModel(e, post.id)} />
               <DeleteButton
                 post={post}

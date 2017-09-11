@@ -43,7 +43,7 @@ class Sort extends Component {
     return (
       <div>
         <SelectField
-          floatingLabelText="Sort By"
+          floatingLabelText={isPost ? 'Sort Posts' : 'Sort Comments'}
           value={currentValue}
           onChange={this.handleChange}
         >

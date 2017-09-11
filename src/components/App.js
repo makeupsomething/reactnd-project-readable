@@ -87,6 +87,7 @@ class App extends Component {
 
   updatePage(page) {
     const { dispatch } = this.props;
+    console.log("update the page")
     dispatch(updateCurrentPage(page));
   }
 
