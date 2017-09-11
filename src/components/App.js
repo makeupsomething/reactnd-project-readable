@@ -25,6 +25,9 @@ import {
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class App extends Component {
   constructor(props) {
@@ -130,6 +133,23 @@ class App extends Component {
       bottom: '20px'
     };
 
+    const styles = {
+      dialogRoot: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: 0
+      },
+      dialogContent: {
+        position: "relative",
+        width: "80vw",
+        transform: "",
+      },
+      dialogBody: {
+        paddingBottom: 0
+      }
+    };
+
     let allCats = categories.categories;
     if (!allCats) {
       allCats = [];
@@ -150,20 +170,29 @@ class App extends Component {
             this.updatePage(page);
           }}
         />
-        <Modal
-          isOpen={modals.newPost}
-          contentLabel="Modal"
+        <Dialog
+          title="New Post"
+          contentStyle={ styles.dialogContent }
+          bodyStyle={ styles.dialogBody }
+          style={ styles.dialogRoot }
+          repositionOnUpdate={ false }
+          actions={
+            <CreatePost
+              categories={categories}
+              handleInputChange={(event) => {
+                this.handleInputChange(event);
+              }}
+              openCloseNewPostModel={(event) => {
+                this.openCloseNewPostModel(event);
+              }}
+            />
+          }
+          modal={false}
+          open={modals.newPost}
+          onRequestClose={this.openCloseNewPostModel}
         >
-          <CreatePost
-            categories={categories}
-            handleInputChange={(event) => {
-              this.handleInputChange(event);
-            }}
-            handleOpenCloseModel={(event) => {
-              this.handleOpenCloseModel(event);
-            }}
-          />
-        </Modal>
+          Make it "readable"
+        </Dialog>
         <Switch>
           <Route
             exact
