@@ -112,7 +112,7 @@ class App extends Component {
       dialogRoot: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "left",
         paddingTop: 0
       },
       dialogContent: {

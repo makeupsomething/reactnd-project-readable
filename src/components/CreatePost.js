@@ -42,8 +42,12 @@ class CreatePost extends Component {
       allCats = [];
     }
 
+    const style = {
+      textAlign: 'left',
+    };
+
     return (
-      <div>
+      <div style={style}>
       <TextField
         hintText="Title"
         name="title"

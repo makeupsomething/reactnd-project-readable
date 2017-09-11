@@ -56,9 +56,13 @@ class EditPost extends Component {
     if (!allCats) {
       allCats = [];
     }
-    
+
+    const style = {
+      textAlign: 'left',
+    };
+
     return (
-      <div className="list-books-content">
+      <div className="edit-post-dialog" style={style}>
         <TextField
           hintText="Title"
           name="title"

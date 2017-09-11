@@ -75,7 +75,7 @@ class Post extends Component {
     if (comments.comments) {
       numComments = comments.comments.filter(comment => (!comment.deleted && comment.parentId === post.id));
     }
-
+    
     return (
       <div className="list-books-content">
         <div>

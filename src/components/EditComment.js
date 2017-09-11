@@ -51,8 +51,12 @@ class EditComment extends Component {
   render() {
     const { comments, handleInputChangeComment } = this.props;
 
+    const style = {
+      textAlign: 'left',
+    };
+
     return (
-      <div className="list-books-content">
+      <div className="list-books-content" style={style}>
         <TextField
           hintText="Body"
           name="body"

@@ -48,8 +48,12 @@ class CreateComment extends Component {
   render() {
     const { handleInputChangeComment, parent, handleOpenCloseAddCommentModel } = this.props;
 
+    const style = {
+      textAlign: 'left',
+    };
+
     return (
-      <div>
+      <div style={style}>
         <TextField
           hintText="Body"
           name="body"
