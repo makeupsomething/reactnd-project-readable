@@ -108,23 +108,6 @@ class App extends Component {
       bottom: '20px'
     };
 
-    const styles = {
-      dialogRoot: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "left",
-        paddingTop: 0
-      },
-      dialogContent: {
-        position: "relative",
-        width: "80vw",
-        transform: "",
-      },
-      dialogBody: {
-        paddingBottom: 0
-      }
-    };
-
     let allCats = categories.categories;
     if (!allCats) {
       allCats = [];
@@ -147,9 +130,6 @@ class App extends Component {
         />
         <Dialog
           title="New Post"
-          contentStyle={ styles.dialogContent }
-          bodyStyle={ styles.dialogBody }
-          style={ styles.dialogRoot }
           repositionOnUpdate={ false }
           actions={
             <CreatePost

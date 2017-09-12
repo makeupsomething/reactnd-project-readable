@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   addPostIfPossible,
   newPostModal,
+  updateWipPost,
 } from '../actions';
 
 import TextField from 'material-ui/TextField';
@@ -16,6 +17,7 @@ class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChangeCategory = this.handleInputChangeCategory.bind(this);
   }
 
   handleSubmit(event) {
@@ -29,6 +31,21 @@ class CreatePost extends Component {
     dispatch(addPostIfPossible(id, timestamp, title, body, owner, category));
     event.preventDefault();
     dispatch(newPostModal(false));
+  }
+
+  handleInputChangeCategory(event, index, value) {
+    const { dispatch, posts } = this.props;
+    const target = event.target;
+    let title = '';
+    let body = '';
+    let category = '';
+    let owner = '';
+
+    body = posts.wip_body;
+    title = posts.wip_title;
+    category = value;
+    owner = posts.wip_owner;
+    dispatch(updateWipPost(title, body, category, owner));
   }
   /**
   * @description The render function
@@ -76,7 +93,7 @@ class CreatePost extends Component {
         onChange={handleInputChange}
       /><br />
       <br />
-      <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} onChange={handleInputChange}>
+      <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} onChange={this.handleInputChangeCategory}>
         <MenuItem value="none" disabled={true} primaryText="Select Category" />
         {allCats.map(item => (<MenuItem key={item} value={item} primaryText={item} />))}
       </DropDownMenu><br />
