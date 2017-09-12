@@ -265,7 +265,7 @@ function receiveNewComments(json) {
   };
 }
 
-function addComment(id, timestamp, body, owner, parentId) {
+function addComment(id, timestamp, body, author, parentId) {
   return (dispatch) => {
     dispatch(requestAddComment());
     return fetch(`${api}/comments`, {
@@ -274,7 +274,7 @@ function addComment(id, timestamp, body, owner, parentId) {
         ...headers,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, timestamp, body, owner, parentId }),
+      body: JSON.stringify({ id, timestamp, body, author, parentId }),
     }).then(res => res.json())
       .then(json => dispatch(receiveNewComments(json)));
   };

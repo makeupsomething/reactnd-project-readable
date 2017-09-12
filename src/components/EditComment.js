@@ -15,18 +15,6 @@ class EditComment extends Component {
     this.cancelEditComment = this.cancelEditComment.bind(this);
   }
 
-  componentDidMount() {
-    const { comment, modals } = this.props;
-    if (modals.commentId === comment.id) {
-      this.loadEditComment(comment);
-    }
-  }
-
-  loadEditComment(comment) {
-    const { dispatch } = this.props;
-    dispatch(updateWipComment(comment.body, comment.author, comment.id));
-  }
-
   handleSubmitEditComment(event) {
     const { dispatch, comments } = this.props;
     const id = comments.wip_parentId;

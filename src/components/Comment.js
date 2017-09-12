@@ -44,7 +44,7 @@ class Comment extends Component {
                 label="Down Vote"
                 name="downVote"
               />
-              <RaisedButton style={style} label="Edit Comment" name="edit-comment-modal" value={comment.id} onClick={e => handleOpenCloseEditCommentModel(e, comment.id)} />
+              <RaisedButton style={style} label="Edit Comment" name="edit-comment-modal" value={comment.id} onClick={e => handleOpenCloseEditCommentModel(e, comment)} />
               <DeleteButton
                 post={comment}
                 isPost={false}

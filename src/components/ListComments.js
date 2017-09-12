@@ -5,6 +5,7 @@ import Sort from './Sort';
 
 import {
   editCommentModal,
+  updateWipComment,
 } from '../actions';
 
 class ListComments extends Component {
@@ -13,13 +14,26 @@ class ListComments extends Component {
     this.handleOpenCloseEditCommentModel = this.handleOpenCloseEditCommentModel.bind(this);
   }
 
-  handleOpenCloseEditCommentModel(event, commentId) {
+  handleOpenCloseEditCommentModel(event, comment) {
     const { dispatch, modals } = this.props;
-    if (modals.editPost === false) {
-      dispatch(editCommentModal(true, commentId));
+    if (modals.editPost === false && comment) {
+      dispatch(editCommentModal(true, comment.id));
+      this.loadEditComment(comment)
     } else {
-      dispatch(editCommentModal(false, commentId));
+      dispatch(editCommentModal(false, 0));
     }
+  }
+
+  loadEditComment(comment) {
+    console.log("##########")
+    console.log("##########")
+    console.log("##########")
+    console.log(comment)
+    console.log("##########")
+    console.log("##########")
+    console.log("##########")
+    const { dispatch } = this.props;
+    dispatch(updateWipComment(comment.body, comment.author, comment.id));
   }
 
   render() {
@@ -51,19 +65,21 @@ class ListComments extends Component {
     return (
       <div className="list-comments">
         {commentList.map(comment => (
-          <Comment
-            comment={comment}
-            modals={modals}
-            updatePage={(page) => {
-              updatePage(page);
-            }}
-            handleInputChangeComment={(event) => {
-              handleInputChangeComment(event);
-            }}
-            handleOpenCloseEditCommentModel={(event, parentId) => {
-              this.handleOpenCloseEditCommentModel(event, parentId);
-            }}
-          />
+          <div key={comment.id}>
+            <Comment
+              comment={comment}
+              modals={modals}
+              updatePage={(page) => {
+                updatePage(page);
+              }}
+              handleInputChangeComment={(event) => {
+                handleInputChangeComment(event);
+              }}
+              handleOpenCloseEditCommentModel={(event, commentId) => {
+                this.handleOpenCloseEditCommentModel(event, commentId);
+              }}
+            />
+          </div>
         ))}
         <Sort
           isPost={false}
