@@ -1,5 +1,3 @@
-import * as API from '../utils/api';
-
 export const ADD_POST = 'ADD_POST';
 export const EDIT_POST = 'EDIT_POST';
 export const FINISH_EDIT = 'FINISH_EDIT';
@@ -15,7 +13,7 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
-export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT'
+export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT';
 export const UPDATE_WIP_COMMENT = 'UPDATE_WIP_COMMENT';
 export const REQUEST_UP_DOWN_VOTE_POST = 'REQUEST_UP_DOWN_VOTE_POST';
 export const RECEIVE_UP_DOWN_VOTE_POST = 'RECEIVE_UP_DOWN_VOTE_POST';
@@ -23,10 +21,10 @@ export const REQUEST_UP_DOWN_VOTE_COMMENT = 'REQUEST_UP_DOWN_VOTE_COMMENT';
 export const RECEIVE_UP_DOWN_VOTE_COMMENT = 'RECEIVE_UP_DOWN_VOTE_COMMENT';
 export const SORT_POSTS = 'SORT_POSTS';
 export const SORT_COMMENTS = 'SORT_COMMENTS';
-export const NEW_POST_MODAL = 'NEW_POST_MODAL'
-export const EDIT_POST_MODAL = 'EDIT_POST_MODAL'
-export const NEW_COMMENT_MODAL = 'NEW_COMMENT_MODAL'
-export const EDIT_COMMENT_MODAL = 'EDIT_COMMENT_MODAL'
+export const NEW_POST_MODAL = 'NEW_POST_MODAL';
+export const EDIT_POST_MODAL = 'EDIT_POST_MODAL';
+export const NEW_COMMENT_MODAL = 'NEW_COMMENT_MODAL';
+export const EDIT_COMMENT_MODAL = 'EDIT_COMMENT_MODAL';
 const api = 'http://localhost:5001';
 
 
@@ -47,12 +45,6 @@ function requestAddPost() {
   };
 }
 
-export function addPostIfPossible(id, timestamp, title, body, owner, category) {
-  return (dispatch, getState) => {
-    return dispatch(addPost(id, timestamp, title, body, owner, category));
-  };
-}
-
 function addPost(id, timestamp, title, body, owner, category) {
   return (dispatch) => {
     dispatch(requestAddPost());
@@ -67,6 +59,12 @@ function addPost(id, timestamp, title, body, owner, category) {
   };
 }
 
+export function addPostIfPossible(id, timestamp, title, body, owner, category) {
+  return (dispatch, getState) => {
+    return dispatch(addPost(id, timestamp, title, body, owner, category));
+  };
+}
+
 function requestEditPost() {
   return {
     type: EDIT_POST,
@@ -77,6 +75,21 @@ function requestEditPost() {
 export function editPostIfPossible(id, title, body) {
   return (dispatch, getState) => {
     return dispatch(editPost(id, title, body));
+  };
+}
+
+function fetchPosts() {
+  return (dispatch) => {
+    dispatch(requestPosts());
+    return fetch(`${api}/posts`, { headers })
+      .then(response => response.json())
+      .then(json => dispatch(receivePosts(json)));
+  };
+}
+
+export function fetchPostsIfNeeded() {
+  return (dispatch, getState) => {
+    return dispatch(fetchPosts());
   };
 }
 
@@ -105,10 +118,10 @@ export function finishEdit() {
 export function updateWipPost(title, body, category, owner) {
   return {
     type: UPDATE_WIP_POST,
-    title: title,
-    body: body,
-    category: category,
-    owner: owner,
+    title,
+    body,
+    category,
+    owner,
   };
 }
 
@@ -122,31 +135,31 @@ export function updateCurrentPage(page) {
 export function newPostModal(isOpen) {
   return {
     type: NEW_POST_MODAL,
-    isOpen: isOpen,
+    isOpen,
   };
 }
 
 export function editPostModal(isOpen, id) {
   return {
     type: EDIT_POST_MODAL,
-    isOpen: isOpen,
-    id: id
+    isOpen,
+    id,
   };
 }
 
 export function newCommentModal(isOpen, parentId) {
   return {
     type: NEW_COMMENT_MODAL,
-    isOpen: isOpen,
-    parentId: parentId,
+    isOpen,
+    parentId,
   };
 }
 
 export function editCommentModal(isOpen, id) {
   return {
     type: EDIT_COMMENT_MODAL,
-    isOpen: isOpen,
-    commentId: id
+    isOpen,
+    id,
   };
 }
 
@@ -193,21 +206,6 @@ function receivePosts(json) {
   };
 }
 
-function fetchPosts() {
-  return (dispatch) => {
-    dispatch(requestPosts());
-    return fetch(`${api}/posts`, { headers })
-      .then(response => response.json())
-      .then(json => dispatch(receivePosts(json)));
-  };
-}
-
-export function fetchPostsIfNeeded() {
-  return (dispatch, getState) => {
-    return dispatch(fetchPosts());
-  };
-}
-
 function requestComments() {
   return {
     type: REQUEST_COMMENTS,
@@ -215,11 +213,9 @@ function requestComments() {
 }
 
 function receiveComments(json, id) {
-  console.log('recieve comments')
-  console.log(json)
   return {
     type: RECEIVE_COMMENTS,
-    id: id,
+    id,
     comments: json.map(child => child),
     receivedAt: Date.now(),
   };
@@ -231,6 +227,13 @@ function fetchComments(id) {
     return fetch(`${api}/posts/${id}/comments`, { headers })
       .then(response => response.json())
       .then(json => dispatch(receiveComments(json, id)));
+  };
+}
+
+function receiveCommentUpDownVote(json) {
+  return {
+    type: RECEIVE_UP_DOWN_VOTE_COMMENT,
+    comment: json
   };
 }
 
@@ -258,22 +261,11 @@ function requestAddComment() {
 function receiveNewComments(json) {
   return {
     type: RECEIVE_NEW_COMMENT,
-    new_comment: json
-  };
-}
-
-export function addCommentIfPossible(id, timestamp, body, owner, parent) {
-  return (dispatch, getState) => {
-    return dispatch(addComment(id, timestamp, body, owner, parent));
+    new_comment: json,
   };
 }
 
 function addComment(id, timestamp, body, owner, parentId) {
-  console.log("action add comment")
-  console.log(id)
-  console.log(body)
-  console.log(owner)
-  console.log(parentId)
   return (dispatch) => {
     dispatch(requestAddComment());
     return fetch(`${api}/comments`, {
@@ -288,16 +280,16 @@ function addComment(id, timestamp, body, owner, parentId) {
   };
 }
 
+export function addCommentIfPossible(id, timestamp, body, owner, parent) {
+  return (dispatch, getState) => {
+    return dispatch(addComment(id, timestamp, body, owner, parent));
+  };
+}
+
 function requestEditComment() {
   return {
     type: EDIT_COMMENT,
     editing: true,
-  };
-}
-
-export function editCommentIfPossible(id, timestamp, body) {
-  return (dispatch, getState) => {
-    return dispatch(editComment(id, timestamp, body));
   };
 }
 
@@ -315,24 +307,24 @@ function editComment(id, timestamp, body) {
   };
 }
 
+export function editCommentIfPossible(id, timestamp, body) {
+  return (dispatch, getState) => {
+    return dispatch(editComment(id, timestamp, body));
+  };
+}
+
 export function updateWipComment(body, owner, parentId) {
   return {
     type: UPDATE_WIP_COMMENT,
-    body: body,
-    owner: owner,
-    parentId: parentId,
+    body,
+    owner,
+    parentId,
   };
 }
 
 function requestUpDownVotePost() {
   return {
     type: REQUEST_UP_DOWN_VOTE_POST,
-  };
-}
-
-export function doUpDownVotePostIfPossible(vote, id) {
-  return (dispatch, getState) => {
-    return dispatch(doUpDownVotePost(vote, id));
   };
 }
 
@@ -351,21 +343,19 @@ function doUpDownVotePost(vote, id) {
   };
 }
 
+export function doUpDownVotePostIfPossible(vote, id) {
+  return (dispatch, getState) => {
+    return dispatch(doUpDownVotePost(vote, id));
+  };
+}
+
 function requestUpDownVoteComment() {
   return {
     type: REQUEST_UP_DOWN_VOTE_COMMENT,
   };
 }
 
-export function doUpDownVoteCommentIfPossible(vote, id, pageId) {
-  return (dispatch, getState) => {
-    return dispatch(doUpDownVoteComment(vote, id, pageId));
-  };
-}
-
-function doUpDownVoteComment(vote, id, pageId) {
-  console.log("el commento")
-  console.log(pageId)
+function doUpDownVoteComment(vote, id) {
   return (dispatch) => {
     dispatch(requestUpDownVoteComment());
     return fetch(`${api}/comments/${id}`, {
@@ -380,10 +370,9 @@ function doUpDownVoteComment(vote, id, pageId) {
   };
 }
 
-function receiveCommentUpDownVote(json) {
-  return {
-    type: RECEIVE_UP_DOWN_VOTE_COMMENT,
-    comment: json
+export function doUpDownVoteCommentIfPossible(vote, id, pageId) {
+  return (dispatch, getState) => {
+    return dispatch(doUpDownVoteComment(vote, id, pageId));
   };
 }
 
@@ -442,13 +431,13 @@ export function deleteCommentIfPossible(id) {
 export function sortPosts(sortBy) {
   return {
     type: SORT_POSTS,
-    sortBy: sortBy,
+    sortBy,
   };
 }
 
 export function sortComments(sortBy) {
   return {
     type: SORT_COMMENTS,
-    sortBy: sortBy,
+    sortBy,
   };
 }
