@@ -5,7 +5,6 @@ import FlatButton from 'material-ui/FlatButton';
 import {
   editCommentIfPossible,
   editCommentModal,
-  updateWipComment,
 } from '../actions';
 
 class EditComment extends Component {

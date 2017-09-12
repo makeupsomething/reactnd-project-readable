@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
-import { Card, CardActions, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardText, CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
@@ -28,6 +28,9 @@ class Comment extends Component {
       <div className="list-books-content">
         <div>
           <Card>
+            <CardHeader
+              title={`${comment.author} said...`}
+            />
             <CardText>
               {comment.body}
             </CardText>

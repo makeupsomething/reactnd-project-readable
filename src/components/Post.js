@@ -74,6 +74,7 @@ class Post extends Component {
           <Card>
             <CardHeader
               title={post.title}
+              subtitle={post.author}
             />
             <CardText>
               {post.body}
