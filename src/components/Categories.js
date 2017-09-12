@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Chip from 'material-ui/Chip';
+import { blue300 } from 'material-ui/styles/colors';
 
 /**
 * @description Component for listing the shelves
@@ -11,28 +13,46 @@ export default function Categories({ categories, updatePage }) {
     allCats = [];
   }
 
+  const styles = {
+    chip: {
+      margin: 4,
+    },
+    wrapper: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+  };
+
   return (
-    <div className="list-categories">
+    <div className="list-categories" style={styles.wrapper}>
       <div>
-        <Link
-          to={'/'}
-          className="home"
-          value="home"
+        <Chip
+          style={styles.chip}
+          backgroundColor={blue300}
           onClick={() => { updatePage('home'); }}
+          containerElement={<Link
+            to={'/'}
+            className="home"
+            value="home"
+          />}
         >
-          Top
-        </Link>
+        Top
+        </Chip>
       </div>
       {allCats.map(item => (
         <div key={item}>
-          <Link
-            to={`/${item}`}
-            className={item}
-            value={item}
+          <Chip
+            style={styles.chip}
+            backgroundColor={blue300}
             onClick={() => { updatePage(item); }}
+            containerElement={<Link
+              to={`/${item}`}
+              className={item}
+              value={item}
+            />}
           >
             {item}
-          </Link>
+          </Chip>
         </div>))}
     </div>
   );

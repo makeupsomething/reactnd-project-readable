@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 import {
   editPostIfPossible,
-  updateCurrentPage,
   editPostModal,
   updateWipPost,
 } from '../actions';
-/**
-* @description Component for listing the shelves
-*/
+
 class EditPost extends Component {
   constructor(props) {
     super(props);
@@ -17,16 +18,16 @@ class EditPost extends Component {
 
   componentDidMount() {
     const { post, modals } = this.props;
-    if(modals.postId === post.id) {
-      this.loadEditPost(post)
+    if (modals.postId === post.id) {
+      this.loadEditPost(post);
     }
   }
 
   loadEditPost(post) {
     const { dispatch } = this.props;
-    let body = post.body;
-    let title = post.title;
-    let category = post.category;
+    const body = post.body;
+    const title = post.title;
+    const category = post.category;
     const owner = post.author;
     dispatch(updateWipPost(title, body, category, owner));
   }
@@ -45,37 +46,80 @@ class EditPost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { posts, handleInputChange } = this.props;
+    const { posts, categories, handleInputChange, handleOpenCloseEditPostModel } = this.props;
+    let allCats = categories.categories;
+
+    if (!allCats) {
+      allCats = [];
+    }
+
+    const style = {
+      textAlign: 'left',
+    };
+
     return (
-      <div className="list-books-content">
-        <form>
-          <label name="title">
-            Title:
-            <input name="title" type="text" value={posts.wip_title} onChange={handleInputChange} />
-          </label>
-          <label name="body">
-            Body:
-            <textarea name="body" value={posts.wip_body} onChange={handleInputChange} />
-          </label>
-          <label>
-            Owner:
-            <input name="owner" type="text" value={undefined} onChange={handleInputChange} />
-          </label>
-          <input type="submit" value="Submit" onClick={this.handleSubmitEdit} className="icon-btn" />
-        </form>
+      <div className="edit-post-dialog" style={style}>
+        <TextField
+          hintText="Title"
+          name="title"
+          type="text"
+          floatingLabelText="Title"
+          floatingLabelFixed
+          value={posts.wip_title}
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed
+          value={posts.wip_body}
+          multiLine
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <TextField
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed
+          value={posts.wip_owner}
+          disabled
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} disabled onChange={handleInputChange}>
+          <MenuItem value="none" disabled primaryText="Select Category" />
+          {allCats.map(item => (<MenuItem key={item} value={item} primaryText={item} />))}
+        </DropDownMenu><br />
+        <FlatButton
+          label="Cancel"
+          primary
+          onClick={handleOpenCloseEditPostModel}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary
+          onClick={this.handleSubmitEdit}
+        />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { posts, pages, comments, modals } = state;
+  const { posts, pages, comments, modals, categories } = state;
 
   return {
     posts,
     pages,
     comments,
     modals,
+    categories,
   };
 }
 

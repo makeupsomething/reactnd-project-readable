@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import {
   editCommentIfPossible,
   editCommentModal,
   updateWipComment,
 } from '../actions';
-/**
-* @description Component for listing the shelves
-*/
+
 class EditComment extends Component {
   constructor(props) {
     super(props);
     this.handleSubmitEditComment = this.handleSubmitEditComment.bind(this);
     this.cancelEditComment = this.cancelEditComment.bind(this);
-  }
-
-  componentDidMount() {
-    const { comment, modals } = this.props;
-    if (modals.commentId === comment.id) {
-      this.loadEditComment(comment);
-    }
-  }
-
-  loadEditComment(comment) {
-    const { dispatch } = this.props;
-    dispatch(updateWipComment(comment.body, comment.author, comment.id));
   }
 
   handleSubmitEditComment(event) {
@@ -38,7 +26,7 @@ class EditComment extends Component {
   }
 
   cancelEditComment() {
-    const { dispatch, comments } = this.props;
+    const { dispatch } = this.props;
     dispatch(editCommentModal(false));
   }
   /**
@@ -48,22 +36,44 @@ class EditComment extends Component {
   render() {
     const { comments, handleInputChangeComment } = this.props;
 
+    const style = {
+      textAlign: 'left',
+    };
+
     return (
-      <div className="list-books-content">
-        <form>
-          <label name="body">
-            Body:
-            <textarea name="body" value={comments.wip_body} onChange={handleInputChangeComment} />
-          </label>
-          <label name="owner">
-        Owner:
-            <input name="owner" type="text" value={comments.wip_owner} onChange={handleInputChangeComment} />
-          </label>
-          <input type="submit" value="Submit Comment" onClick={this.handleSubmitEditComment} className="icon-btn" />
-        </form>
-        <button name="cancel" onClick={this.cancelEditComment}>
-          Cancel%
-        </button>
+      <div className="list-books-content" style={style}>
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed
+          multiLine
+          value={comments.wip_body}
+          onChange={handleInputChangeComment}
+        /><br />
+        <br />
+        <TextField
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed
+          value={comments.wip_owner}
+          disabled
+        /><br />
+        <br />
+        <FlatButton
+          label="Cancel"
+          primary
+          onClick={this.cancelEditComment}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary
+          onClick={this.handleSubmitEditComment}
+        />
       </div>
     );
   }

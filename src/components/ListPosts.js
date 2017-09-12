@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Modal from 'react-modal';
+import Dialog from 'material-ui/Dialog';
 
 import Post from './Post';
 import CreateComment from './CreateComment';
@@ -8,15 +8,14 @@ import Sort from './Sort';
 
 import {
   updateWipComment,
+  newCommentModal,
 } from '../actions';
 
-/**
-* @description Component for listing the shelves
-*/
 class ListPosts extends Component {
   constructor(props) {
     super(props);
     this.handleInputChangeComment = this.handleInputChangeComment.bind(this);
+    this.handleOpenCloseAddCommentModel = this.handleOpenCloseAddCommentModel.bind(this);
   }
 
   handleInputChangeComment(event) {
@@ -45,16 +44,23 @@ class ListPosts extends Component {
     }
   }
 
+  handleOpenCloseAddCommentModel(event, parentId) {
+    const { dispatch, modals } = this.props;
+    if (modals.newComment === false) {
+      dispatch(newCommentModal(true, parentId));
+    } else {
+      dispatch(newCommentModal(false, parentId));
+    }
+  }
+
   render() {
     const {
       posts,
       modals,
-      comments,
       pages,
       categories,
       updatePage,
       handleInputChange,
-      handleOpenCloseModel,
     } = this.props;
 
     let postList = [];
@@ -81,6 +87,10 @@ class ListPosts extends Component {
 
     return (
       <div className="list-books-content">
+        <Sort
+          isPost
+          defaultSort={posts.sortBy}
+        />
         {postList.map(post => (
           <div key={post.id}>
             <Post
@@ -91,32 +101,33 @@ class ListPosts extends Component {
               handleInputChange={(event) => {
                 handleInputChange(event);
               }}
-              handleOpenCloseModel={(event) => {
-                handleOpenCloseModel(event);
+              handleOpenCloseAddCommentModel={(event, parentId) => {
+                this.handleOpenCloseAddCommentModel(event, parentId);
               }}
               handleInputChangeComment={(parentId) => {
                 this.handleInputChangeComment(parentId);
               }}
             />
-            <button name="add-comment-modal" value={post.id} onClick={handleOpenCloseModel}>
-              Add Comment%
-            </button>
-            <Modal
-              isOpen={modals.newComment}
-              contentLabel="Modal"
-            >
-              <CreateComment
-                parent={modals.parentId}
-                handleInputChangeComment={(parentId) => {
-                  this.handleInputChangeComment(parentId);
-                }}
-              />
-            </Modal>
+            <Dialog
+              title="Add Comment"
+              repositionOnUpdate={false}
+              actions={
+                <CreateComment
+                  parent={modals.parentId}
+                  handleInputChangeComment={(parentId) => {
+                    this.handleInputChangeComment(parentId);
+                  }}
+                  handleOpenCloseAddCommentModel={(event, parentId) => {
+                    this.handleOpenCloseAddCommentModel(event, parentId);
+                  }}
+                />
+              }
+              modal={false}
+              open={modals.newComment}
+              onRequestClose={this.handleOpenCloseAddCommentModel}
+            />
           </div>
         ))}
-        <Sort
-          isPost
-        />
       </div>
     );
   }

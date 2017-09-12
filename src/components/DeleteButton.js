@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import {
   deletePostIfPossible,
   updateCurrentPage,
   deleteCommentIfPossible,
 } from '../actions';
-/**
-* @description Component for listing the shelves
-*/
+
 class DeleteButton extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +17,7 @@ class DeleteButton extends Component {
 
   handleClick() {
     const { post, isPost } = this.props;
-    let id = post.id;
+    const id = post.id;
     this.deletePostOrComment(isPost, id);
   }
 
@@ -37,12 +37,12 @@ class DeleteButton extends Component {
   * @returns { object } The UI
   */
   render() {
+    const style = {
+      margin: 5,
+    };
+
     return (
-      <div className="delete-button">
-        <button name="delete" onClick={this.handleClick}>
-          Delete
-        </button>
-      </div>
+      <RaisedButton style={style} label="Delete" name="delete" onClick={this.handleClick} />
     );
   }
 }

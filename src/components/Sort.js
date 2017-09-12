@@ -1,6 +1,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
 import {
   sortPosts,
   sortComments,
@@ -13,9 +16,9 @@ class Sort extends Component {
     this.sortPostsOrComments = this.sortPostsOrComments.bind(this);
   }
 
-  handleChange(event) {
+  handleChange(event, index, value) {
     const { isPost } = this.props;
-    this.sortPostsOrComments(isPost, event.target.value);
+    this.sortPostsOrComments(isPost, value);
   }
 
   sortPostsOrComments(isPost, sortBy) {
@@ -28,24 +31,36 @@ class Sort extends Component {
   }
 
   render() {
+    const { comments, posts, isPost } = this.props;
+
+    let currentValue = 'date';
+    if (isPost) {
+      currentValue = posts.sortBy;
+    } else {
+      currentValue = comments.sortBy;
+    }
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Sort By:
-          <select value={undefined} onChange={this.handleChange}>
-            <option value="date">Date</option>
-            <option value="score">Score</option>
-          </select>
-        </label>
-      </form>
+      <div>
+        <SelectField
+          floatingLabelText={isPost ? 'Sort Posts' : 'Sort Comments'}
+          value={currentValue}
+          onChange={this.handleChange}
+        >
+          <MenuItem value="date" primaryText="Date" />
+          <MenuItem value="score" primaryText="Score" />
+        </SelectField>
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { } = state;
+  const { comments, posts } = state;
 
   return {
+    comments,
+    posts,
   };
 }
 

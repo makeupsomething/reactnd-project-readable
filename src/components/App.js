@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router-dom';
-import Modal from 'react-modal';
+import AppBar from 'material-ui/AppBar';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import Dialog from 'material-ui/Dialog';
 
 import Categories from './Categories';
 import ListPosts from './ListPosts';
@@ -15,18 +18,14 @@ import {
   finishEdit,
   updateWipPost,
   updateCurrentPage,
-  updateWipComment,
   newPostModal,
-  editPostModal,
-  newCommentModal,
-  editCommentModal,
 } from '../actions';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleOpenCloseModel = this.handleOpenCloseModel.bind(this);
+    this.openCloseNewPostModel = this.openCloseNewPostModel.bind(this);
   }
 
   componentDidMount() {
@@ -84,37 +83,24 @@ class App extends Component {
     dispatch(updateCurrentPage(page));
   }
 
-  handleOpenCloseModel(event) {
+  openCloseNewPostModel(event) {
     const { dispatch, modals } = this.props;
-    if (event.target.name === 'new-post-modal') {
-      if (modals.newPost === false) {
-        dispatch(newPostModal(true));
-      } else {
-        dispatch(newPostModal(false));
-      }
-    } else if (event.target.name === 'edit-post-modal') {
-      if (modals.editPost === false) {
-        dispatch(editPostModal(true, event.target.value));
-      } else {
-        dispatch(editPostModal(false));
-      }
-    } else if (event.target.name === 'add-comment-modal') {
-      if (modals.editPost === false) {
-        dispatch(newCommentModal(true, event.target.value));
-      } else {
-        dispatch(newCommentModal(false, event.target.value));
-      }
-    } else if (event.target.name === 'edit-comment-modal') {
-      if (modals.editPost === false) {
-        dispatch(editCommentModal(true, event.target.value));
-      } else {
-        dispatch(editCommentModal(false, event.target.value));
-      }
+    if (modals.newPost === false) {
+      dispatch(newPostModal(true));
+    } else {
+      dispatch(newPostModal(false));
     }
   }
 
   render() {
     const { categories, posts, pages, modals } = this.props;
+
+    const style = {
+      position: 'fixed',
+      right: '20px',
+      bottom: '20px',
+    };
+
     let allCats = categories.categories;
     if (!allCats) {
       allCats = [];
@@ -122,29 +108,39 @@ class App extends Component {
 
     return (
       <div>
+        <AppBar
+          title="Readable"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <FloatingActionButton style={style} onClick={this.openCloseNewPostModel}>
+          <ContentAdd />
+        </FloatingActionButton>
         <Categories
           categories={categories}
           updatePage={(page) => {
             this.updatePage(page);
           }}
         />
-        <button name="new-post-modal" onClick={this.handleOpenCloseModel}>
-          New Post
-        </button>
-        <Modal
-          isOpen={modals.newPost}
-          contentLabel="Modal"
+        <Dialog
+          title="New Post"
+          repositionOnUpdate={false}
+          actions={
+            <CreatePost
+              categories={categories}
+              handleInputChange={(event) => {
+                this.handleInputChange(event);
+              }}
+              openCloseNewPostModel={(event) => {
+                this.openCloseNewPostModel(event);
+              }}
+            />
+          }
+          modal={false}
+          open={modals.newPost}
+          onRequestClose={this.openCloseNewPostModel}
         >
-          <CreatePost
-            categories={categories}
-            handleInputChange={(event) => {
-              this.handleInputChange(event);
-            }}
-            handleOpenCloseModel={(event) => {
-              this.handleOpenCloseModel(event);
-            }}
-          />
-        </Modal>
+          Make it readable
+        </Dialog>
         <Switch>
           <Route
             exact

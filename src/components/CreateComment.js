@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+
 import {
   addCommentIfPossible,
   newCommentModal,
   updateWipComment,
 } from '../actions';
-/**
-* @description Component for listing the shelves
-*/
+
 class CreateComment extends Component {
   constructor(props) {
     super(props);
@@ -41,21 +42,46 @@ class CreateComment extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { handleInputChangeComment } = this.props;
+    const { handleInputChangeComment, parent, handleOpenCloseAddCommentModel } = this.props;
+
+    const style = {
+      textAlign: 'left',
+    };
 
     return (
-      <div className="list-books-content">
-        <form>
-          <label name="body">
-            Body:
-            <textarea name="body" value={undefined} onChange={handleInputChangeComment} />
-          </label>
-          <label name="owner">
-        Owner:
-            <input name="owner" type="text" value={undefined} onChange={handleInputChangeComment} />
-          </label>
-          <input type="submit" value="Submit Comment" onClick={this.handleSubmitComment} className="icon-btn" />
-        </form>
+      <div style={style}>
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed
+          multiLine
+          onChange={handleInputChangeComment}
+        /><br />
+        <br />
+        <TextField
+          hintText="Owner"
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed
+          onChange={handleInputChangeComment}
+        /><br />
+        <br />
+        <FlatButton
+          label="Cancel"
+          primary
+          onClick={e => handleOpenCloseAddCommentModel(e, parent)}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary
+          keyboardFocused
+          onClick={this.handleSubmitComment}
+        />
       </div>
     );
   }
