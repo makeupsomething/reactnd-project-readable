@@ -45,7 +45,7 @@ function requestAddPost() {
   };
 }
 
-function addPost(id, timestamp, title, body, owner, category) {
+function addPost(id, timestamp, title, body, author, category) {
   return (dispatch) => {
     dispatch(requestAddPost());
     return fetch(`${api}/posts`, {
@@ -54,7 +54,7 @@ function addPost(id, timestamp, title, body, owner, category) {
         ...headers,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, timestamp, title, body, owner, category }),
+      body: JSON.stringify({ id, timestamp, title, body, author, category }),
     }).then(res => res.json()).then(dispatch(fetchPostsIfNeeded()));
   };
 }
