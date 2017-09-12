@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import {
   editCommentIfPossible,
   editCommentModal,
   updateWipComment,
 } from '../actions';
 
-import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
-/**
-* @description Component for listing the shelves
-*/
 class EditComment extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +38,7 @@ class EditComment extends Component {
   }
 
   cancelEditComment() {
-    const { dispatch, comments } = this.props;
+    const { dispatch } = this.props;
     dispatch(editCommentModal(false));
   }
   /**
@@ -62,33 +59,31 @@ class EditComment extends Component {
           name="body"
           type="text"
           floatingLabelText="Body"
-          floatingLabelFixed={true}
-          multiLine={true}
+          floatingLabelFixed
+          multiLine
           value={comments.wip_body}
           onChange={handleInputChangeComment}
         /><br />
         <br />
         <TextField
-          hintText="Owner"
           name="owner"
           type="text"
           floatingLabelText="Owner"
-          floatingLabelFixed={true}
+          floatingLabelFixed
           value={comments.wip_owner}
-          disabled={true}
+          disabled
         /><br />
         <br />
         <FlatButton
           label="Cancel"
-          primary={true}
+          primary
           onClick={this.cancelEditComment}
         />
         <FlatButton
           label="Submit"
           type="submit"
           value="Submit"
-          primary={true}
-          keyboardFocused={true}
+          primary
           onClick={this.handleSubmitEditComment}
         />
       </div>

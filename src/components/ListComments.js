@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import Comment from './Comment';
 import { connect } from 'react-redux';
+import Comment from './Comment';
 import Sort from './Sort';
 
 import {
   editCommentModal,
 } from '../actions';
-/**
-* @description Component for listing the shelves
-*/
+
 class ListComments extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +29,6 @@ class ListComments extends Component {
       modals,
       updatePage,
       handleInputChangeComment,
-      handleOpenCloseModel,
     } = this.props;
 
     let commentList = [];

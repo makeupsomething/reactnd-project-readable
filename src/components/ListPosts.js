@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Modal from 'react-modal';
+import Dialog from 'material-ui/Dialog';
 
 import Post from './Post';
 import CreateComment from './CreateComment';
@@ -11,10 +11,6 @@ import {
   newCommentModal,
 } from '../actions';
 
-import Dialog from 'material-ui/Dialog';
-/**
-* @description Component for listing the shelves
-*/
 class ListPosts extends Component {
   constructor(props) {
     super(props);
@@ -61,12 +57,10 @@ class ListPosts extends Component {
     const {
       posts,
       modals,
-      comments,
       pages,
       categories,
       updatePage,
       handleInputChange,
-      handleOpenCloseModel,
     } = this.props;
 
     let postList = [];
@@ -116,7 +110,7 @@ class ListPosts extends Component {
             />
             <Dialog
               title="Add Comment"
-              repositionOnUpdate={ false }
+              repositionOnUpdate={false}
               actions={
                 <CreateComment
                   parent={modals.parentId}

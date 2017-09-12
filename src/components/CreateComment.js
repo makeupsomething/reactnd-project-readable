@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+
 import {
   addCommentIfPossible,
   newCommentModal,
   updateWipComment,
 } from '../actions';
 
-import TextField from 'material-ui/TextField';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-/**
-* @description Component for listing the shelves
-*/
 class CreateComment extends Component {
   constructor(props) {
     super(props);
@@ -59,8 +55,8 @@ class CreateComment extends Component {
           name="body"
           type="text"
           floatingLabelText="Body"
-          floatingLabelFixed={true}
-          multiLine={true}
+          floatingLabelFixed
+          multiLine
           onChange={handleInputChangeComment}
         /><br />
         <br />
@@ -69,21 +65,21 @@ class CreateComment extends Component {
           name="owner"
           type="text"
           floatingLabelText="Owner"
-          floatingLabelFixed={true}
+          floatingLabelFixed
           onChange={handleInputChangeComment}
         /><br />
         <br />
         <FlatButton
           label="Cancel"
-          primary={true}
-          onClick={(e) => handleOpenCloseAddCommentModel(e, parent)}
+          primary
+          onClick={e => handleOpenCloseAddCommentModel(e, parent)}
         />
         <FlatButton
           label="Submit"
           type="submit"
           value="Submit"
-          primary={true}
-          keyboardFocused={true}
+          primary
+          keyboardFocused
           onClick={this.handleSubmitComment}
         />
       </div>

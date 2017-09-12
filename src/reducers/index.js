@@ -4,10 +4,8 @@ import {
   ADD_POST,
   EDIT_POST,
   FINISH_EDIT,
-  REQUEST_POSTS,
   RECEIVE_POSTS,
   UPDATE_WIP_POST,
-  REQUEST_CATEGORIES,
   RECEIVE_CATEGORIES,
   CHANGE_PAGE,
   ADD_COMMENT,
@@ -36,10 +34,9 @@ function categories(state = { }, action) {
   }
 }
 
-function posts(state = {editing: false, sortBy: 'date'}, action) {
+function posts(state = { editing: false, sortBy: 'date' }, action) {
   switch (action.type) {
     case ADD_POST :
-      console.log(action);
       return state;
     case RECEIVE_POSTS :
       return Object.assign({}, state, {
@@ -81,7 +78,13 @@ function pages(state = { }, action) {
   }
 }
 
-function modals(state = { newPost: false, editPost: false, newComment: false, editComment: false}, action) {
+function modals(
+  state = {
+    newPost: false,
+    editPost: false,
+    newComment: false,
+    editComment: false },
+  action) {
   switch (action.type) {
     case NEW_POST_MODAL :
       return Object.assign({}, state, {
@@ -92,22 +95,22 @@ function modals(state = { newPost: false, editPost: false, newComment: false, ed
         editPost: action.isOpen,
         postId: action.id,
       });
-      case NEW_COMMENT_MODAL :
-        return Object.assign({}, state, {
-          newComment: action.isOpen,
-          parentId: action.parentId,
-        });
-      case EDIT_COMMENT_MODAL :
-        return Object.assign({}, state, {
-          editComment: action.isOpen,
-          commentId: action.commentId,
-        });
+    case NEW_COMMENT_MODAL :
+      return Object.assign({}, state, {
+        newComment: action.isOpen,
+        parentId: action.parentId,
+      });
+    case EDIT_COMMENT_MODAL :
+      return Object.assign({}, state, {
+        editComment: action.isOpen,
+        commentId: action.commentId,
+      });
     default :
       return state;
   }
 }
 
-function comments(state = {comments:[], editing: false, sortBy: 'date' }, action) {
+function comments(state = { comments: [], editing: false, sortBy: 'date' }, action) {
   switch (action.type) {
     case ADD_COMMENT :
       return state;
@@ -127,7 +130,7 @@ function comments(state = {comments:[], editing: false, sortBy: 'date' }, action
       });
     case RECEIVE_UP_DOWN_VOTE_COMMENT :
       return Object.assign({}, state, {
-        comments: state.comments.map(comment => { return comment.id == action.comment.id ? action.comment : comment }),
+        comments: state.comments.map((comment) => { return comment.id === action.comment.id ? action.comment : comment; }),
       });
     case EDIT_COMMENT :
       return Object.assign({}, state, {

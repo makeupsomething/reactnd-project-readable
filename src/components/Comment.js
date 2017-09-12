@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
+import Dialog from 'material-ui/Dialog';
+import { Card, CardActions, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import Badge from 'material-ui/Badge';
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
 import UpDownVote from './UpDownVote';
 import DeleteButton from './DeleteButton';
 import EditComment from './EditComment';
 
-import Dialog from 'material-ui/Dialog';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import Badge from 'material-ui/Badge';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
-/**
-* @description Component for listing the shelves
-*/
 class Comment extends Component {
-  /**
-  * @description The render function
-  * @returns { object } The UI
-  */
   render() {
     const {
       comment,
@@ -52,14 +44,14 @@ class Comment extends Component {
                 label="Down Vote"
                 name="downVote"
               />
-              <RaisedButton style={style} label="Edit Comment" name="edit-comment-modal" value={comment.id} onClick={(e) => handleOpenCloseEditCommentModel(e, comment.id)} />
+              <RaisedButton style={style} label="Edit Comment" name="edit-comment-modal" value={comment.id} onClick={e => handleOpenCloseEditCommentModel(e, comment.id)} />
               <DeleteButton
                 post={comment}
                 isPost={false}
               />
               <Badge
                 badgeContent={comment.voteScore}
-                primary={true}
+                primary
               >
                 <NotificationsIcon />
               </Badge>
@@ -67,7 +59,7 @@ class Comment extends Component {
           </Card>
           <Dialog
             title="Edit Comment"
-            repositionOnUpdate={ false }
+            repositionOnUpdate={false}
             actions={
               <EditComment
                 comment={comment}

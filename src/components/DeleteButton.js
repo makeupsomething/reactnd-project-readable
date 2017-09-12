@@ -7,9 +7,7 @@ import {
   updateCurrentPage,
   deleteCommentIfPossible,
 } from '../actions';
-/**
-* @description Component for listing the shelves
-*/
+
 class DeleteButton extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +17,7 @@ class DeleteButton extends Component {
 
   handleClick() {
     const { post, isPost } = this.props;
-    let id = post.id;
+    const id = post.id;
     this.deletePostOrComment(isPost, id);
   }
 
@@ -39,13 +37,12 @@ class DeleteButton extends Component {
   * @returns { object } The UI
   */
   render() {
-
     const style = {
       margin: 5,
     };
 
     return (
-        <RaisedButton style={style} label="Delete" name="delete" onClick={this.handleClick} />
+      <RaisedButton style={style} label="Delete" name="delete" onClick={this.handleClick} />
     );
   }
 }

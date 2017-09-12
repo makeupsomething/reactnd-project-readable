@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  editPostIfPossible,
-  updateCurrentPage,
-  editPostModal,
-  updateWipPost,
-} from '../actions';
-
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-/**
-* @description Component for listing the shelves
-*/
+import {
+  editPostIfPossible,
+  editPostModal,
+  updateWipPost,
+} from '../actions';
+
 class EditPost extends Component {
   constructor(props) {
     super(props);
@@ -22,16 +18,16 @@ class EditPost extends Component {
 
   componentDidMount() {
     const { post, modals } = this.props;
-    if(modals.postId === post.id) {
-      this.loadEditPost(post)
+    if (modals.postId === post.id) {
+      this.loadEditPost(post);
     }
   }
 
   loadEditPost(post) {
     const { dispatch } = this.props;
-    let body = post.body;
-    let title = post.title;
-    let category = post.category;
+    const body = post.body;
+    const title = post.title;
+    const category = post.category;
     const owner = post.author;
     dispatch(updateWipPost(title, body, category, owner));
   }
@@ -68,7 +64,7 @@ class EditPost extends Component {
           name="title"
           type="text"
           floatingLabelText="Title"
-          floatingLabelFixed={true}
+          floatingLabelFixed
           value={posts.wip_title}
           onChange={handleInputChange}
         /><br />
@@ -78,38 +74,36 @@ class EditPost extends Component {
           name="body"
           type="text"
           floatingLabelText="Body"
-          floatingLabelFixed={true}
+          floatingLabelFixed
           value={posts.wip_body}
-          multiLine={true}
+          multiLine
           onChange={handleInputChange}
         /><br />
         <br />
         <TextField
-          hintText="Owner"
           name="owner"
           type="text"
           floatingLabelText="Owner"
-          floatingLabelFixed={true}
+          floatingLabelFixed
           value={posts.wip_owner}
-          disabled={true}
+          disabled
           onChange={handleInputChange}
         /><br />
         <br />
-        <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} disabled={true} onChange={handleInputChange}>
-          <MenuItem value="none" disabled={true} primaryText="Select Category" />
+        <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} disabled onChange={handleInputChange}>
+          <MenuItem value="none" disabled primaryText="Select Category" />
           {allCats.map(item => (<MenuItem key={item} value={item} primaryText={item} />))}
         </DropDownMenu><br />
         <FlatButton
           label="Cancel"
-          primary={true}
+          primary
           onClick={handleOpenCloseEditPostModel}
         />
         <FlatButton
           label="Submit"
           type="submit"
           value="Submit"
-          primary={true}
-          keyboardFocused={true}
+          primary
           onClick={this.handleSubmitEdit}
         />
       </div>

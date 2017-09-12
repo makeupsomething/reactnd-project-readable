@@ -31,10 +31,10 @@ class Sort extends Component {
   }
 
   render() {
-    const { defaultSort, comments, posts, isPost } = this.props;
+    const { comments, posts, isPost } = this.props;
 
-    let currentValue = "date";
-    if(isPost) {
+    let currentValue = 'date';
+    if (isPost) {
       currentValue = posts.sortBy;
     } else {
       currentValue = comments.sortBy;

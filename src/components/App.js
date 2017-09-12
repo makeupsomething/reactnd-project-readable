@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router-dom';
-import Modal from 'react-modal';
+import AppBar from 'material-ui/AppBar';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import Dialog from 'material-ui/Dialog';
 
 import Categories from './Categories';
 import ListPosts from './ListPosts';
@@ -15,17 +18,8 @@ import {
   finishEdit,
   updateWipPost,
   updateCurrentPage,
-  updateWipComment,
   newPostModal,
-  editPostModal,
-  newCommentModal,
-  editCommentModal,
 } from '../actions';
-
-import AppBar from 'material-ui/AppBar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Dialog from 'material-ui/Dialog';
 
 class App extends Component {
   constructor(props) {
@@ -86,7 +80,6 @@ class App extends Component {
 
   updatePage(page) {
     const { dispatch } = this.props;
-    console.log("update the page")
     dispatch(updateCurrentPage(page));
   }
 
@@ -105,7 +98,7 @@ class App extends Component {
     const style = {
       position: 'fixed',
       right: '20px',
-      bottom: '20px'
+      bottom: '20px',
     };
 
     let allCats = categories.categories;
@@ -115,13 +108,13 @@ class App extends Component {
 
     return (
       <div>
-          <AppBar
-            title="Readable"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-          />
-          <FloatingActionButton style={style} onClick={this.openCloseNewPostModel}>
-            <ContentAdd />
-          </FloatingActionButton>
+        <AppBar
+          title="Readable"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <FloatingActionButton style={style} onClick={this.openCloseNewPostModel}>
+          <ContentAdd />
+        </FloatingActionButton>
         <Categories
           categories={categories}
           updatePage={(page) => {
@@ -130,7 +123,7 @@ class App extends Component {
         />
         <Dialog
           title="New Post"
-          repositionOnUpdate={ false }
+          repositionOnUpdate={false}
           actions={
             <CreatePost
               categories={categories}
@@ -146,7 +139,7 @@ class App extends Component {
           open={modals.newPost}
           onRequestClose={this.openCloseNewPostModel}
         >
-          Make it "readable"
+          Make it readable
         </Dialog>
         <Switch>
           <Route

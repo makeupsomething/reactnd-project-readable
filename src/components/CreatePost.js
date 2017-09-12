@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
+
 import {
   addPostIfPossible,
   newPostModal,
   updateWipPost,
 } from '../actions';
 
-import TextField from 'material-ui/TextField';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-/**
-* @description Component for listing the shelves
-*/
 class CreatePost extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +33,6 @@ class CreatePost extends Component {
 
   handleInputChangeCategory(event, index, value) {
     const { dispatch, posts } = this.props;
-    const target = event.target;
     let title = '';
     let body = '';
     let category = '';
@@ -52,7 +49,7 @@ class CreatePost extends Component {
   * @returns { object } The UI
   */
   render() {
-    const { post, posts, categories, handleInputChange, openCloseNewPostModel } = this.props;
+    const { posts, categories, handleInputChange, openCloseNewPostModel } = this.props;
     let allCats = categories.categories;
 
     if (!allCats) {
@@ -65,52 +62,52 @@ class CreatePost extends Component {
 
     return (
       <div style={style}>
-      <TextField
-        hintText="Title"
-        name="title"
-        type="text"
-        floatingLabelText="Title"
-        floatingLabelFixed={true}
-        onChange={handleInputChange}
-      /><br />
-      <br />
-      <TextField
-        hintText="Body"
-        name="body"
-        type="text"
-        floatingLabelText="Body"
-        floatingLabelFixed={true}
-        multiLine={true}
-        onChange={handleInputChange}
-      /><br />
-      <br />
-      <TextField
-        hintText="Owner"
-        name="owner"
-        type="text"
-        floatingLabelText="Owner"
-        floatingLabelFixed={true}
-        onChange={handleInputChange}
-      /><br />
-      <br />
-      <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} onChange={this.handleInputChangeCategory}>
-        <MenuItem value="none" disabled={true} primaryText="Select Category" />
-        {allCats.map(item => (<MenuItem key={item} value={item} primaryText={item} />))}
-      </DropDownMenu><br />
-      <br />
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={openCloseNewPostModel}
-      />
-      <FlatButton
-        label="Submit"
-        type="submit"
-        value="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleSubmit}
-      />
+        <TextField
+          hintText="Title"
+          name="title"
+          type="text"
+          floatingLabelText="Title"
+          floatingLabelFixed
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <TextField
+          hintText="Body"
+          name="body"
+          type="text"
+          floatingLabelText="Body"
+          floatingLabelFixed
+          multiLine
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <TextField
+          hintText="Owner"
+          name="owner"
+          type="text"
+          floatingLabelText="Owner"
+          floatingLabelFixed
+          onChange={handleInputChange}
+        /><br />
+        <br />
+        <DropDownMenu name="category" value={posts.wip_category ? posts.wip_category : 'none'} onChange={this.handleInputChangeCategory}>
+          <MenuItem value="none" disabled primaryText="Select Category" />
+          {allCats.map(item => (<MenuItem key={item} value={item} primaryText={item} />))}
+        </DropDownMenu><br />
+        <br />
+        <FlatButton
+          label="Cancel"
+          primary
+          onClick={openCloseNewPostModel}
+        />
+        <FlatButton
+          label="Submit"
+          type="submit"
+          value="Submit"
+          primary
+          keyboardFocused
+          onClick={this.handleSubmit}
+        />
       </div>
     );
   }

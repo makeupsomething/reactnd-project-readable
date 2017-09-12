@@ -19,7 +19,6 @@ class UpDownVote extends Component {
   handleClick(event) {
     const { post, isPost, name } = this.props;
     const id = post.id;
-    console.log(name)
     this.doUpDownVote(isPost, name, id);
   }
 
