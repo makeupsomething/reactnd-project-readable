@@ -9,7 +9,6 @@ import Dialog from 'material-ui/Dialog';
 import Categories from './Categories';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
-import ErrorPage from './ErrorPage';
 import '../App.css';
 
 import {
