@@ -6,10 +6,10 @@ import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
-
 import Categories from './Categories';
 import ListPosts from './ListPosts';
 import CreatePost from './CreatePost';
+import ErrorPage from './ErrorPage';
 import '../App.css';
 
 import {
@@ -50,6 +50,7 @@ class App extends Component {
       let body = '';
       let category = '';
       let owner = '';
+
       if (target.name === 'title') {
         title = target.value;
         body = posts.wip_body;
@@ -165,8 +166,9 @@ class App extends Component {
             path="/:category/:id"
             render={() => (
               (
-                posts.posts.find(post => post.id === pages.current_page && !post.deleted) ? (
-                  <div>
+                posts.posts ? (
+                  posts.posts.find(post => post.id === pages.current_page && !post.deleted) ?
+                  (<div>
                     <ListPosts
                       updatePage={(page) => {
                         this.updatePage(page);
@@ -178,7 +180,7 @@ class App extends Component {
                         this.handleOpenCloseModel(event);
                       }}
                     />
-                  </div>) : (<Redirect to="/" />
+                  </div>) :  (<Redirect to="/" />)) : (<Redirect to="/" />
                 )
               )
             )}
